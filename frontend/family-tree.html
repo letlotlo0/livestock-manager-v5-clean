@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" href="assets/livestock-logo.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herd Family Tree | Livestock Manager</title>
+<link rel="stylesheet" href="family-tree.css">
+<link rel="stylesheet" href="premium-ui.css">
+<link rel="stylesheet" href="navigation-premium.css">
+<link rel="stylesheet" href="final-intelligence.css">
+<link rel="stylesheet" href="subscription.css">
+<script src="auth-api.js"></script>
+<script src="auth-guard.js"></script>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="dashboard.html" class="logo"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="35" height="35"> <span>Livestock Manager</span></a>
+    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="var n=document.getElementById('navLinks');var o=!n.classList.contains('open');n.classList.toggle('open',o);n.style.setProperty('display',o?'flex':'','important');this.setAttribute('aria-expanded',o?'true':'false');this.setAttribute('aria-label',o?'Close navigation':'Open navigation');return false;">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html">Home</a>
+      <a href="animals.html">Animals</a>
+      <a href="livestock-overview.html">Overview</a>
+      <a href="animal-profile.html">Animal Profile</a>
+      <a href="family-tree.html" class="active">Family Tree</a><a href="operations.html">Operations</a>
+      <a href="feeding.html">Feeding</a>
+      <a href="weaning.html">Weaning</a>
+      <a href="growth.html">Growth</a>
+      <a href="health.html">Health</a>
+      <a href="money-stats.html">Money Stats</a>
+      <a href="farm-reports.html">Reports</a>
+      <a href="farm-alerts.html">Alerts</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </div>
+</nav>
+<main class="tree-page">
+<section class="tree-hero"><div><span class="eyebrow">HERD GENETICS</span><h1>Herd Family Tree</h1><p>See parentage, offspring and connected generations for your livestock.</p></div><a class="tree-badge" href="digital-pedigree.html" aria-label="What is a digital pedigree?">🧬 <span>Digital Pedigree</span></a></section>
+<section class="tree-controls"><div class="control-block"><label for="animalSelect">Choose an animal</label><select id="animalSelect"><option value="">Select an animal</option></select></div><div class="tree-actions"><button id="centerTree" class="premium-btn" type="button">Center Tree</button><button id="clearTree" class="premium-btn secondary" type="button">Clear</button></div></section>
+<section class="tree-summary" id="treeSummary"></section>
+<section class="tree-canvas-wrap"><div class="tree-canvas" id="treeCanvas"><div class="tree-empty" id="treeEmpty"><div class="empty-icon">🌳</div><h2>Select an animal to view its family</h2><p>Use the parent fields when recording animals to build connected generations.</p></div></div></section>
+<section class="tree-note"><strong>How it works</strong><p>The family tree uses the animal's recorded <b>Sire / Father</b> and <b>Dam / Mother</b> fields. You can enter an animal's name or ID, and Livestock Manager will connect matching records automatically.</p></section>
+</main>
+<script src="cloud-config.js"></script><script src="v5-merge.js"></script>
+    <script src="livestock-cloud.js"></script>
+<script src="subscription.js"></script><script src="livestock-core.js"></script><script src="family-tree.js"></script>
+<script src="navigation.js?v=4.0.8"></script>
+<script src="final-intelligence.js"></script>
+</body></html>

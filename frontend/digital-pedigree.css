@@ -1,0 +1,10 @@
+/* Informational page — inherits the current Family Tree visual theme. */
+.pedigree-content{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:22px}
+.pedigree-panel{background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:0 12px 34px rgba(32,49,40,.06)}
+.pedigree-panel h2{color:var(--forest);font-size:1.45rem;margin:0 0 16px}.pedigree-panel h2:not(:first-child){margin-top:24px}
+.pedigree-panel p{line-height:1.75;color:var(--ink);margin:0 0 14px}.pedigree-intro .eyebrow{color:var(--leaf)}
+.pedigree-list{padding-left:22px;line-height:1.85}.pedigree-list li{margin:6px 0}.pedigree-muted{color:var(--muted)!important;font-size:.86rem;text-align:center}
+.pedigree-mini-tree{display:flex;flex-direction:column;align-items:center;padding:12px 0 22px}.pedigree-mini-node{min-width:140px;padding:14px 18px;border:1px solid rgba(23,61,42,.18);background:#f4f8f2;border-radius:15px;text-align:center}
+.pedigree-mini-node small{display:block;font-size:.67rem;color:var(--muted);font-weight:800;letter-spacing:.07em}.pedigree-mini-node strong{display:block;font-size:1.05rem;color:var(--forest);margin-top:5px}.pedigree-mini-line{width:2px;height:26px;background:var(--sage)}.pedigree-mini-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}.pedigree-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.pedigree-actions a{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+@media(max-width:800px){.pedigree-content{grid-template-columns:1fr}.pedigree-panel{padding:22px}}

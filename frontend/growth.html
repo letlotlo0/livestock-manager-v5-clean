@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="icon" type="image/png" href="assets/livestock-logo.png">
+    <meta name="application-name" content="Livestock Manager v3">
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Growth & Weight | Livestock Manager</title>
+
+    <link
+        rel="stylesheet"
+        href="growth.css"
+    >
+
+    <link rel="stylesheet" href="premium-ui.css">
+<link rel="stylesheet" href="navigation-premium.css">
+<link rel="stylesheet" href="final-intelligence.css">
+<link rel="stylesheet" href="subscription.css">
+<script src="auth-api.js"></script>
+<script src="auth-guard.js"></script>
+</head>
+
+<body>
+
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+        <nav class="navbar">
+  <div class="nav-container">
+    <a href="dashboard.html" class="logo"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="35" height="35"> <span>Livestock Manager</span></a>
+    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="var n=document.getElementById('navLinks');var o=!n.classList.contains('open');n.classList.toggle('open',o);n.style.setProperty('display',o?'flex':'','important');this.setAttribute('aria-expanded',o?'true':'false');this.setAttribute('aria-label',o?'Close navigation':'Open navigation');return false;">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html">Home</a>
+      <a href="animals.html">Animals</a>
+      <a href="livestock-overview.html">Overview</a>
+      <a href="animal-profile.html">Animal Profile</a>
+      <a href="family-tree.html">Family Tree</a><a href="operations.html">Operations</a>
+      <a href="feeding.html">Feeding</a>
+      <a href="weaning.html">Weaning</a>
+      <a href="growth.html" class="active">Growth</a>
+      <a href="health.html">Health</a>
+      <a href="money-stats.html">Money Stats</a>
+      <a href="farm-reports.html">Reports</a>
+      <a href="farm-alerts.html">Alerts</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </div>
+</nav>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="page-container">
+
+
+        <!-- PAGE HEADER -->
+
+        <section class="page-header">
+
+            <div>
+
+                <span class="page-label">
+                    LIVESTOCK MANAGEMENT
+                </span>
+
+                <h1>
+                    Growth & Weight
+                </h1>
+
+                <p>
+                    Track your animals' weight and monitor
+                    their growth over time.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="primary-button"
+                id="addWeightButton"
+            >
+                + Add Weight
+            </button>
+
+        </section>
+
+
+
+        <!-- =========================
+             SELECT ANIMAL
+        ========================== -->
+
+        <section class="animal-selector-card">
+
+            <div class="selector-info">
+
+                <span>
+                    SELECT ANIMAL
+                </span>
+
+                <strong id="selectedAnimalName">
+                    No animal selected
+                </strong>
+
+                <p id="selectedAnimalBreed">
+                    Select an animal to view its growth.
+                </p>
+
+            </div>
+
+
+            <select
+                id="animalFilter"
+                aria-label="Select animal"
+            >
+
+                <option value="">
+                    Select animal
+                </option>
+
+            </select>
+
+        </section>
+
+
+
+        <!-- =========================
+             SUMMARY
+        ========================== -->
+
+        <section class="summary-grid">
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    ⚖️
+                </div>
+
+                <div>
+
+                    <span>
+                        Current Weight
+                    </span>
+
+                    <strong id="currentWeight">
+                        0 kg
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    📈
+                </div>
+
+                <div>
+
+                    <span>
+                        Weight Gain
+                    </span>
+
+                    <strong id="weightGain">
+                        0 kg
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    📊
+                </div>
+
+                <div>
+
+                    <span>
+                        Average Weight
+                    </span>
+
+                    <strong id="averageWeight">
+                        0 kg
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    📝
+                </div>
+
+                <div>
+
+                    <span>
+                        Weight Records
+                    </span>
+
+                    <strong id="recordTotal">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             GROWTH PROGRESS
+        ========================== -->
+
+        <section class="content-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Growth Progress
+                    </h2>
+
+                    <p>
+                        Progress based on the first and latest
+                        recorded weight.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="growth-card">
+
+
+                <div class="growth-top">
+
+                    <div>
+
+                        <span>
+                            OVERALL GROWTH
+                        </span>
+
+                        <strong id="growthPercentage">
+                            0%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="growth-change">
+
+                        <span>
+                            CHANGE
+                        </span>
+
+                        <strong id="growthChange">
+                            0 kg
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="progress-track">
+
+                    <div
+                        class="progress-bar"
+                        id="progressBar"
+                    ></div>
+
+                </div>
+
+
+                <div class="growth-details">
+
+                    <span id="startingWeight">
+                        Starting: 0 kg
+                    </span>
+
+                    <span id="latestWeight">
+                        Latest: 0 kg
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             WEIGHT HISTORY
+        ========================== -->
+
+        <section class="content-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Weight History
+                    </h2>
+
+                    <p id="historyCount">
+                        0 records
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="records-list"
+                id="recordsList"
+            ></div>
+
+
+            <div
+                class="empty-state"
+                id="emptyState"
+            >
+
+                <div class="empty-icon">
+                    ⚖️
+                </div>
+
+                <h3>
+                    No weight records
+                </h3>
+
+                <p>
+                    Add the first weight record for this animal
+                    to start tracking its growth.
+                </p>
+
+                <button
+                    type="button"
+                    class="primary-button"
+                    id="emptyAddButton"
+                >
+                    + Add Weight
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================
+         ADD WEIGHT MODAL
+    ========================== -->
+
+    <div
+        class="modal"
+        id="weightModal"
+    >
+
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2>
+                        Add Weight Record
+                    </h2>
+
+                    <p>
+                        Record the animal's weight.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="close-button"
+                    id="closeModal"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <form
+                id="weightForm"
+                class="weight-form"
+            >
+
+
+                <!-- ANIMAL -->
+
+                <div class="form-group">
+
+                    <label for="animalSelect">
+                        Animal
+                    </label>
+
+                    <select
+                        id="animalSelect"
+                        required
+                    >
+
+                        <option value="">
+                            Select animal
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- DATE -->
+
+                <div class="form-group">
+
+                    <label for="weightDate">
+                        Weighing Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="weightDate"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- WEIGHT -->
+
+                <div class="form-group">
+
+                    <label for="weightValue">
+                        Weight (kg)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="weightValue"
+                        min="0"
+                        step="0.1"
+                        placeholder="e.g. 250"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- NOTES -->
+
+                <div class="form-group">
+
+                    <label for="weightNotes">
+                        Notes
+                    </label>
+
+                    <textarea
+                        id="weightNotes"
+                        rows="4"
+                        placeholder="Add any useful notes..."
+                    ></textarea>
+
+                </div>
+
+
+
+                <!-- ACTIONS -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        id="cancelButton"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
+                        Save Weight
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="cloud-config.js"></script>
+    <script src="v5-merge.js"></script>
+    <script src="livestock-cloud.js"></script>
+    <script src="livestock-core.js"></script>
+    <script src="subscription.js"></script>
+    <script src="growth.js"></script>
+
+<script src="navigation.js?v=4.0.8"></script>
+<script src="final-intelligence.js"></script>
+</body>
+</html>

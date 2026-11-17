@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="en"><head>
+<link href="assets/livestock-logo.png" rel="icon" type="image/png"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>What Is a Digital Pedigree? | Livestock Manager</title>
+<link href="family-tree.css" rel="stylesheet"/>
+<link rel="stylesheet" href="digital-pedigree.css">
+<link href="premium-ui.css" rel="stylesheet"/>
+<link href="navigation-premium.css" rel="stylesheet"/>
+<link href="final-intelligence.css" rel="stylesheet"/>
+<link href="subscription.css" rel="stylesheet"/>
+<script src="auth-api.js"></script>
+<script src="auth-guard.js"></script>
+</head><body><nav class="navbar">
+<div class="nav-container">
+<a class="logo" href="dashboard.html"><img alt="" class="lm-brand-icon" height="35" src="assets/livestock-logo.svg" width="35"/> <span>Livestock Manager</span></a>
+<button aria-expanded="false" aria-label="Open navigation" class="menu-button" id="menuButton" onclick="var n=document.getElementById('navLinks');var o=!n.classList.contains('open');n.classList.toggle('open',o);n.style.setProperty('display',o?'flex':'','important');this.setAttribute('aria-expanded',o?'true':'false');this.setAttribute('aria-label',o?'Close navigation':'Open navigation');return false;" type="button">☰</button>
+<div class="nav-links" id="navLinks">
+<a href="dashboard.html">Home</a>
+<a href="animals.html">Animals</a>
+<a href="livestock-overview.html">Overview</a>
+<a href="animal-profile.html">Animal Profile</a>
+<a class="active" href="family-tree.html">Family Tree</a><a href="operations.html">Operations</a>
+<a href="feeding.html">Feeding</a>
+<a href="weaning.html">Weaning</a>
+<a href="growth.html">Growth</a>
+<a href="health.html">Health</a>
+<a href="money-stats.html">Money Stats</a>
+<a href="farm-reports.html">Reports</a>
+<a href="farm-alerts.html">Alerts</a>
+<a href="profile.html">Profile</a>
+</div>
+</div>
+</nav>
+<main class="tree-page">
+  <section class="tree-hero"><div><span class="eyebrow">HERD GENETICS • EXPLAINED</span><h1>What Is a Digital Pedigree?</h1><p>Understand where your animals come from, which animals are related, and how breeding records build a reliable herd history.</p></div><div class="tree-badge" aria-hidden="true">🧬 <span>Digital Pedigree</span></div></section>
+  <section class="pedigree-content">
+    <article class="pedigree-panel pedigree-intro"><span class="eyebrow">THE MEANING</span><h2>An animal's family history, recorded digitally.</h2><p>A <strong>digital pedigree</strong> is an electronic family record for an animal. It tracks the animal's parents (the <strong>sire</strong> or father and <strong>dam</strong> or mother), and can also show grandparents and offspring across generations.</p><p>In Livestock Manager, your animal records are used to build this family tree automatically when the parent information matches other animals you have registered.</p></article>
+    <article class="pedigree-panel"><h2>What a pedigree can show</h2><ul class="pedigree-list"><li><strong>Identity:</strong> animal name, tag or registration number.</li><li><strong>Parentage:</strong> sire and dam, plus known grandparents.</li><li><strong>Offspring:</strong> recorded calves or other young animals.</li><li><strong>Breeding history:</strong> useful information for future mating decisions.</li><li><strong>Registration:</strong> herdbook details if the farmer has recorded them.</li></ul></article>
+    <article class="pedigree-panel pedigree-example"><h2>A simple example</h2><div class="pedigree-mini-tree"><div class="pedigree-mini-node"><small>FATHER / SIRE</small><strong>R10 1597</strong></div><div class="pedigree-mini-line"></div><div class="pedigree-mini-row"><div class="pedigree-mini-node"><small>SON</small><strong>Animal 2</strong></div><div class="pedigree-mini-node"><small>SON</small><strong>Animal 3</strong></div></div><div class="pedigree-mini-line"></div><div class="pedigree-mini-node"><small>OFFSPRING OF ANIMAL 2</small><strong>Animal 4</strong></div></div><p class="pedigree-muted">Illustrative example only. Your real tree is created from your own animals' records.</p></article>
+    <article class="pedigree-panel"><h2>Why farmers use it</h2><p>A recorded pedigree helps farmers check family relationships, reduce the risk of close-relative breeding, follow desirable traits, and keep more complete livestock records. A digital record is <strong>not automatically an official breed-registration certificate</strong>; official registration comes from the relevant breed society or registry.</p><h2>How to build yours</h2><ol class="pedigree-list"><li>Open <strong>Animals</strong> and register your sire, dam and offspring.</li><li>For each offspring, record its sire and dam using a matching animal name, ID or tag.</li><li>Open <strong>Family Tree</strong> and choose an animal to see the recorded relationships.</li></ol><div class="pedigree-actions"><a href="family-tree.html" class="premium-btn">← Open My Family Tree</a><a href="animals.html" class="premium-btn secondary">Manage Animals</a></div></article>
+  </section>
+</main>
+<script src="cloud-config.js"></script><script src="v5-merge.js"></script>
+    <script src="livestock-cloud.js"></script><script src="livestock-core.js"></script><script src="navigation.js?v=4.0.9"></script><script src="final-intelligence.js"></script>
+</body></html>

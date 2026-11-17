@@ -1,0 +1,813 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7f9;
+    color: #17212b;
+    min-height: 100vh;
+}
+
+
+/* ==============================
+   NAVIGATION
+================================ */
+
+.navbar {
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #e4e8ec;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+}
+
+.nav-container {
+    width: min(1200px, 92%);
+    min-height: 70px;
+
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.logo {
+    color: #17212b;
+    text-decoration: none;
+
+    font-size: 17px;
+    font-weight: 700;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+}
+
+.nav-links a {
+    color: #5f6b76;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    padding: 9px 12px;
+
+    border-radius: 8px;
+
+    transition: 0.2s ease;
+}
+
+.nav-links a:hover {
+    background: #f1f3f5;
+    color: #17212b;
+}
+
+.nav-links a.active {
+    background: #17212b;
+    color: #ffffff;
+}
+
+.menu-button {
+    display: none;
+
+    border: none;
+
+    background: #eef2f5;
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 9px;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+
+/* ==============================
+   PAGE HEADER
+================================ */
+
+.page-header {
+    width: min(1200px, 92%);
+
+    margin: 35px auto 25px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.page-label {
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+
+    color: #78838d;
+}
+
+.page-header h1 {
+    font-size: 28px;
+
+    margin: 7px 0;
+}
+
+.page-header p {
+    color: #6d7984;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* ==============================
+   BUTTONS
+================================ */
+
+.primary-button,
+.secondary-button {
+    border: none;
+
+    border-radius: 10px;
+
+    padding: 12px 17px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.primary-button {
+    background: #17212b;
+    color: #ffffff;
+}
+
+.secondary-button {
+    background: #edf1f4;
+    color: #17212b;
+}
+
+.primary-button:hover,
+.secondary-button:hover {
+    transform: translateY(-1px);
+
+    opacity: 0.9;
+}
+
+
+/* ==============================
+   CONTAINER
+================================ */
+
+.profile-container {
+    width: min(1200px, 92%);
+
+    margin: 0 auto 60px;
+}
+
+
+/* ==============================
+   PROFILE CARD
+================================ */
+
+.profile-card {
+    background: #ffffff;
+
+    border: 1px solid #e3e8ec;
+
+    border-radius: 17px;
+
+    overflow: hidden;
+}
+
+
+/* ==============================
+   PROFILE TOP
+================================ */
+
+.profile-top {
+    padding: 28px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    border-bottom: 1px solid #edf0f2;
+}
+
+.profile-picture-wrapper {
+    position: relative;
+}
+
+.profile-picture {
+    width: 90px;
+    height: 90px;
+
+    border-radius: 50%;
+
+    background: #eef2f5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 42px;
+
+    overflow: hidden;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.image-button {
+    position: absolute;
+
+    right: -2px;
+    bottom: -2px;
+
+    width: 31px;
+    height: 31px;
+
+    border-radius: 50%;
+
+    background: #17212b;
+
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+.profile-heading h2 {
+    font-size: 23px;
+
+    margin-bottom: 5px;
+}
+
+.profile-heading p {
+    color: #697580;
+
+    font-size: 14px;
+
+    margin-bottom: 9px;
+}
+
+.profile-status {
+    color: #4e755c;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+/* ==============================
+   INFORMATION
+================================ */
+
+.information-section {
+    padding: 25px 28px;
+
+    border-bottom: 1px solid #edf0f2;
+}
+
+.section-title {
+    margin-bottom: 18px;
+}
+
+.section-title h2 {
+    font-size: 17px;
+
+    margin-bottom: 5px;
+}
+
+.section-title p {
+    color: #78838d;
+
+    font-size: 12px;
+}
+
+.information-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+}
+
+.information-item {
+    background: #f7f9fa;
+
+    border-radius: 10px;
+
+    padding: 15px;
+}
+
+.information-item span {
+    display: block;
+
+    color: #7a858e;
+
+    font-size: 11px;
+
+    margin-bottom: 7px;
+}
+
+.information-item strong {
+    display: block;
+
+    font-size: 14px;
+
+    word-break: break-word;
+}
+
+.location-item a {
+    color: #17212b;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.location-item a:hover {
+    text-decoration: underline;
+}
+
+
+/* ==============================
+   LIVESTOCK
+================================ */
+
+.livestock-section {
+    margin-top: 28px;
+}
+
+.section-heading {
+    margin-bottom: 17px;
+}
+
+.section-heading h2 {
+    font-size: 21px;
+
+    margin-bottom: 5px;
+}
+
+.section-heading p {
+    color: #737e88;
+
+    font-size: 13px;
+}
+
+.livestock-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+}
+
+.livestock-card {
+    background: #ffffff;
+
+    border: 1px solid #e3e8ec;
+
+    border-radius: 15px;
+
+    padding: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    transition: 0.2s ease;
+}
+
+.livestock-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px
+        rgba(20, 30, 40, 0.07);
+}
+
+.livestock-icon {
+    width: 48px;
+    height: 48px;
+
+    background: #f0f3f5;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 23px;
+}
+
+.livestock-card span {
+    display: block;
+
+    color: #737e88;
+
+    font-size: 12px;
+
+    margin-bottom: 4px;
+}
+
+.livestock-card strong {
+    font-size: 22px;
+}
+
+
+/* ==============================
+   TOTAL
+================================ */
+
+.total-card {
+    margin-top: 18px;
+
+    background: #17212b;
+
+    color: #ffffff;
+
+    border-radius: 15px;
+
+    padding: 20px 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+.total-card span {
+    display: block;
+
+    font-size: 12px;
+
+    opacity: 0.7;
+
+    margin-bottom: 5px;
+}
+
+.total-card strong {
+    font-size: 28px;
+}
+
+.total-icon {
+    font-size: 35px;
+}
+
+
+/* ==============================
+   MODAL
+================================ */
+
+.modal {
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(10, 17, 23, 0.55);
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 1000;
+}
+
+.modal.open {
+    display: flex;
+}
+
+.modal-content {
+    width: min(550px, 100%);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    padding: 25px;
+}
+
+.modal-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+}
+
+.modal-header h2 {
+    font-size: 21px;
+
+    margin-bottom: 5px;
+}
+
+.modal-header p {
+    color: #74808b;
+
+    font-size: 13px;
+}
+
+.close-button {
+    width: 36px;
+    height: 36px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #eef2f5;
+
+    font-size: 22px;
+
+    cursor: pointer;
+}
+
+
+/* ==============================
+   FORM
+================================ */
+
+.profile-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.form-group label {
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+
+    border: 1px solid #d8dfe4;
+
+    border-radius: 9px;
+
+    padding: 12px;
+
+    background: #ffffff;
+
+    font: inherit;
+
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #7c8791;
+}
+
+.form-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 5px;
+}
+
+
+/* ==============================
+   TABLET
+================================ */
+
+@media (max-width: 900px) {
+
+    .menu-button {
+        display: block;
+    }
+
+    .nav-links {
+        position: absolute;
+
+        top: 70px;
+
+        left: 0;
+
+        right: 0;
+
+        background: #ffffff;
+
+        border-bottom: 1px solid #e4e8ec;
+
+        display: none;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        padding: 10px 5%;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-links a {
+        padding: 12px;
+    }
+
+    .information-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .livestock-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+
+/* ==============================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+    .page-header {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        margin-top: 25px;
+    }
+
+    .page-header h1 {
+        font-size: 24px;
+    }
+
+    .page-header .primary-button {
+        width: 100%;
+    }
+
+    .profile-top {
+        padding: 22px;
+
+        align-items: flex-start;
+    }
+
+    .profile-picture {
+        width: 72px;
+        height: 72px;
+
+        font-size: 34px;
+    }
+
+    .profile-heading h2 {
+        font-size: 19px;
+    }
+
+    .information-section {
+        padding: 22px;
+    }
+
+    .information-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .livestock-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .livestock-card {
+        padding: 14px;
+    }
+
+    .livestock-icon {
+        width: 40px;
+        height: 40px;
+
+        font-size: 19px;
+    }
+
+    .livestock-card strong {
+        font-size: 19px;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .form-actions button {
+        width: 100%;
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
+}
+
+/* =========================
+   POLISHED MOTION
+========================= */
+@keyframes lmFadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.page-container > section, .content-section, .form-card, .history-card, .records-section, .profile-card, .summary-card, .animal-card, .feed-card, .record-card, .alert-card { animation: lmFadeUp .45s ease both; }
+button, a, .action-card, .animal-card, .feed-card, .record-card, .summary-card { transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease; }
+button:hover, .action-card:hover, .animal-card:hover, .feed-card:hover, .record-card:hover, .summary-card:hover { transform: translateY(-2px); }
+.lm-toast { position:fixed; right:20px; bottom:20px; z-index:9999; padding:12px 16px; border-radius:10px; background:#17212b; color:#fff; font-size:12px; opacity:0; transform:translateY(12px); transition:.3s ease; box-shadow:0 10px 30px rgba(0,0,0,.16); }
+.lm-toast.show { opacity:1; transform:translateY(0); }
+.lm-toast.success { background:#1f6b45; } .lm-toast.warning { background:#8a6118; }
+.profile-header-actions { display:flex; gap:8px; align-items:center; }
+.secondary-button { border:1px solid #dce2e6; background:#fff; color:#17212b; padding:11px 15px; border-radius:9px; font:700 11px Arial,sans-serif; cursor:pointer; text-decoration:none; }
+@media(max-width:600px){.profile-header-actions{width:100%;}.profile-header-actions button{flex:1}.lm-toast{left:15px;right:15px;bottom:15px;text-align:center;}}
+
+/* =========================
+   V2.3 PROFILE UI CONSISTENCY
+========================= */
+.registration-details { background:#fff; }
+.registration-details .information-card {
+    background:#f7f9fa;
+    border-radius:10px;
+    padding:15px;
+}
+.registration-details .information-card span {
+    display:block;
+    color:#7a858e;
+    font-size:11px;
+    margin-bottom:7px;
+}
+.registration-details .information-card strong {
+    display:block;
+    font-size:14px;
+    color:#17212b;
+    overflow-wrap:anywhere;
+}

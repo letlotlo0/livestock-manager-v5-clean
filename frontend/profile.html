@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="icon" type="image/png" href="assets/livestock-logo.png">
+    <meta name="application-name" content="Livestock Manager v3">
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Farmer Profile | Livestock Manager</title>
+
+    <link
+        rel="stylesheet"
+        href="profile.css"
+    >
+    <link rel="stylesheet" href="premium-ui.css">
+<link rel="stylesheet" href="navigation-premium.css">
+<link rel="stylesheet" href="final-intelligence.css">
+<link rel="stylesheet" href="subscription.css">
+<script src="auth-api.js"></script>
+<script src="auth-guard.js"></script>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+
+        <nav class="navbar">
+  <div class="nav-container">
+    <a href="dashboard.html" class="logo"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="35" height="35"> <span>Livestock Manager</span></a>
+    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="var n=document.getElementById('navLinks');var o=!n.classList.contains('open');n.classList.toggle('open',o);n.style.setProperty('display',o?'flex':'','important');this.setAttribute('aria-expanded',o?'true':'false');this.setAttribute('aria-label',o?'Close navigation':'Open navigation');return false;">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html">Home</a>
+      <a href="animals.html">Animals</a>
+      <a href="livestock-overview.html">Overview</a>
+      <a href="animal-profile.html">Animal Profile</a>
+      <a href="family-tree.html">Family Tree</a><a href="operations.html">Operations</a>
+      <a href="feeding.html">Feeding</a>
+      <a href="weaning.html">Weaning</a>
+      <a href="growth.html">Growth</a>
+      <a href="health.html">Health</a>
+      <a href="money-stats.html">Money Stats</a>
+      <a href="farm-reports.html">Reports</a>
+      <a href="farm-alerts.html">Alerts</a>
+      <a href="profile.html" class="active">Profile</a>
+    </div>
+  </div>
+</nav>
+
+
+    <!-- PAGE HEADER -->
+
+    <header class="page-header">
+
+        <div>
+
+            <span class="page-label">
+                FARMER ACCOUNT
+            </span>
+
+            <h1>
+                Farmer Profile
+            </h1>
+
+            <p>
+                Manage your personal and farm information.
+            </p>
+
+        </div>
+
+        <div class="profile-header-actions">
+        <button type="button" class="primary-button" id="editButton">Edit Profile</button>
+        <button type="button" class="secondary-button" id="logoutButton">Logout</button>
+        </div>
+
+    </header>
+
+
+    <main class="profile-container">
+
+
+        <!-- PROFILE CARD -->
+
+        <section class="profile-card">
+
+            <div class="profile-top">
+
+                <div class="profile-picture-wrapper">
+
+                    <div
+                        class="profile-picture"
+                        id="profilePicture"
+                    >
+                        👨‍🌾
+                    </div>
+
+                    <label
+                        for="profileImageInput"
+                        class="image-button"
+                    >
+                        📷
+                    </label>
+
+                    <input
+                        type="file"
+                        id="profileImageInput"
+                        accept="image/*"
+                        hidden
+                    >
+
+                </div>
+
+
+                <div class="profile-heading">
+
+                    <h2 id="displayName">
+                        Your Name
+                    </h2>
+
+                    <p id="displayFarm">
+                        Your Farm
+                    </p>
+
+                    <span class="profile-status">
+                        ● Active Farmer
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PERSONAL INFORMATION -->
+
+            <div class="information-section">
+
+                <div class="section-title">
+
+                    <h2>
+                        Personal Information
+                    </h2>
+
+                    <p>
+                        Your basic contact details.
+                    </p>
+
+                </div>
+
+
+                <div class="information-grid">
+
+                    <div class="information-item">
+
+                        <span>
+                            Full Name
+                        </span>
+
+                        <strong id="infoName">
+                            Not provided
+                        </strong>
+
+                    </div>
+
+
+                    <div class="information-item">
+
+                        <span>
+                            Email Address
+                        </span>
+
+                        <strong id="infoEmail">
+                            Not provided
+                        </strong>
+
+                    </div>
+
+
+                    <div class="information-item">
+
+                        <span>
+                            Phone Number
+                        </span>
+
+                        <strong id="infoPhone">
+                            Not provided
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FARM INFORMATION -->
+
+            <div class="information-section">
+
+                <div class="section-title">
+
+                    <h2>
+                        Farm Information
+                    </h2>
+
+                    <p>
+                        Information about your farm.
+                    </p>
+
+                </div>
+
+
+                <div class="information-grid">
+
+                    <div class="information-item">
+
+                        <span>
+                            Farm Name
+                        </span>
+
+                        <strong id="infoFarm">
+                            Not provided
+                        </strong>
+
+                    </div>
+
+
+                    <div class="information-item">
+
+                        <span>
+                            Location
+                        </span>
+
+                        <strong id="infoLocation">
+                            Not provided
+                        </strong>
+
+                    </div>
+
+
+                    <div class="information-item location-item">
+
+                        <span>
+                            Map
+                        </span>
+
+                        <a
+                            href="#"
+                            id="mapLink"
+                            target="_blank"
+                        >
+                            📍 Open in Google Maps
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- LIVESTOCK SUMMARY -->
+
+        <section class="livestock-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        My Livestock
+                    </h2>
+
+                    <p>
+                        Overview of your registered animals.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="livestock-grid">
+
+
+                <!-- CATTLE -->
+
+                <div class="livestock-card">
+
+                    <div class="livestock-icon">
+                        🐄
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Cattle
+                        </span>
+
+                        <strong id="cattleCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- GOATS -->
+
+                <div class="livestock-card">
+
+                    <div class="livestock-icon">
+                        🐐
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Goats
+                        </span>
+
+                        <strong id="goatCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SHEEP -->
+
+                <div class="livestock-card">
+
+                    <div class="livestock-icon">
+                        🐑
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Sheep
+                        </span>
+
+                        <strong id="sheepCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PIGS -->
+
+                <div class="livestock-card">
+
+                    <div class="livestock-icon">
+                        🐖
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Pigs
+                        </span>
+
+                        <strong id="pigCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- TOTAL -->
+
+        <section class="total-card">
+
+            <div>
+
+                <span>
+                    Total Animals
+                </span>
+
+                <strong id="totalAnimals">
+                    0
+                </strong>
+
+            </div>
+
+            <div class="total-icon" aria-hidden="true">
+                🐄
+            </div>
+
+        </section>
+
+        <section class="information-section registration-details">
+            <div class="section-heading"><h2>Registration Details</h2><p>Information saved when this farmer account was created.</p></div>
+            <div class="information-grid">
+                <div class="information-card"><span>USERNAME</span><strong id="infoUsername">Not provided</strong></div>
+                <div class="information-card"><span>ACCOUNT CREATED</span><strong id="infoCreated">Not provided</strong></div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- EDIT PROFILE MODAL -->
+
+    <div
+        class="modal"
+        id="profileModal"
+    >
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2>
+                        Edit Profile
+                    </h2>
+
+                    <p>
+                        Update your farmer information.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="close-button"
+                    id="closeModal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form
+                id="profileForm"
+                class="profile-form"
+            >
+
+
+                <div class="form-group">
+
+                    <label for="farmerName">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="farmerName"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="farmerEmail">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="farmerEmail"
+                        placeholder="Enter your email"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="farmerPhone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="farmerPhone"
+                        placeholder="e.g. 071 234 5678"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="farmName">
+                        Farm Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="farmName"
+                        placeholder="Enter your farm name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="farmLocation">
+                        Farm Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="farmLocation"
+                        placeholder="e.g. Phokeng, North West"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="mapLocation">
+                        Google Maps Location
+                    </label>
+
+                    <input
+                        type="url"
+                        id="mapLocation"
+                        placeholder="Paste Google Maps link"
+                    >
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        id="cancelButton"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
+                        Save Profile
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="cloud-config.js"></script>
+    <script src="v5-merge.js"></script>
+    <script src="livestock-cloud.js"></script>
+    <script src="livestock-core.js"></script>
+    <script src="subscription.js"></script>
+    <script src="profile.js"></script>
+
+<script src="navigation.js?v=4.0.8"></script>
+<script src="final-intelligence.js"></script>
+</body>
+</html>

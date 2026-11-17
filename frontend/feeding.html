@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="icon" type="image/png" href="assets/livestock-logo.png">
+    <meta name="application-name" content="Livestock Manager v3">
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Feeding | Livestock Manager</title>
+
+    <link
+        rel="stylesheet"
+        href="feeding.css"
+    >
+    <link rel="stylesheet" href="premium-ui.css">
+<link rel="stylesheet" href="navigation-premium.css">
+<link rel="stylesheet" href="final-intelligence.css">
+<link rel="stylesheet" href="subscription.css">
+<script src="auth-api.js"></script>
+<script src="auth-guard.js"></script>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+        <nav class="navbar">
+  <div class="nav-container">
+    <a href="dashboard.html" class="logo"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="35" height="35"> <span>Livestock Manager</span></a>
+    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="var n=document.getElementById('navLinks');var o=!n.classList.contains('open');n.classList.toggle('open',o);n.style.setProperty('display',o?'flex':'','important');this.setAttribute('aria-expanded',o?'true':'false');this.setAttribute('aria-label',o?'Close navigation':'Open navigation');return false;">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html">Home</a>
+      <a href="animals.html">Animals</a>
+      <a href="livestock-overview.html">Overview</a>
+      <a href="animal-profile.html">Animal Profile</a>
+      <a href="family-tree.html">Family Tree</a><a href="operations.html">Operations</a>
+      <a href="feeding.html" class="active">Feeding</a>
+      <a href="weaning.html">Weaning</a>
+      <a href="growth.html">Growth</a>
+      <a href="health.html">Health</a>
+      <a href="money-stats.html">Money Stats</a>
+      <a href="farm-reports.html">Reports</a>
+      <a href="farm-alerts.html">Alerts</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </div>
+</nav>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="page-container">
+
+        <section class="page-header">
+
+            <span class="page-label">
+                FARM MANAGEMENT
+            </span>
+
+            <h1>
+                Feeding
+            </h1>
+
+            <p>
+                Track feed purchased for the farm and
+                monitor how much you spend on livestock feed.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             SUMMARY
+        ========================== -->
+
+        <section class="summary-grid">
+
+            <div class="summary-card">
+
+                <span>
+                    TOTAL FEED SPENDING
+                </span>
+
+                <strong id="totalFeedSpending">
+                    R0.00
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>
+                    THIS MONTH
+                </span>
+
+                <strong id="monthlyFeedSpending">
+                    R0.00
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>
+                    PURCHASES
+                </span>
+
+                <strong id="totalPurchases">
+                    0
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ADD FEED PURCHASE
+        ========================== -->
+
+        <section class="form-card">
+
+            <div class="section-heading">
+
+                <h2>
+                    Record Feed Purchase
+                </h2>
+
+                <p>
+                    Record feed purchased for the farm.
+                    This expense is shared across your livestock.
+                </p>
+
+            </div>
+
+
+            <div class="farm-notice">
+
+                <span class="notice-icon">
+                    🌾
+                </span>
+
+                <div>
+
+                    <strong>
+                        Farm-wide expense
+                    </strong>
+
+                    <p>
+                        Feed is recorded as a farm expense,
+                        not against an individual animal.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form id="feedForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="feedType">
+                            Feed Type
+                        </label>
+
+                        <select
+                            id="feedType"
+                            required
+                        >
+
+                            <option value="">
+                                Select feed type
+                            </option>
+
+                            <option value="Lucerne">
+                                Lucerne
+                            </option>
+
+                            <option value="Hay">
+                                Hay
+                            </option>
+
+                            <option value="Maize">
+                                Maize
+                            </option>
+
+                            <option value="Silage">
+                                Silage
+                            </option>
+
+                            <option value="Animal Feed">
+                                Animal Feed
+                            </option>
+
+                            <option value="Concentrate">
+                                Concentrate
+                            </option>
+
+                            <option value="Mineral Supplement">
+                                Mineral Supplement
+                            </option>
+
+                            <option value="Pasture">
+                                Pasture
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="feedName">
+                            Feed Description
+                        </label>
+
+                        <input
+                            type="text"
+                            id="feedName"
+                            placeholder="e.g. Lucerne bales"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="quantity">
+                            Quantity
+                        </label>
+
+                        <input
+                            type="number"
+                            id="quantity"
+                            min="0"
+                            step="0.01"
+                            placeholder="e.g. 20"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="unit">
+                            Unit
+                        </label>
+
+                        <select
+                            id="unit"
+                            required
+                        >
+
+                            <option value="">
+                                Select unit
+                            </option>
+
+                            <option value="Bags">
+                                Bags
+                            </option>
+
+                            <option value="Bales">
+                                Bales
+                            </option>
+
+                            <option value="kg">
+                                kg
+                            </option>
+
+                            <option value="Tonnes">
+                                Tonnes
+                            </option>
+
+                            <option value="Loads">
+                                Loads
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="amount">
+                            Amount Paid (R)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="amount"
+                            min="0"
+                            step="0.01"
+                            placeholder="e.g. 4500"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="supplier">
+                            Supplier
+                        </label>
+
+                        <input
+                            type="text"
+                            id="supplier"
+                            placeholder="e.g. Local Feed Store"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="purchaseDate">
+                            Purchase Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="purchaseDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="feedPhoto">Feed Photo</label>
+                        <input type="file" id="feedPhoto" accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="feedNotes">
+                            Notes
+                        </label>
+
+                        <input
+                            type="text"
+                            id="feedNotes"
+                            placeholder="Optional notes"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                 id="feedSubmitButton">
+                    Add Feed Purchase
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- =========================
+             FEED HISTORY
+        ========================== -->
+
+        <section class="history-card">
+
+            <div class="section-heading">
+
+                <h2>
+                    Feed Purchase History
+                </h2>
+
+                <p>
+                    All feed purchases recorded for your farm.
+                </p>
+
+            </div>
+
+
+            <div
+                id="feedList"
+                class="feed-list"
+            ></div>
+
+
+            <div
+                id="emptyState"
+                class="empty-state"
+            >
+
+                <div class="empty-icon">
+                    🌾
+                </div>
+
+                <h3>
+                    No feed purchases recorded
+                </h3>
+
+                <p>
+                    Add your first feed purchase above.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             FEED TOTAL
+        ========================== -->
+
+        <section class="total-card">
+
+            <div>
+
+                <span>
+                    TOTAL SPENT ON FEED
+                </span>
+
+                <strong id="bottomTotal">
+                    R0.00
+                </strong>
+
+            </div>
+
+            <span class="total-icon">
+                💰
+            </span>
+
+        </section>
+
+    </main>
+
+    <script src="cloud-config.js"></script>
+    <script src="v5-merge.js"></script>
+    <script src="livestock-cloud.js"></script>
+    <script src="livestock-core.js"></script>
+    <script src="subscription.js"></script>
+    <script src="feeding.js"></script>
+
+<script src="navigation.js?v=4.0.8"></script>
+<script src="final-intelligence.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "Livestock Manager",
+  "short_name": "Livestock Manager",
+  "start_url": "./dashboard.html",
+  "display": "standalone",
+  "background_color": "#f5f1e8",
+  "theme_color": "#173d2a",
+  "description": "Livestock tracking tools with secure farmer accounts. V5 isolated cloud preview: per-animal sync with server-verified saves.",
+  "icons": [
+    {
+      "src": "assets/livestock-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

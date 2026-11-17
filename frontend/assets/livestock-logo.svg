@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 128 128" role="img" aria-label="Livestock Manager logo — cattle head and pasture">
+<defs><linearGradient id="forest" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#285b42"/><stop offset="1" stop-color="#10281e"/></linearGradient><linearGradient id="gold" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#f4d99a"/><stop offset="1" stop-color="#d8ae61"/></linearGradient></defs>
+<rect width="128" height="128" rx="27" fill="url(#forest)"/>
+<path d="M20 100c15-10 29-13 44-13s30 3 44 13" fill="none" stroke="url(#gold)" stroke-width="4" stroke-linecap="round"/>
+<path d="M30 107c11-6 22-8 34-8s23 2 34 8" fill="none" stroke="#8aab7b" stroke-width="3" stroke-linecap="round"/>
+<!-- expressive wide bull horns -->
+<path d="M45 40c-13 2-24-6-28-19 12 7 21 6 29 11M83 40c13 2 24-6 28-19-12 7-21 6-29 11" fill="none" stroke="url(#gold)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<!-- ears and face silhouette -->
+<path d="M43 47 26 42q-6 2-4 9 6 9 20 7 M85 47l17-5q6 2 4 9-6 9-20 7" fill="#dceadd" stroke="#dceadd" stroke-width="2" stroke-linejoin="round"/>
+<path d="M44 32q20-7 40 0l7 21-9 17-5 17Q64 98 51 87l-5-17-9-17z" fill="#f0f3e8" stroke="#e3ddc5" stroke-width="2" stroke-linejoin="round"/>
+<path d="M52 38q12-7 24 0l4 15-6 15 3 17q-13 9-26 0l3-17-6-15z" fill="#d6e2d2" opacity=".7"/>
+<path d="M51 59q5-5 10 0M67 59q5-5 10 0" fill="none" stroke="#233e2d" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M51 78q13-9 26 0l-2 9q-11 9-22 0z" fill="#263e31"/>
+<ellipse cx="57" cy="80" rx="2.2" ry="2.8" fill="#dbcfaa"/><ellipse cx="71" cy="80" rx="2.2" ry="2.8" fill="#dbcfaa"/>
+</svg>

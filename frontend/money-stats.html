@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="icon" type="image/png" href="assets/livestock-logo.png">
+    <meta name="application-name" content="Livestock Manager v3">
+    <meta charset="UTF-8">
+
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Money Stats | Livestock Manager</title>
+
+    <link rel="stylesheet" href="money-stats.css">
+    <link rel="stylesheet" href="premium-ui.css">
+<link rel="stylesheet" href="navigation-premium.css">
+<link rel="stylesheet" href="final-intelligence.css">
+<link rel="stylesheet" href="subscription.css">
+<script src="auth-api.js"></script>
+<script src="auth-guard.js"></script>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+
+        <nav class="navbar">
+  <div class="nav-container">
+    <a href="dashboard.html" class="logo"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="35" height="35"> <span>Livestock Manager</span></a>
+    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="var n=document.getElementById('navLinks');var o=!n.classList.contains('open');n.classList.toggle('open',o);n.style.setProperty('display',o?'flex':'','important');this.setAttribute('aria-expanded',o?'true':'false');this.setAttribute('aria-label',o?'Close navigation':'Open navigation');return false;">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html">Home</a>
+      <a href="animals.html">Animals</a>
+      <a href="livestock-overview.html">Overview</a>
+      <a href="animal-profile.html">Animal Profile</a>
+      <a href="family-tree.html">Family Tree</a><a href="operations.html">Operations</a>
+      <a href="feeding.html">Feeding</a>
+      <a href="weaning.html">Weaning</a>
+      <a href="growth.html">Growth</a>
+      <a href="health.html">Health</a>
+      <a href="money-stats.html" class="active">Money Stats</a>
+      <a href="farm-reports.html">Reports</a>
+      <a href="farm-alerts.html">Alerts</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </div>
+</nav>
+
+
+    <!-- MAIN -->
+
+    <main class="page-container">
+
+        <section class="page-header">
+
+            <span class="page-label">
+                FARM FINANCES
+            </span>
+
+            <h1>
+                Money Stats
+            </h1>
+
+            <p>
+                Keep track of your farm's income,
+                expenses, investments and profits.
+            </p>
+
+        </section>
+
+
+        <!-- FINANCIAL SUMMARY -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <span>
+                    TOTAL INCOME
+                </span>
+
+                <strong id="totalIncome">
+                    R0.00
+                </strong>
+
+                <small>
+                    Money received from livestock sales
+                </small>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>
+                    TOTAL EXPENSES
+                </span>
+
+                <strong id="totalExpenses">
+                    R0.00
+                </strong>
+
+                <small>
+                    Feed, health and other expenses
+                </small>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>
+                    NET PROFIT
+                </span>
+
+                <strong id="netProfit">
+                    R0.00
+                </strong>
+
+                <small>
+                    Trading profit minus farm expenses
+                </small>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>
+                    ACTIVE INVESTMENT
+                </span>
+
+                <strong id="activeInvestment">
+                    R0.00
+                </strong>
+
+                <small>
+                    Money invested in active animals
+                </small>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROFIT / LOSS -->
+
+        <section class="financial-card">
+
+            <div class="section-heading">
+
+                <h2>
+                    Financial Overview
+                </h2>
+
+                <p>
+                    A summary of where your farm money
+                    is coming from and where it is going.
+                </p>
+
+            </div>
+
+
+            <div class="overview-grid">
+
+                <div class="overview-item">
+
+                    <span>
+                        LIVESTOCK SALES
+                    </span>
+
+                    <strong id="animalSales">
+                        R0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="overview-item">
+
+                    <span>
+                        REALIZED TRADING PROFIT / LOSS
+                    </span>
+
+                    <strong id="tradingProfit">
+                        R0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="overview-item">
+
+                    <span>
+                        FEED
+                    </span>
+
+                    <strong id="feedExpenses">
+                        R0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="overview-item">
+
+                    <span>
+                        HEALTH / MEDICATION
+                    </span>
+
+                    <strong id="healthExpenses">
+                        R0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="overview-item">
+
+                    <span>
+                        OTHER EXPENSES
+                    </span>
+
+                    <strong id="otherExpenses">
+                        R0.00
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ADD OTHER EXPENSE -->
+
+        <section class="financial-card">
+
+            <div class="section-heading">
+
+                <h2>
+                    Add Farm Expense
+                </h2>
+
+                <p>
+                    Record expenses that are not already
+                    captured by Feeding or Health.
+                </p>
+
+            </div>
+
+
+            <form id="expenseForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="expenseDescription">
+                            Description
+                        </label>
+
+                        <input
+                            type="text"
+                            id="expenseDescription"
+                            placeholder="e.g. Transport"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="expenseCategory">
+                            Category
+                        </label>
+
+                        <select
+                            id="expenseCategory"
+                            required
+                        >
+
+                            <option value="">
+                                Select category
+                            </option>
+
+                            <option value="Labour">
+                                Labour
+                            </option>
+
+                            <option value="Transport">
+                                Transport
+                            </option>
+
+                            <option value="Equipment">
+                                Equipment
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="expenseAmount">
+                            Amount (R)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="expenseAmount"
+                            min="0"
+                            step="0.01"
+                            placeholder="e.g. 2500"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="expenseDate">
+                            Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="expenseDate"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Add Expense
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- EXPENSE HISTORY -->
+
+        <section class="financial-card">
+
+            <div class="section-heading">
+
+                <h2>
+                    Other Expense History
+                </h2>
+
+                <p>
+                    Expenses manually recorded on this page.
+                </p>
+
+            </div>
+
+
+            <div
+                id="expenseList"
+                class="expense-list"
+            ></div>
+
+
+            <div
+                id="expenseEmpty"
+                class="empty-state"
+            >
+
+                <div class="empty-icon">
+                    🧾
+                </div>
+
+                <h3>
+                    No other expenses recorded
+                </h3>
+
+                <p>
+                    Add an expense above when needed.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- SOLD LIVESTOCK -->
+
+        <section class="financial-card">
+
+            <div class="section-heading">
+
+                <h2>
+                    Sold Livestock
+                </h2>
+
+                <p>
+                    Financial results from animals that
+                    have already been sold.
+                </p>
+
+            </div>
+
+
+            <div
+                id="soldAnimalsList"
+                class="sold-list"
+            ></div>
+
+
+            <div
+                id="soldAnimalsEmpty"
+                class="empty-state"
+            >
+
+                <div class="empty-icon">
+                    🐄
+                </div>
+
+                <h3>
+                    No livestock sold yet
+                </h3>
+
+                <p>
+                    Sold animals will appear here automatically.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="cloud-config.js"></script>
+    <script src="v5-merge.js"></script>
+    <script src="livestock-cloud.js"></script>
+    <script src="livestock-core.js"></script>
+    <script src="subscription.js"></script>
+    <script src="money-stats.js"></script>
+
+<script src="navigation.js?v=4.0.8"></script>
+<script src="final-intelligence.js"></script>
+</body>
+</html>

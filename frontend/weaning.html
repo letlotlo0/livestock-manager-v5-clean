@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="icon" type="image/png" href="assets/livestock-logo.png">
+    <meta name="application-name" content="Livestock Manager v3">
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Weaning | Livestock Manager</title>
+
+    <link
+        rel="stylesheet"
+        href="weaning.css"
+    >
+
+    <link rel="stylesheet" href="premium-ui.css">
+<link rel="stylesheet" href="navigation-premium.css">
+<link rel="stylesheet" href="final-intelligence.css">
+<link rel="stylesheet" href="subscription.css">
+<script src="auth-api.js"></script>
+<script src="auth-guard.js"></script>
+</head>
+
+<body>
+
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+        <nav class="navbar">
+  <div class="nav-container">
+    <a href="dashboard.html" class="logo"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="35" height="35"> <span>Livestock Manager</span></a>
+    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="var n=document.getElementById('navLinks');var o=!n.classList.contains('open');n.classList.toggle('open',o);n.style.setProperty('display',o?'flex':'','important');this.setAttribute('aria-expanded',o?'true':'false');this.setAttribute('aria-label',o?'Close navigation':'Open navigation');return false;">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html">Home</a>
+      <a href="animals.html">Animals</a>
+      <a href="livestock-overview.html">Overview</a>
+      <a href="animal-profile.html">Animal Profile</a>
+      <a href="family-tree.html">Family Tree</a><a href="operations.html">Operations</a>
+      <a href="feeding.html">Feeding</a>
+      <a href="weaning.html" class="active">Weaning</a>
+      <a href="growth.html">Growth</a>
+      <a href="health.html">Health</a>
+      <a href="money-stats.html">Money Stats</a>
+      <a href="farm-reports.html">Reports</a>
+      <a href="farm-alerts.html">Alerts</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </div>
+</nav>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="page-container">
+
+
+        <!-- HEADER -->
+
+        <section class="page-header">
+
+            <div>
+
+                <span class="page-label">
+                    LIVESTOCK MANAGEMENT
+                </span>
+
+                <h1>
+                    Weaning
+                </h1>
+
+                <p>
+                    Track when young animals are weaned
+                    and record their weaning weight.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="primary-button"
+                id="addWeaningButton"
+            >
+                + Add Record
+            </button>
+
+        </section>
+
+
+
+        <!-- =========================
+             SUMMARY
+        ========================== -->
+
+        <section class="summary-grid">
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    🐾
+                </div>
+
+                <div>
+
+                    <span>
+                        Total Records
+                    </span>
+
+                    <strong id="totalRecords">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    ⏳
+                </div>
+
+                <div>
+
+                    <span>
+                        Pending
+                    </span>
+
+                    <strong id="pendingRecords">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>
+                        Weaned
+                    </span>
+
+                    <strong id="completedRecords">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-icon">
+                    ⚖️
+                </div>
+
+                <div>
+
+                    <span>
+                        Average Weight
+                    </span>
+
+                    <strong id="averageWeight">
+                        0 kg
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             RECORDS
+        ========================== -->
+
+        <section class="content-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Weaning Records
+                    </h2>
+
+                    <p id="recordCount">
+                        0 records
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="records-grid"
+                id="recordsGrid"
+            ></div>
+
+
+            <div
+                class="empty-state"
+                id="emptyState"
+            >
+
+                <div class="empty-icon">
+                    🐾
+                </div>
+
+                <h3>
+                    No weaning records
+                </h3>
+
+                <p>
+                    Add a weaning record to start tracking
+                    your young animals.
+                </p>
+
+                <button
+                    type="button"
+                    class="primary-button"
+                    id="emptyAddButton"
+                >
+                    + Add Record
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================
+         MODAL
+    ========================== -->
+
+    <div
+        class="modal"
+        id="weaningModal"
+    >
+
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2>
+                        Add Weaning Record
+                    </h2>
+
+                    <p>
+                        Record the weaning details for an animal.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="close-button"
+                    id="closeModal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <form
+                id="weaningForm"
+                class="weaning-form"
+            >
+
+
+                <!-- ANIMAL -->
+
+                <div class="form-group">
+
+                    <label for="animalSelect">
+                        Animal
+                    </label>
+
+                    <select
+                        id="animalSelect"
+                        required
+                    >
+
+                        <option value="">
+                            Select animal
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- WEANING DATE -->
+
+                <div class="form-group">
+
+                    <label for="weaningDate">
+                        Weaning Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="weaningDate"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- WEANING WEIGHT -->
+
+                <div class="form-group">
+
+                    <label for="weaningWeight">
+                        Weaning Weight (kg)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="weaningWeight"
+                        min="0"
+                        step="0.1"
+                        placeholder="e.g. 180"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- STATUS -->
+
+                <div class="form-group">
+
+                    <label for="weaningStatus">
+                        Status
+                    </label>
+
+                    <select
+                        id="weaningStatus"
+                        required
+                    >
+
+                        <option value="pending">
+                            Pending
+                        </option>
+
+                        <option value="weaned">
+                            Weaned
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- NOTES -->
+
+                <div class="form-group">
+
+                    <label for="weaningNotes">
+                        Notes
+                    </label>
+
+                    <textarea
+                        id="weaningNotes"
+                        rows="4"
+                        placeholder="Add any useful notes..."
+                    ></textarea>
+
+                </div>
+
+
+
+                <!-- ACTIONS -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        id="cancelButton"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
+                        Save Record
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="cloud-config.js"></script>
+    <script src="v5-merge.js"></script>
+    <script src="livestock-cloud.js"></script>
+    <script src="livestock-core.js"></script>
+    <script src="subscription.js"></script>
+    <script src="weaning.js"></script>
+
+<script src="navigation.js?v=4.0.8"></script>
+<script src="final-intelligence.js"></script>
+</body>
+</html>

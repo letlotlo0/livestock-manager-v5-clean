@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="icon" type="image/png" href="assets/livestock-logo.png">
+    <meta name="application-name" content="Livestock Manager">
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Animals | Livestock Manager</title>
+
+    <link
+        rel="stylesheet"
+        href="animals.css"
+    >
+    <link rel="stylesheet" href="premium-ui.css">
+<link rel="stylesheet" href="navigation-premium.css">
+<link rel="stylesheet" href="final-intelligence.css">
+<link rel="stylesheet" href="subscription.css">
+<script src="auth-api.js"></script>
+<script src="auth-guard.js"></script>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+        <nav class="navbar">
+  <div class="nav-container">
+    <a href="dashboard.html" class="logo"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="35" height="35"> <span>Livestock Manager</span></a>
+    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="var n=document.getElementById('navLinks');var o=!n.classList.contains('open');n.classList.toggle('open',o);n.style.setProperty('display',o?'flex':'','important');this.setAttribute('aria-expanded',o?'true':'false');this.setAttribute('aria-label',o?'Close navigation':'Open navigation');return false;">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html">Home</a>
+      <a href="animals.html" class="active">Animals</a>
+      <a href="livestock-overview.html">Overview</a>
+      <a href="animal-profile.html">Animal Profile</a>
+      <a href="family-tree.html">Family Tree</a><a href="operations.html">Operations</a>
+      <a href="feeding.html">Feeding</a>
+      <a href="weaning.html">Weaning</a>
+      <a href="growth.html">Growth</a>
+      <a href="health.html">Health</a>
+      <a href="money-stats.html">Money Stats</a>
+      <a href="farm-reports.html">Reports</a>
+      <a href="farm-alerts.html">Alerts</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </div>
+</nav>
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="page-container">
+
+        <section class="page-header">
+
+            <span class="page-label">
+                LIVESTOCK MANAGEMENT
+            </span>
+
+            <h1>
+                My Animals
+            </h1>
+
+            <p>
+                Manage your livestock and keep track of
+                their investment and trading performance.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             SUMMARY
+        ========================== -->
+
+        <section class="summary-grid">
+
+            <div class="summary-card">
+
+                <span>
+                    ACTIVE ANIMALS
+                </span>
+
+                <strong id="totalAnimals">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>
+                    TOTAL INVESTMENT
+                </span>
+
+                <strong id="totalInvestment">
+                    R0
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>
+                    SOLD ANIMALS
+                </span>
+
+                <strong id="totalSold">
+                    0
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ADD ANIMAL
+        ========================== -->
+
+        <section class="form-card">
+
+            <div class="section-heading">
+
+                <h2>
+                    Add Animal
+                </h2>
+
+                <p>
+                    Record the basic information and
+                    investment amount for an animal.
+                </p>
+
+            </div>
+
+
+            <form id="animalForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="animalName">
+                            Animal Name / Tag
+                        </label>
+
+                        <input
+                            type="text"
+                            id="animalName"
+                            placeholder="e.g. Bella"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="animalType">
+                            Animal Type
+                        </label>
+
+                        <select
+                            id="animalType"
+                            required
+                        >
+
+                            <option value="">
+                                Select animal
+                            </option>
+
+                            <option value="Cattle">
+                                Cattle
+                            </option>
+
+                            <option value="Goat">
+                                Goat
+                            </option>
+
+                            <option value="Sheep">
+                                Sheep
+                            </option>
+
+                            <option value="Pig">
+                                Pig
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="breed">
+                            Breed
+                        </label>
+
+                        <select
+                            id="breed"
+                            required
+                        >
+
+                            <option value="">
+                                Select breed
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="sex">
+                            Sex
+                        </label>
+
+                        <select
+                            id="sex"
+                            required
+                        >
+
+                            <option value="">
+                                Select sex
+                            </option>
+
+                            <option value="Female">
+                                Female
+                            </option>
+
+                            <option value="Male">
+                                Male
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="weight">
+                            Weight (kg)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="weight"
+                            min="0"
+                            placeholder="e.g. 500"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="conceptionDate">
+                            Pregnancy Start / Conception Date
+                        </label>
+                        <input type="date" id="conceptionDate">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="pregnancy">
+                            Pregnancy Status
+                        </label>
+
+                        <select id="pregnancy">
+
+                            <option value="Not pregnant">
+                                Not pregnant
+                            </option>
+
+                            <option value="Pregnant">
+                                Pregnant
+                            </option>
+
+                            <option value="Unknown">
+                                Unknown
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="purchasePrice">
+                            Purchase Amount (R)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="purchasePrice"
+                            min="0"
+                            step="0.01"
+                            placeholder="e.g. 15000"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="purchaseDate">
+                            Purchase Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="purchaseDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="offspring">
+                            Offspring Produced
+                        </label>
+
+                        <input
+                            type="number"
+                            id="offspring"
+                            min="0"
+                            value="0"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="animalPhoto">
+                            Animal Photo
+                        </label>
+                        <input type="file" id="animalPhoto" accept="image/*">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="estimatedValue">
+                            Current Estimated Value (R)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="estimatedValue"
+                            min="0"
+                            step="0.01"
+                            placeholder="e.g. 20000"
+                        >
+
+                    </div>
+
+
+                    <div class="record-section-title">
+                        Breeding & Official Record
+                    </div>
+
+                    <div class="form-group">
+                        <label for="animalTag">Tag / Animal ID</label>
+                        <input type="text" id="animalTag" placeholder="e.g. PN21115">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="animalBirthDate">Date of Birth</label>
+                        <input type="date" id="animalBirthDate">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="herdbook">Herdbook</label>
+                        <input type="text" id="herdbook" placeholder="e.g. SP">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registrationNumber">Registration Number</label>
+                        <input type="text" id="registrationNumber" placeholder="Registration number">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registrationStatus">Registration Status</label>
+                        <select id="registrationStatus">
+                            <option value="Not registered">Not registered</option>
+                            <option value="Registered">Registered</option>
+                            <option value="Pending">Pending</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hornStatus">Horn Status</label>
+                        <select id="hornStatus">
+                            <option value="Not recorded">Not recorded</option>
+                            <option value="Horned">Horned</option>
+                            <option value="Polled">Polled</option>
+                            <option value="Scurred">Scurred</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lotNumber">Lot Number</label>
+                        <input type="text" id="lotNumber" placeholder="e.g. Lot 16">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inspectionDate">Inspection Date</label>
+                        <input type="date" id="inspectionDate">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="calvings">Total Calvings / Births</label>
+                        <input type="number" id="calvings" min="0" value="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastCalvingDate">Last Calving / Birth Date</label>
+                        <input type="date" id="lastCalvingDate">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sire">Sire / Father</label>
+                        <input type="text" id="sire" list="animalParentOptions" placeholder="Sire name or ID"><datalist id="animalParentOptions"></datalist>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dam">Dam / Mother</label>
+                        <input type="text" id="dam" list="animalParentOptions" placeholder="Dam name or ID">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="offspringValue">Estimated Value Generated by Offspring (R)</label>
+                        <input type="number" id="offspringValue" min="0" step="0.01" placeholder="e.g. 12000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sellerRemarks">Seller Remarks</label>
+                        <input type="text" id="sellerRemarks" placeholder="Important notes from seller / breeder">
+                    </div>
+
+                </div>
+
+
+                <div id="expectedBirthPreview" class="calculator-preview">Select a pregnant animal type and pregnancy start date to calculate the expected birth date.</div>
+
+                <button type="submit" class="primary-button" id="animalSubmitButton">
+                    Add Animal
+                </button>
+                <button type="button" class="secondary-button" id="cancelEdit" style="display:none;">Cancel Edit</button>
+
+            </form>
+
+        </section>
+
+
+        <!-- =========================
+             ACTIVE ANIMALS
+        ========================== -->
+
+        <section class="animals-section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Active Animals
+                </h2>
+
+                <p>
+                    Animals currently on your farm.
+                </p>
+
+            </div>
+
+
+            <div
+                id="animalsList"
+                class="animals-list"
+            ></div>
+
+
+            <div
+                id="emptyState"
+                class="empty-state"
+            >
+
+                <div class="empty-icon">
+                    🐄
+                </div>
+
+                <h3>
+                    No animals recorded
+                </h3>
+
+                <p>
+                    Add your first animal above.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SOLD LIVESTOCK
+        ========================== -->
+
+        <section class="sold-section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Sold Livestock
+                </h2>
+
+                <p>
+                    Animals that have been sold are kept
+                    here for your financial records.
+                </p>
+
+            </div>
+
+
+            <div
+                id="soldList"
+                class="sold-list"
+            ></div>
+
+
+            <div
+                id="soldEmptyState"
+                class="empty-state"
+            >
+
+                <div class="empty-icon">
+                    💰
+                </div>
+
+                <h3>
+                    No animals sold
+                </h3>
+
+                <p>
+                    Sold animals will appear here.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         SALE MODAL
+    ========================== -->
+
+    <div
+        class="modal"
+        id="saleModal"
+    >
+
+        <div class="modal-content">
+
+            <button
+                type="button"
+                class="close-button"
+                id="closeModal"
+            >
+                ×
+            </button>
+
+
+            <h2>
+                Sell Animal
+            </h2>
+
+            <p
+                class="modal-description"
+                id="saleAnimalName"
+            >
+                Record the sale details.
+            </p>
+
+
+            <div class="sale-information">
+
+                <div>
+                    <span>
+                        Purchase Amount
+                    </span>
+
+                    <strong id="salePurchaseAmount">
+                        R0
+                    </strong>
+                </div>
+
+
+                <div>
+                    <span>
+                        Current Expenses
+                    </span>
+
+                    <strong id="saleExpenses">
+                        R0
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="salePrice">
+                    Selling Price (R)
+                </label>
+
+                <input
+                    type="number"
+                    id="salePrice"
+                    min="0"
+                    step="0.01"
+                    placeholder="Enter selling price"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="saleDate">
+                    Sale Date
+                </label>
+
+                <input
+                    type="date"
+                    id="saleDate"
+                    required
+                >
+
+            </div>
+
+
+            <div
+                class="sale-result"
+                id="saleResult"
+            >
+                Enter the selling price to calculate
+                profit or loss.
+            </div>
+
+
+            <div class="modal-buttons">
+
+                <button
+                    type="button"
+                    class="cancel-button"
+                    id="cancelSale"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    class="confirm-button"
+                    id="confirmSale"
+                >
+                    Confirm Sale
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="cloud-config.js"></script>
+    <script src="v5-merge.js"></script>
+    <script src="livestock-cloud.js"></script>
+    <script src="livestock-core.js"></script>
+    <script src="subscription.js"></script>
+    <script src="animals.js"></script>
+
+<script src="navigation.js?v=4.0.8"></script>
+<script src="final-intelligence.js"></script>
+</body>
+</html>

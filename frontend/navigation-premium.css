@@ -1,0 +1,96 @@
+/* Livestock Manager v2.8 — unified navigation
+   One navigation system across every authenticated page. */
+.navbar{
+  position:sticky!important;top:0!important;z-index:1000!important;
+  width:100%!important;
+  background:rgba(16,37,28,.94)!important;
+  border-bottom:1px solid rgba(255,255,255,.10)!important;
+  box-shadow:0 8px 28px rgba(10,28,20,.16)!important;
+  backdrop-filter:blur(16px)!important;
+  -webkit-backdrop-filter:blur(16px)!important;
+}
+.navbar .nav-container{
+  min-height:74px!important;
+  width:min(1280px,94%)!important;
+  margin:0 auto!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:18px!important;
+}
+.navbar .logo{
+  color:#fff!important;text-decoration:none!important;
+  font-size:17px!important;font-weight:800!important;
+  letter-spacing:-.02em!important;display:flex!important;
+  align-items:center!important;gap:10px!important;
+  white-space:nowrap!important;
+}
+.navbar .logo:first-letter{font-size:22px}
+.navbar .nav-links{
+  display:flex!important;align-items:center!important;
+  gap:3px!important;max-height:70px!important;
+  overflow-x:auto!important;overflow-y:hidden!important;
+  scrollbar-width:none!important;
+}
+.navbar .nav-links::-webkit-scrollbar{display:none}
+.navbar .nav-links a{
+  color:rgba(255,255,255,.72)!important;
+  text-decoration:none!important;border-radius:10px!important;
+  padding:9px 11px!important;font-weight:600!important;
+  white-space:nowrap!important;transition:all .2s ease!important;
+}
+.navbar .nav-links a:hover{
+  background:rgba(255,255,255,.10)!important;color:#fff!important;
+}
+.navbar .nav-links a.active{
+  color:#fff!important;
+  background:linear-gradient(135deg,#2f664b,#1f5139)!important;
+  box-shadow:0 5px 14px rgba(47,102,75,.30)!important;
+}
+.navbar .menu-button{
+  display:none!important;
+  background:rgba(255,255,255,.10)!important;
+  color:#fff!important;
+  border:1px solid rgba(255,255,255,.12)!important;
+  border-radius:10px!important;
+  padding:9px 12px!important;
+  font-size:1.05rem!important;cursor:pointer!important;
+}
+@media(max-width:1050px){
+  .navbar .nav-links{gap:2px!important}
+  .navbar .nav-links a{padding:8px 9px!important;font-size:.86rem!important}
+}
+@media(max-width:900px){
+  .navbar .nav-container{min-height:66px!important}
+  .navbar .menu-button{display:inline-flex!important;align-items:center!important;justify-content:center!important}
+  .navbar .nav-links{
+    display:none!important;position:absolute!important;
+    top:66px!important;left:3%!important;right:3%!important;
+    max-height:calc(100vh - 80px)!important;
+    overflow:auto!important;flex-direction:column!important;
+    align-items:stretch!important;gap:4px!important;
+    padding:12px!important;border:1px solid rgba(255,255,255,.10)!important;
+    border-radius:16px!important;background:rgba(16,37,28,.98)!important;
+    box-shadow:0 18px 45px rgba(0,0,0,.25)!important;
+  }
+  .navbar .nav-links.open{display:flex!important}
+  .navbar .nav-links a{padding:11px 12px!important}
+}
+
+/* v4.0.8 hamburger reliability */
+@media(max-width:900px){
+  .navbar .nav-container{position:relative!important;z-index:1001!important}
+  .navbar .menu-button{
+    position:relative!important;
+    z-index:1003!important;
+    min-width:46px!important;
+    min-height:42px!important;
+    pointer-events:auto!important;
+    touch-action:manipulation!important;
+    -webkit-tap-highlight-color:transparent!important;
+  }
+  .navbar .nav-links{z-index:1002!important}
+}
+
+/* The previous emoji is replaced with a vector logo; no navigation items are added. */
+.navbar .logo .lm-brand-icon{width:35px;height:35px;flex:0 0 35px;object-fit:contain}

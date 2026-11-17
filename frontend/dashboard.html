@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="icon" type="image/png" href="assets/livestock-logo.png">
+    <meta name="application-name" content="Livestock Manager">
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard | Livestock Manager</title>
+
+    <link
+        rel="stylesheet"
+        href="dashboard.css"
+    >
+    <link rel="stylesheet" href="premium-ui.css">
+<link rel="stylesheet" href="navigation-premium.css">
+<link rel="stylesheet" href="final-intelligence.css">
+<link rel="stylesheet" href="subscription.css">
+<script src="auth-api.js"></script>
+<script src="auth-guard.js"></script>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+
+        <nav class="navbar">
+  <div class="nav-container">
+    <a href="dashboard.html" class="logo"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="35" height="35"> <span>Livestock Manager</span></a>
+    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="var n=document.getElementById('navLinks');var o=!n.classList.contains('open');n.classList.toggle('open',o);n.style.setProperty('display',o?'flex':'','important');this.setAttribute('aria-expanded',o?'true':'false');this.setAttribute('aria-label',o?'Close navigation':'Open navigation');return false;">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html" class="active">Home</a>
+      <a href="animals.html">Animals</a>
+      <a href="livestock-overview.html">Overview</a>
+      <a href="animal-profile.html">Animal Profile</a>
+      <a href="family-tree.html">Family Tree</a><a href="operations.html">Operations</a>
+      <a href="feeding.html">Feeding</a>
+      <a href="weaning.html">Weaning</a>
+      <a href="growth.html">Growth</a>
+      <a href="health.html">Health</a>
+      <a href="money-stats.html">Money Stats</a>
+      <a href="farm-reports.html">Reports</a>
+      <a href="farm-alerts.html">Alerts</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </div>
+</nav>
+
+
+    <!-- MAIN -->
+
+    <main class="dashboard-container">
+
+
+        <!-- WELCOME -->
+
+        <section class="welcome-section">
+
+            <div>
+
+                <span class="page-label">
+                    FARM OVERVIEW
+                </span>
+
+                <h1 id="welcomeName">
+                    Welcome back, Farmer
+                </h1>
+
+                <p id="welcomeText">
+                    Here's what's happening with
+                    your livestock today.
+                </p>
+
+            </div>
+
+            <a
+                href="animals.html"
+                class="primary-button"
+            >
+                + Add Animal
+            </a>
+
+        </section>
+
+
+        <!-- STATISTICS -->
+
+        <section class="stats-grid">
+
+
+            <!-- TOTAL ANIMALS -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🐾
+                </div>
+
+                <div>
+
+                    <span>
+                        Total Animals
+                    </span>
+
+                    <strong id="totalAnimals">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- PREGNANT -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🤰
+                </div>
+
+                <div>
+
+                    <span>
+                        Pregnant Animals
+                    </span>
+
+                    <strong id="pregnantAnimals">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- BIRTHS -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🐣
+                </div>
+
+                <div>
+
+                    <span>
+                        Upcoming Births
+                    </span>
+
+                    <strong id="upcomingBirths">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- GROWTH -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📈
+                </div>
+
+                <div>
+
+                    <span>
+                        Growth Records
+                    </span>
+
+                    <strong id="growthRecords">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- MAIN GRID -->
+
+        <section class="dashboard-grid">
+
+
+            <!-- LIVESTOCK BREAKDOWN -->
+
+            <div class="dashboard-card livestock-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <h2>
+                            My Livestock
+                        </h2>
+
+                        <p>
+                            Animals currently registered.
+                        </p>
+
+                    </div>
+
+                    <a href="animals.html">
+                        View all
+                    </a>
+
+                </div>
+
+
+                <div class="livestock-list">
+
+
+                    <!-- CATTLE -->
+
+                    <div class="livestock-row">
+
+                        <div class="animal-label">
+
+                            <div class="animal-icon">
+                                🐄
+                            </div>
+
+                            <span>
+                                Cattle
+                            </span>
+
+                        </div>
+
+                        <strong id="cattleCount">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <!-- GOATS -->
+
+                    <div class="livestock-row">
+
+                        <div class="animal-label">
+
+                            <div class="animal-icon">
+                                🐐
+                            </div>
+
+                            <span>
+                                Goats
+                            </span>
+
+                        </div>
+
+                        <strong id="goatCount">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <!-- SHEEP -->
+
+                    <div class="livestock-row">
+
+                        <div class="animal-label">
+
+                            <div class="animal-icon">
+                                🐑
+                            </div>
+
+                            <span>
+                                Sheep
+                            </span>
+
+                        </div>
+
+                        <strong id="sheepCount">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <!-- PIGS -->
+
+                    <div class="livestock-row">
+
+                        <div class="animal-label">
+
+                            <div class="animal-icon">
+                                🐖
+                            </div>
+
+                            <span>
+                                Pigs
+                            </span>
+
+                        </div>
+
+                        <strong id="pigCount">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- UPCOMING BIRTHS -->
+
+            <div class="dashboard-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <h2>
+                            Upcoming Births
+                        </h2>
+
+                        <p>
+                            Animals expected to give birth.
+                        </p>
+
+                    </div>
+
+                    <a href="animals.html">
+                        Animals
+                    </a>
+
+                </div>
+
+
+                <div
+                    id="birthList"
+                    class="birth-list"
+                ></div>
+
+
+                <div
+                    id="noBirths"
+                    class="empty-small"
+                >
+
+                    <span>
+                        🐣
+                    </span>
+
+                    <p>
+                        No upcoming births recorded.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- FARM INTELLIGENCE -->
+        <section class="intelligence-section">
+            <div class="card-heading">
+                <div>
+                    <h2>Farm Intelligence</h2>
+                    <p>Turn your farm records into actions and useful insights.</p>
+                </div>
+                <a href="farm-alerts.html">View alerts</a>
+            </div>
+            <div class="intelligence-grid">
+                <div class="dashboard-card intelligence-card">
+                    <div class="card-heading"><div><h2>Farm Score</h2><p>Based on the information you have recorded.</p></div></div>
+                    <div class="farm-score-wrap"><div class="farm-score" id="farmScore">0</div><div><strong id="farmScoreBand">No data</strong><p id="farmScoreAdvice">Add animals to begin.</p></div></div>
+                    <div class="score-bars">
+                        <div><span>Records</span><b id="scoreRecords">0%</b></div><div class="score-track"><i id="barRecords"></i></div>
+                        <div><span>Health</span><b id="scoreHealth">0%</b></div><div class="score-track"><i id="barHealth"></i></div>
+                        <div><span>Breeding</span><b id="scoreBreeding">0%</b></div><div class="score-track"><i id="barBreeding"></i></div>
+                        <div><span>Growth</span><b id="scoreGrowth">0%</b></div><div class="score-track"><i id="barGrowth"></i></div>
+                    </div>
+                </div>
+                <div class="dashboard-card intelligence-card">
+                    <div class="card-heading"><div><h2>Action Centre</h2><p>What needs your attention first.</p></div></div>
+                    <div class="action-summary"><span class="action-pill urgent">🔴 <b id="urgentCount">0</b> urgent</span><span class="action-pill attention">🟠 <b id="attentionCount">0</b> attention</span><span class="action-pill monitor">🟢 <b id="monitorCount">0</b> monitor</span></div>
+                    <div id="dashboardActions" class="dashboard-actions"></div>
+                    <a class="intelligence-link" href="farm-alerts.html">Open full Action Centre →</a>
+                </div>
+                <div class="dashboard-card intelligence-card">
+                    <div class="card-heading"><div><h2>Animal Intelligence</h2><p>Animals with the strongest and weakest records.</p></div><a href="animals.html">Animals</a></div>
+                    <div id="animalIntelligenceList" class="animal-intelligence-list"></div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <section class="quick-section">
+
+            <div class="card-heading">
+
+                <div>
+
+                    <h2>
+                        Quick Actions
+                    </h2>
+
+                    <p>
+                        Manage your farm quickly.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="quick-grid">
+
+
+                <a
+                    href="animals.html"
+                    class="quick-card"
+                >
+
+                    <span>
+                        🐄
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Animals
+                        </strong>
+
+                        <small>
+                            Manage livestock
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="weaning.html"
+                    class="quick-card"
+                >
+
+                    <span>
+                        🍼
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Weaning
+                        </strong>
+
+                        <small>
+                            Track weaning
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="growth.html"
+                    class="quick-card"
+                >
+
+                    <span>
+                        📈
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Growth
+                        </strong>
+
+                        <small>
+                            Track weight
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="profile.html"
+                    class="quick-card"
+                >
+
+                    <span>
+                        👨‍🌾
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            My Profile
+                        </strong>
+
+                        <small>
+                            Farm information
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+    <script src="cloud-config.js"></script>
+    <script src="v5-merge.js"></script>
+    <script src="livestock-cloud.js"></script>
+    <script src="livestock-core.js"></script>
+    <script src="subscription.js"></script>
+    <script src="dashboard.js"></script>
+
+<script src="navigation.js?v=4.0.8"></script>
+<script src="final-intelligence.js"></script>
+</body>
+</html>

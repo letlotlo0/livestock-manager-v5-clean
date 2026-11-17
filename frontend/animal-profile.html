@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="icon" type="image/png" href="assets/livestock-logo.png">
+    <meta name="application-name" content="Livestock Manager v3">
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Animal Profile | Livestock Manager</title>
+
+    <link
+        rel="stylesheet"
+        href="animal-profile.css"
+    >
+
+    <link rel="stylesheet" href="premium-ui.css">
+<link rel="stylesheet" href="navigation-premium.css">
+<link rel="stylesheet" href="final-intelligence.css">
+<link rel="stylesheet" href="subscription.css">
+<script src="auth-api.js"></script>
+<script src="auth-guard.js"></script>
+</head>
+
+<body>
+
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+        <nav class="navbar">
+  <div class="nav-container">
+    <a href="dashboard.html" class="logo"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="35" height="35"> <span>Livestock Manager</span></a>
+    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="var n=document.getElementById('navLinks');var o=!n.classList.contains('open');n.classList.toggle('open',o);n.style.setProperty('display',o?'flex':'','important');this.setAttribute('aria-expanded',o?'true':'false');this.setAttribute('aria-label',o?'Close navigation':'Open navigation');return false;">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html">Home</a>
+      <a href="animals.html">Animals</a>
+      <a href="livestock-overview.html">Overview</a>
+      <a href="animal-profile.html" class="active">Animal Profile</a>
+      <a href="family-tree.html">Family Tree</a><a href="operations.html">Operations</a>
+      <a href="feeding.html">Feeding</a>
+      <a href="weaning.html">Weaning</a>
+      <a href="growth.html">Growth</a>
+      <a href="health.html">Health</a>
+      <a href="money-stats.html">Money Stats</a>
+      <a href="farm-reports.html">Reports</a>
+      <a href="farm-alerts.html">Alerts</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </div>
+</nav>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="profile-container">
+
+
+        <!-- BACK -->
+
+        <a
+            href="animals.html"
+            class="back-link"
+        >
+            ← Back to Animals
+        </a>
+
+
+
+        <!-- =========================
+             PROFILE HEADER
+        ========================== -->
+
+        <section
+            class="profile-header"
+            id="profileHeader"
+        >
+
+            <div class="animal-avatar" id="animalAvatar">
+                🐾
+            </div>
+
+
+            <div class="profile-title">
+
+                <span
+                    class="animal-type"
+                    id="animalType"
+                >
+                    Animal
+                </span>
+
+                <h1 id="animalName">
+                    Animal Profile
+                </h1>
+
+                <p id="animalBreed">
+                    Breed
+                </p>
+
+            </div>
+
+
+            <div class="profile-status">
+
+                <span class="status-label">
+                    STATUS
+                </span>
+
+                <strong id="animalStatus">
+                    Active
+                </strong>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             BASIC INFORMATION
+        ========================== -->
+
+        <section class="content-section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Basic Information
+                </h2>
+
+                <p>
+                    Information recorded for this animal.
+                </p>
+
+            </div>
+
+
+            <div class="info-grid">
+
+
+                <div class="info-card">
+
+                    <span>
+                        TAG / ID
+                    </span>
+
+                    <strong id="animalTag">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span>
+                        TYPE
+                    </span>
+
+                    <strong id="animalTypeInfo">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span>
+                        BREED
+                    </span>
+
+                    <strong id="animalBreedInfo">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span>
+                        SEX
+                    </span>
+
+                    <strong id="animalSex">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span>
+                        DATE OF BIRTH
+                    </span>
+
+                    <strong id="animalBirthDate">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span>
+                        CURRENT WEIGHT
+                    </span>
+
+                    <strong id="animalWeight">
+                        -
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             PREGNANCY
+        ========================== -->
+
+        <section class="content-section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Pregnancy
+                </h2>
+
+                <p>
+                    Monitor pregnancy and upcoming births.
+                </p>
+
+            </div>
+
+
+            <div class="calculator-box">
+                <h3>Pregnancy Calculator</h3>
+                <p>Use the animal type and pregnancy start date to calculate the expected birth date.</p>
+                <div class="calculator-grid">
+                    <select id="calculatorType"><option value="">Animal type</option><option value="Cattle">Cattle</option><option value="Goat">Goat</option><option value="Sheep">Sheep</option><option value="Pig">Pig</option></select>
+                    <input type="date" id="calculatorDate">
+                    <button type="button" class="primary-button" id="calculatePregnancy">Calculate</button>
+                </div>
+                <div id="calculatorResult" class="calculator-result">Your result will appear here.</div>
+            </div>
+
+            <div class="pregnancy-card">
+
+
+                <div class="pregnancy-icon">
+                    ❤️
+                </div>
+
+
+                <div class="pregnancy-info">
+
+                    <span>
+                        PREGNANCY STATUS
+                    </span>
+
+                    <strong id="pregnancyStatus">
+                        Not Pregnant
+                    </strong>
+
+                </div>
+
+
+                <div
+                    class="birth-info"
+                    id="birthInfo"
+                >
+
+                    <span>
+                        EXPECTED BIRTH
+                    </span>
+
+                    <strong id="expectedBirth">
+                        -
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             BREEDING / OFFICIAL RECORD
+        ========================== -->
+
+        <section class="content-section breeding-record-section">
+            <div class="section-heading">
+                <h2>Breeding & Official Record</h2>
+                <p>Keep the important breeding and registration details together, similar to a livestock record sheet.</p>
+            </div>
+            <div class="record-sheet">
+                <div class="record-sheet-top">
+                    <div><span>TAG / ID</span><strong id="recordTag">-</strong></div>
+                    <div><span>LOT</span><strong id="recordLot">-</strong></div>
+                    <div><span>REGISTRATION</span><strong id="recordRegistration">-</strong></div>
+                </div>
+                <div class="record-sheet-grid">
+                    <div><span>HERDBOOK</span><strong id="recordHerdbook">-</strong></div>
+                    <div><span>HORN STATUS</span><strong id="recordHorn">-</strong></div>
+                    <div><span>DATE OF BIRTH</span><strong id="recordBirthDate">-</strong></div>
+                    <div><span>INSPECTION DATE</span><strong id="recordInspection">-</strong></div>
+                    <div><span>CALVINGS / BIRTHS</span><strong id="recordCalvings">0</strong></div>
+                    <div><span>LAST CALVING</span><strong id="recordLastCalving">-</strong></div>
+                    <div><span>SIRE / FATHER</span><strong id="recordSire">-</strong></div>
+                    <div><span>DAM / MOTHER</span><strong id="recordDam">-</strong></div>
+                </div>
+                <div class="record-remarks"><span>SELLER REMARKS</span><p id="recordRemarks">No remarks recorded.</p></div>
+            </div>
+        </section>
+
+        <!-- =========================
+             QUICK ACTIONS
+        ========================== -->
+
+        <section class="content-section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Manage Animal
+                </h2>
+
+                <p>
+                    Manage important livestock records.
+                </p>
+
+            </div>
+
+
+            <div class="action-grid">
+
+
+                <a
+                    href="feeding.html"
+                    class="action-card"
+                >
+
+                    <div class="action-icon">
+                        🌾
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Feeding
+                        </h3>
+
+                        <p>
+                            Manage feeding records.
+                        </p>
+
+                    </div>
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="weaning.html"
+                    class="action-card"
+                >
+
+                    <div class="action-icon">
+                        🐾
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Weaning
+                        </h3>
+
+                        <p>
+                            Track weaning time and weight.
+                        </p>
+
+                    </div>
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="growth.html"
+                    class="action-card"
+                >
+
+                    <div class="action-icon">
+                        📈
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Growth
+                        </h3>
+
+                        <p>
+                            Monitor weight and growth.
+                        </p>
+
+                    </div>
+
+                    <span>
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             DELETE
+        ========================== -->
+
+        <section class="danger-section">
+
+            <div>
+
+                <h3>
+                    Delete Animal
+                </h3>
+
+                <p>
+                    Permanently remove this animal from your records.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="delete-button"
+                id="deleteAnimal"
+            >
+                Delete Animal
+            </button>
+
+        </section>
+
+
+    </main>
+
+    <script src="cloud-config.js"></script>
+    <script src="v5-merge.js"></script>
+    <script src="livestock-cloud.js"></script>
+    <script src="livestock-core.js"></script>
+    <script src="subscription.js"></script>
+    <script src="animal-profile.js"></script>
+
+<script src="navigation.js?v=4.0.8"></script>
+<script src="final-intelligence.js"></script>
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="icon" type="image/png" href="assets/livestock-logo.png">
+    <meta name="application-name" content="Livestock Manager v3">
+    <meta charset="UTF-8">
+
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Livestock Overview | Livestock Manager</title>
+
+    <link rel="stylesheet" href="livestock-overview.css">
+    <link rel="stylesheet" href="premium-ui.css">
+<link rel="stylesheet" href="navigation-premium.css">
+<link rel="stylesheet" href="final-intelligence.css">
+<link rel="stylesheet" href="subscription.css">
+<script src="auth-api.js"></script>
+<script src="auth-guard.js"></script>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+        <nav class="navbar">
+  <div class="nav-container">
+    <a href="dashboard.html" class="logo"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="35" height="35"> <span>Livestock Manager</span></a>
+    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="var n=document.getElementById('navLinks');var o=!n.classList.contains('open');n.classList.toggle('open',o);n.style.setProperty('display',o?'flex':'','important');this.setAttribute('aria-expanded',o?'true':'false');this.setAttribute('aria-label',o?'Close navigation':'Open navigation');return false;">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html">Home</a>
+      <a href="animals.html">Animals</a>
+      <a href="livestock-overview.html" class="active">Overview</a>
+      <a href="animal-profile.html">Animal Profile</a>
+      <a href="family-tree.html">Family Tree</a><a href="operations.html">Operations</a>
+      <a href="feeding.html">Feeding</a>
+      <a href="weaning.html">Weaning</a>
+      <a href="growth.html">Growth</a>
+      <a href="health.html">Health</a>
+      <a href="money-stats.html">Money Stats</a>
+      <a href="farm-reports.html">Reports</a>
+      <a href="farm-alerts.html">Alerts</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </div>
+</nav>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="page-container">
+
+        <!-- HEADER -->
+
+        <section class="page-header">
+
+            <div>
+
+                <span class="page-label">
+                    FARM MANAGEMENT
+                </span>
+
+                <h1>
+                    Livestock Overview
+                </h1>
+
+                <p>
+                    View your livestock numbers and
+                    important farm statistics in one place.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             TOTAL ANIMALS
+        ========================== -->
+
+        <section class="total-card">
+
+            <div class="total-icon">
+                🐾
+            </div>
+
+            <div class="total-information">
+
+                <span>
+                    TOTAL LIVESTOCK
+                </span>
+
+                <strong id="totalAnimals">
+                    0
+                </strong>
+
+                <p>
+                    Animals currently recorded on your farm
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ANIMAL TYPES
+        ========================== -->
+
+        <section class="content-section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Livestock by Type
+                </h2>
+
+                <p>
+                    Number of animals recorded for each
+                    livestock type.
+                </p>
+
+            </div>
+
+
+            <div class="livestock-grid">
+
+                <div class="livestock-card">
+
+                    <div class="livestock-icon">
+                        🐄
+                    </div>
+
+                    <div>
+
+                        <span>
+                            CATTLE
+                        </span>
+
+                        <strong id="cattleTotal">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="livestock-card">
+
+                    <div class="livestock-icon">
+                        🐐
+                    </div>
+
+                    <div>
+
+                        <span>
+                            GOATS
+                        </span>
+
+                        <strong id="goatTotal">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="livestock-card">
+
+                    <div class="livestock-icon">
+                        🐑
+                    </div>
+
+                    <div>
+
+                        <span>
+                            SHEEP
+                        </span>
+
+                        <strong id="sheepTotal">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="livestock-card">
+
+                    <div class="livestock-icon">
+                        🐖
+                    </div>
+
+                    <div>
+
+                        <span>
+                            PIGS
+                        </span>
+
+                        <strong id="pigTotal">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             FARM STATISTICS
+        ========================== -->
+
+        <section class="content-section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Farm Statistics
+                </h2>
+
+                <p>
+                    Important information about your livestock.
+                </p>
+
+            </div>
+
+
+            <div class="statistics-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🤰
+                    </div>
+
+                    <div>
+
+                        <span>
+                            PREGNANT
+                        </span>
+
+                        <strong id="pregnantTotal">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🐣
+                    </div>
+
+                    <div>
+
+                        <span>
+                            UPCOMING BIRTHS
+                        </span>
+
+                        <strong id="birthTotal">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ❤️
+                    </div>
+
+                    <div>
+
+                        <span>
+                            HEALTH ATTENTION
+                        </span>
+
+                        <strong id="healthAttention">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ⚖️
+                    </div>
+
+                    <div>
+
+                        <span>
+                            ANIMALS WITH WEIGHT
+                        </span>
+
+                        <strong id="weightTotal">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ANIMAL SEARCH
+        ========================== -->
+
+        <section class="content-section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Find an Animal
+                </h2>
+
+                <p>
+                    Search your livestock by name, tag or breed.
+                </p>
+
+            </div>
+
+
+            <div class="search-box">
+
+                <input
+                    type="search"
+                    id="animalSearch"
+                    placeholder="Search animal..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <div
+                class="animal-results"
+                id="animalResults"
+            ></div>
+
+
+            <div
+                class="no-results"
+                id="noResults"
+            >
+                No animals found.
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             QUICK INFORMATION
+        ========================== -->
+
+        <section class="info-card">
+
+            <div class="info-icon">
+                💡
+            </div>
+
+            <div>
+
+                <h3>
+                    Keep your records updated
+                </h3>
+
+                <p>
+                    Accurate livestock records help you
+                    monitor your animals and make better
+                    farming decisions.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="cloud-config.js"></script>
+    <script src="v5-merge.js"></script>
+    <script src="livestock-cloud.js"></script>
+    <script src="livestock-core.js"></script>
+    <script src="subscription.js"></script>
+    <script src="livestock-overview.js"></script>
+
+<script src="navigation.js?v=4.0.8"></script>
+<script src="final-intelligence.js"></script>
+</body>
+</html>

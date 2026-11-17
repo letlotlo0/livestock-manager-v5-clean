@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="icon" type="image/png" href="assets/livestock-logo.png">
+    <meta name="application-name" content="Livestock Manager v3">
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Vaccinations | Smart Livestock Manager</title>
+
+    <link
+        rel="stylesheet"
+        href="vaccinations.css"
+    >
+
+    <link rel="stylesheet" href="premium-ui.css">
+<link rel="stylesheet" href="navigation-premium.css">
+<link rel="stylesheet" href="final-intelligence.css">
+<link rel="stylesheet" href="subscription.css">
+<script src="auth-api.js"></script>
+<script src="auth-guard.js"></script>
+</head>
+
+
+<body>
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="dashboard.html" class="logo"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="35" height="35"> <span>Livestock Manager</span></a>
+    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="var n=document.getElementById('navLinks');var o=!n.classList.contains('open');n.classList.toggle('open',o);n.style.setProperty('display',o?'flex':'','important');this.setAttribute('aria-expanded',o?'true':'false');this.setAttribute('aria-label',o?'Close navigation':'Open navigation');return false;">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html">Home</a>
+      <a href="animals.html">Animals</a>
+      <a href="livestock-overview.html">Overview</a>
+      <a href="animal-profile.html">Animal Profile</a>
+      <a href="family-tree.html">Family Tree</a><a href="operations.html">Operations</a>
+      <a href="feeding.html">Feeding</a>
+      <a href="weaning.html">Weaning</a>
+      <a href="growth.html">Growth</a>
+      <a href="health.html">Health</a>
+      <a href="money-stats.html">Money Stats</a>
+      <a href="farm-reports.html">Reports</a>
+      <a href="farm-alerts.html">Alerts</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </div>
+</nav>
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="page-header">
+
+        <div class="header-left">
+
+            <a
+                href="dashboard.html"
+                class="back-button"
+            >
+                ←
+            </a>
+
+            <div>
+
+                <h1>Vaccinations</h1>
+
+                <p>
+                    Keep your livestock protected
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="openVaccinationForm"
+            class="primary-button"
+        >
+            + Add Vaccination
+        </button>
+
+    </header>
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <main class="vaccination-container">
+
+
+        <!-- =====================================
+             SUMMARY
+        ====================================== -->
+
+        <section class="summary-grid">
+
+            <div class="summary-card">
+
+                <span class="summary-icon">
+                    💉
+                </span>
+
+                <div>
+
+                    <span class="summary-label">
+                        Total
+                    </span>
+
+                    <strong id="totalVaccinations">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-card upcoming">
+
+                <span class="summary-icon">
+                    🔔
+                </span>
+
+                <div>
+
+                    <span class="summary-label">
+                        Upcoming
+                    </span>
+
+                    <strong id="upcomingVaccinations">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-card overdue">
+
+                <span class="summary-icon">
+                    ⚠️
+                </span>
+
+                <div>
+
+                    <span class="summary-label">
+                        Overdue
+                    </span>
+
+                    <strong id="overdueVaccinations">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="summary-card seasonal">
+
+                <span class="summary-icon">
+                    🌦️
+                </span>
+
+                <div>
+
+                    <span class="summary-label">
+                        Seasonal
+                    </span>
+
+                    <strong id="seasonalVaccinations">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             SEARCH + FILTER
+        ====================================== -->
+
+        <section class="tools-section">
+
+            <div class="search-box">
+
+                <span>🔎</span>
+
+                <input
+                    type="search"
+                    id="vaccinationSearch"
+                    placeholder="Search vaccinations or animals..."
+                >
+
+            </div>
+
+
+            <select
+                id="vaccinationStatusFilter"
+                class="filter-select"
+            >
+
+                <option value="all">
+                    All vaccinations
+                </option>
+
+                <option value="upcoming">
+                    Upcoming
+                </option>
+
+                <option value="overdue">
+                    Overdue
+                </option>
+
+                <option value="completed">
+                    Completed
+                </option>
+
+                <option value="seasonal">
+                    Seasonal
+                </option>
+
+            </select>
+
+        </section>
+
+
+        <!-- =====================================
+             VACCINATION LIST
+        ====================================== -->
+
+        <section>
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Vaccination Records
+                    </h2>
+
+                    <p>
+                        Track every vaccination given to your animals.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="vaccinationList"
+                class="vaccination-list"
+            ></div>
+
+
+            <!-- EMPTY STATE -->
+
+            <div
+                id="emptyVaccinations"
+                class="empty-state"
+            >
+
+                <div class="empty-icon">
+                    💉
+                </div>
+
+                <h2>
+                    No vaccination records
+                </h2>
+
+                <p>
+                    Add your first vaccination record to start
+                    tracking your livestock's vaccinations.
+                </p>
+
+                <button
+                    type="button"
+                    id="emptyAddVaccination"
+                    class="primary-button"
+                >
+                    + Add Vaccination
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================
+         ADD VACCINATION MODAL
+    ========================================== -->
+
+    <div
+        id="vaccinationModal"
+        class="modal"
+    >
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2>
+                        Add Vaccination
+                    </h2>
+
+                    <p>
+                        Record a vaccination for your animal.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="closeVaccinationForm"
+                    class="close-button"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form
+                id="vaccinationForm"
+                class="vaccination-form"
+            >
+
+
+                <!-- ANIMAL -->
+
+                <div class="form-group">
+
+                    <label for="vaccinationAnimal">
+                        Animal *
+                    </label>
+
+                    <select
+                        id="vaccinationAnimal"
+                        required
+                    >
+
+                        <option value="">
+                            Select animal
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- VACCINATION NAME -->
+
+                <div class="form-group">
+
+                    <label for="vaccinationName">
+                        Vaccination *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="vaccinationName"
+                        placeholder="e.g. Anthrax vaccine"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DATE -->
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="vaccinationDate">
+                            Vaccination Date *
+                        </label>
+
+                        <input
+                            type="date"
+                            id="vaccinationDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="nextVaccinationDate">
+                            Next Vaccination
+                        </label>
+
+                        <input
+                            type="date"
+                            id="nextVaccinationDate"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- SEASONAL -->
+
+                <div class="form-group">
+
+                    <label for="vaccinationSeasonal">
+                        Seasonal Vaccination?
+                    </label>
+
+                    <select
+                        id="vaccinationSeasonal"
+                    >
+
+                        <option value="no">
+                            No
+                        </option>
+
+                        <option value="yes">
+                            Yes
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- NOTES -->
+
+                <div class="form-group">
+
+                    <label for="vaccinationNotes">
+                        Notes
+                    </label>
+
+                    <textarea
+                        id="vaccinationNotes"
+                        rows="4"
+                        placeholder="Add any useful notes..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        id="cancelVaccinationForm"
+                        class="secondary-button"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
+                        Save Vaccination
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="cloud-config.js"></script>
+    <script src="v5-merge.js"></script>
+    <script src="livestock-cloud.js"></script>
+    <script src="livestock-core.js"></script>
+    <script src="subscription.js"></script>
+    <script src="vaccinations.js"></script>
+
+<script src="navigation.js?v=4.0.8"></script>
+<script src="final-intelligence.js"></script>
+</body>
+</html>

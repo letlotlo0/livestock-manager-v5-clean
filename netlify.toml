@@ -1,0 +1,4 @@
+# V5 test build: serve frontend directly from isolated Render service initially.
+# Do NOT add the production Render /api redirect to this preview.
+[build]
+  publish = "frontend"
