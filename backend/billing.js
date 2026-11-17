@@ -8,6 +8,7 @@
  */
 const crypto = require('node:crypto');
 const dns = require('node:dns').promises;
+const net = require('node:net');
 
 const PF_HOSTS = ['www.payfast.co.za', 'sandbox.payfast.co.za', 'w1w.payfast.co.za', 'w2w.payfast.co.za'];
 const DAY = 24 * 60 * 60 * 1000;
@@ -155,6 +156,21 @@ function makeHostLookup(lookup = dns.lookup.bind(dns)) {
 }
 
 const cleanIp = ip => String(ip || '').replace(/^::ffff:/, '');
+
+/* Render public web services sit behind Cloudflare and Render proxy hops.
+ * Express trust proxy=1 can therefore report an internal 10.x.x.x address.
+ * Cloudflare overwrites CF-Connecting-IP on Render's public ingress, making
+ * it the trustworthy original client IP (unlike spoofable X-Forwarded-For).
+ * Keep the original req.ip behaviour on other hosts and if header is absent.
+ * NEVER disable PayFast's IP, signature or server confirmation checks.
+ */
+function itnSourceIp(req, runningOnRender = process.env.RENDER === 'true') {
+  const forwarded = runningOnRender ? req.headers?.['cf-connecting-ip'] : undefined;
+  if (typeof forwarded === 'string' && net.isIP(forwarded.trim())) {
+    return cleanIp(forwarded.trim());
+  }
+  return cleanIp(req.ip);
+}
 const sameHex = (a, b) => {
   const x = Buffer.from(String(a || ''), 'utf8'), y = Buffer.from(String(b || ''), 'utf8');
   return x.length === y.length && crypto.timingSafeEqual(x, y);
@@ -218,7 +234,8 @@ function install(app, { pool, requireAuth, asyncRoute, fail, limit, cfg, origin,
     if (!sameHex(String(body.signature || '').toLowerCase(), expected)) { logger.warn('ITN rejected: bad signature'); return res.status(400).end(); }
     // 2. it must come from PayFast
     const ips = cfg.ipCheck ? await validIps() : null;
-    if (ips && !ips.has(cleanIp(req.ip))) { logger.warn('ITN rejected: source ' + cleanIp(req.ip)); return res.status(400).end(); }
+    const sourceIp = itnSourceIp(req);
+    if (ips && !ips.has(sourceIp)) { logger.warn('ITN rejected: source ' + sourceIp); return res.status(400).end(); }
     if (cfg.merchantId && body.merchant_id !== cfg.merchantId) return res.status(400).end();
     // 3. find the purchase we created, or the existing subscription for recurring charges
     let user = null, planId = null;
@@ -285,4 +302,4 @@ function install(app, { pool, requireAuth, asyncRoute, fail, limit, cfg, origin,
   }));
 }
 
-module.exports = { pfEncode, paramString, sign, plansFor, configFor, isConfigured, entitlement, loadEntitlement, animalGate, pageGate, PAID_PAGES, PAID_PAGE_RE, checkoutFields, makeHostLookup, install };
+module.exports = { pfEncode, paramString, sign, plansFor, configFor, isConfigured, entitlement, loadEntitlement, animalGate, pageGate, PAID_PAGES, PAID_PAGE_RE, checkoutFields, makeHostLookup, itnSourceIp, install };
