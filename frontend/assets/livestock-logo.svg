@@ -1,15 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 128 128" role="img" aria-label="Livestock Manager logo — cattle head and pasture">
-<defs><linearGradient id="forest" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#285b42"/><stop offset="1" stop-color="#10281e"/></linearGradient><linearGradient id="gold" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#f4d99a"/><stop offset="1" stop-color="#d8ae61"/></linearGradient></defs>
-<rect width="128" height="128" rx="27" fill="url(#forest)"/>
-<path d="M20 100c15-10 29-13 44-13s30 3 44 13" fill="none" stroke="url(#gold)" stroke-width="4" stroke-linecap="round"/>
-<path d="M30 107c11-6 22-8 34-8s23 2 34 8" fill="none" stroke="#8aab7b" stroke-width="3" stroke-linecap="round"/>
-<!-- expressive wide bull horns -->
-<path d="M45 40c-13 2-24-6-28-19 12 7 21 6 29 11M83 40c13 2 24-6 28-19-12 7-21 6-29 11" fill="none" stroke="url(#gold)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-<!-- ears and face silhouette -->
-<path d="M43 47 26 42q-6 2-4 9 6 9 20 7 M85 47l17-5q6 2 4 9-6 9-20 7" fill="#dceadd" stroke="#dceadd" stroke-width="2" stroke-linejoin="round"/>
-<path d="M44 32q20-7 40 0l7 21-9 17-5 17Q64 98 51 87l-5-17-9-17z" fill="#f0f3e8" stroke="#e3ddc5" stroke-width="2" stroke-linejoin="round"/>
-<path d="M52 38q12-7 24 0l4 15-6 15 3 17q-13 9-26 0l3-17-6-15z" fill="#d6e2d2" opacity=".7"/>
-<path d="M51 59q5-5 10 0M67 59q5-5 10 0" fill="none" stroke="#233e2d" stroke-width="3.5" stroke-linecap="round"/>
-<path d="M51 78q13-9 26 0l-2 9q-11 9-22 0z" fill="#263e31"/>
-<ellipse cx="57" cy="80" rx="2.2" ry="2.8" fill="#dbcfaa"/><ellipse cx="71" cy="80" rx="2.2" ry="2.8" fill="#dbcfaa"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="512" height="512" role="img" aria-label="Livestock Manager cow and fields mark">
+ <defs><linearGradient id="leaf" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#7d9554"/><stop offset="1" stop-color="#405923"/></linearGradient></defs>
+ <path d="M27 37C14 32 12 22 13 15c9 8 19 11 31 12m57 10c13-5 15-15 14-22-9 8-19 11-31 12" fill="none" stroke="#556b2f" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="M40 30c12-8 36-8 48 0 6 14 7 33-1 48-4 8-11 15-23 17-12-2-19-9-23-17-8-15-7-34-1-48Z" fill="url(#leaf)"/>
+ <path d="M40 40c-9-9-17-7-20-1-1 9 8 16 20 14m48-13c9-9 17-7 20-1 1 9-8 16-20 14" fill="#77924b"/>
+ <path d="M48 51c4-4 9-4 13 0m6 0c4-4 9-4 13 0" fill="none" stroke="#f8f7f0" stroke-width="4" stroke-linecap="round"/>
+ <path d="M50 69c8-7 20-7 28 0l-3 12c-7 7-15 7-22 0Z" fill="#f1f2e6"/>
+ <ellipse cx="58" cy="72" rx="2.5" ry="3" fill="#405923"/><ellipse cx="70" cy="72" rx="2.5" ry="3" fill="#405923"/>
+ <path d="M14 98c28-15 61-17 100-1M16 109c28-11 55-12 91-2M28 117c26-7 51-7 76-1" fill="none" stroke="#7d9554" stroke-width="6" stroke-linecap="round"/>
 </svg>

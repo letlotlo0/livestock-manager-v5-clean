@@ -25,6 +25,7 @@
 <link rel="stylesheet" href="subscription.css">
 <script src="auth-api.js"></script>
 <script src="auth-guard.js"></script>
+    <link rel="stylesheet" href="v51-design.css?v=5.1.0">
 </head>
 
 <body>
@@ -34,25 +35,31 @@
          NAVIGATION
     ========================== -->
 
-        <nav class="navbar">
+        <nav class="navbar" aria-label="Main navigation">
   <div class="nav-container">
-    <a href="dashboard.html" class="logo"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="35" height="35"> <span>Livestock Manager</span></a>
-    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="var n=document.getElementById('navLinks');var o=!n.classList.contains('open');n.classList.toggle('open',o);n.style.setProperty('display',o?'flex':'','important');this.setAttribute('aria-expanded',o?'true':'false');this.setAttribute('aria-label',o?'Close navigation':'Open navigation');return false;">☰</button>
+    <a href="dashboard.html" class="logo" aria-label="Livestock Manager dashboard"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="42" height="42"><span>Livestock <em>Manager</em></span></a>
+    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="return window.LMNavToggle ? window.LMNavToggle(this) : false;">☰</button>
     <div class="nav-links" id="navLinks">
-      <a href="dashboard.html">Home</a>
-      <a href="animals.html">Animals</a>
-      <a href="livestock-overview.html">Overview</a>
-      <a href="animal-profile.html" class="active">Animal Profile</a>
-      <a href="family-tree.html">Family Tree</a><a href="operations.html">Operations</a>
-      <a href="feeding.html">Feeding</a>
-      <a href="weaning.html">Weaning</a>
-      <a href="growth.html">Growth</a>
-      <a href="health.html">Health</a>
-      <a href="money-stats.html">Money Stats</a>
-      <a href="farm-reports.html">Reports</a>
-      <a href="farm-alerts.html">Alerts</a>
-      <a href="profile.html">Profile</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="animals.html">Animals</a>
+        <a href="family-tree.html">Breeding</a>
+        <a href="health.html">Treatments</a>
+        <a href="money-stats.html">Sales</a>
+        <a href="farm-reports.html">Reports</a>
+      <details class="lm-more-menu"><summary>More <span aria-hidden="true">⌄</span></summary><div class="lm-more-popover">
+          <a href="livestock-overview.html">Herd overview</a>
+          <a href="animal-profile.html" class="active" aria-current="page">Animal profile</a>
+          <a href="digital-pedigree.html">Digital pedigree</a>
+          <a href="operations.html">Operations</a>
+          <a href="feeding.html">Feeding</a>
+          <a href="weaning.html">Weaning</a>
+          <a href="growth.html">Growth</a>
+          <a href="vaccinations.html">Vaccinations</a>
+          <a href="farm-alerts.html">Alerts</a>
+          <a href="subscription.html">Plans</a>
+      </div></details>
     </div>
+    <a class="lm-account-shortcut" href="profile.html" aria-label="Open your farm profile"><span class="lm-avatar">FM</span><span class="lm-account-label">Farm Manager<small>My account</small></span></a>
   </div>
 </nav>
 
@@ -484,5 +491,6 @@
 
 <script src="navigation.js?v=4.0.8"></script>
 <script src="final-intelligence.js"></script>
+    <script src="v51-design.js?v=5.1.0"></script>
 </body>
 </html>

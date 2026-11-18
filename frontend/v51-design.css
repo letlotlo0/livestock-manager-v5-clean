@@ -1,0 +1,191 @@
+/* Livestock Manager v5.1 — Field & Farm design system
+   Presentation-only: billing, authentication, cloud sync and data schemas unchanged.
+   Reference direction: olive / sage / warm cream / crisp paper. */
+:root{
+  --v51-olive:#556b2f;--v51-olive-deep:#30451f;--v51-olive-dark:#24371e;
+  --v51-sage:#a6b58a;--v51-sage-pale:#edf2e6;--v51-cream:#f7f4ea;
+  --v51-warm:#f5f5ef;--v51-white:#fff;--v51-ink:#232c24;
+  --v51-slate:#687467;--v51-line:#e2e5d9;--v51-gold:#cba86a;
+  --v51-shadow:0 5px 20px rgba(36,55,30,.045);
+  --v51-ease:cubic-bezier(.21,.8,.29,1);
+}
+html{scroll-behavior:smooth}
+body{background:#f7f8f4!important;color:var(--v51-ink)!important;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;-webkit-font-smoothing:antialiased}
+body:has(.navbar){background-image:radial-gradient(circle at 95% -6%,rgba(166,181,138,.12),transparent 38%)}
+::selection{background:#dce8ca;color:#22391b}
+a,button,summary{-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid #779f48!important;outline-offset:3px!important}
+
+/* Universal navigation shared by the original screens. IDs and navigation.js are retained. */
+.navbar{position:sticky!important;top:0!important;z-index:1000!important;width:100%!important;box-shadow:0 1px 0 rgba(46,67,33,.075)!important;border-bottom:1px solid #e5e8df!important;background:rgba(255,255,252,.97)!important;backdrop-filter:blur(18px)!important;-webkit-backdrop-filter:blur(18px)!important}
+.navbar .nav-container{min-height:76px!important;width:min(1500px,calc(100% - 64px))!important;max-width:none!important;gap:22px!important;margin:0 auto!important;display:flex!important;align-items:center!important;justify-content:space-between!important}
+.navbar .logo{min-width:213px!important;flex:0 0 auto!important;color:#232c24!important;display:flex!important;align-items:center!important;gap:11px!important;letter-spacing:-.035em!important;font-size:19px!important;line-height:1.04!important;font-weight:850!important}
+.navbar .logo .lm-brand-icon{width:43px!important;height:43px!important;flex:0 0 43px!important;border-radius:12px!important;box-shadow:0 2px 8px #1d371914!important}
+.navbar .logo span{display:block;white-space:normal}
+.navbar .logo em{font-style:normal;color:var(--v51-olive);font-weight:850}
+.navbar .nav-links{flex:1 1 auto!important;max-height:none!important;overflow:visible!important;gap:3px!important;justify-content:center!important;min-width:0!important;display:flex!important;align-items:center!important}
+.navbar .nav-links>a,.navbar .nav-links .lm-more-menu>summary{font-size:13px!important;font-weight:700!important;color:#64715f!important;background:transparent!important;border-radius:9px!important;padding:11px 12px!important;text-decoration:none!important;box-shadow:none!important;transition:background .18s,color .18s!important;white-space:nowrap;cursor:pointer;list-style:none}
+.navbar .nav-links>a:hover,.navbar .nav-links .lm-more-menu>summary:hover,.navbar .nav-links .lm-more-menu[open]>summary{background:#f0f3eb!important;color:var(--v51-olive-deep)!important}
+.navbar .nav-links>a.active,.navbar .nav-links>a[aria-current="page"]{background:#e8efdf!important;color:#3b5422!important;box-shadow:none!important}
+.lm-more-menu{position:relative;flex:0 0 auto}
+.lm-more-menu summary{display:block;user-select:none}
+.lm-more-menu summary::-webkit-details-marker{display:none}
+.lm-more-menu summary span{font-size:15px;padding-left:4px}
+.lm-more-popover{position:absolute;right:-14px;top:calc(100% + 12px);width:228px;background:white;border:1px solid #e0e6d8;border-radius:14px;padding:9px;box-shadow:0 18px 45px rgba(33,56,30,.16);z-index:1010;display:grid;gap:2px;max-height:70vh;overflow:auto}
+.lm-more-popover a{display:block!important;color:#53624b!important;background:transparent!important;font-weight:650!important;text-decoration:none!important;padding:10px 12px!important;border-radius:8px!important;font-size:13px!important;white-space:normal!important}
+.lm-more-popover a:hover,.lm-more-popover a.active{color:#365028!important;background:#edf3e6!important}
+.lm-account-shortcut{display:flex;gap:10px;align-items:center;text-decoration:none;color:#293628;flex:0 0 auto;border-left:1px solid #e5e9df;padding-left:18px}
+.lm-avatar{width:38px;height:38px;background:#e7ecdd;color:#49602e;display:grid;place-items:center;border-radius:50%;font-size:12px;font-weight:900;border:1px solid #dce6d2}
+.lm-account-label{font-size:12px;font-weight:800;line-height:1.2}
+.lm-account-label small{display:block;font-size:10px;color:#8a9684;font-weight:600;margin-top:3px}
+.navbar .menu-button{display:none!important;border:1px solid #dce5d2!important;background:#f1f5eb!important;color:var(--v51-olive-deep)!important;font-weight:900!important}
+.navbar .lm-sync-badge{border-radius:999px!important;background:#f0f4eb!important;color:#516947!important;border:1px solid #dce6d4!important;box-shadow:none!important;padding:7px 10px!important;font-size:11px!important}
+
+/* All feature pages inherit a consistent look, without changing their forms or scripts. */
+.page-header h1,.welcome-section h1,.section-heading h2,.dashboard-card h2,.card-heading h2{color:#273728!important}
+.page-header,.welcome-section{margin-top:29px!important}
+.page-label,.lm-eyebrow{color:#6f8754!important;letter-spacing:.12em!important;font-size:10px!important;font-weight:850!important}
+.page-header h1,.welcome-section h1{font-size:clamp(26px,2.5vw,36px)!important;font-weight:850!important;letter-spacing:-.045em!important}
+.page-header p,.welcome-section p{color:#758073!important}
+.dashboard-card,.stat-card,.summary-card,.form-card,.animals-section,.sold-section,.records-section,.content-section,.info-card,.financial-card,.history-card,.growth-card,.animal-selector-card,.notification-card,.activity-card,.information-card,.profile-card,.total-card,.calculator-box,.pregnancy-card,.action-card,.quick-card,.livestock-card,.intelligence-card,.record-sheet,.vaccination-list,.report-section,.lm-cc-panel,.lm-kpi{
+  background:#fff!important;border:1px solid var(--v51-line)!important;border-radius:16px!important;box-shadow:var(--v51-shadow)!important;color:var(--v51-ink)!important
+}
+.dashboard-card::before,.form-card::before,.records-section::before,.content-section::before,.profile-card::before,.summary-card::before,.financial-card::before,.notification-card::before{display:none!important}
+.dashboard-card:hover,.form-card:hover,.records-section:hover,.content-section:hover,.profile-card:hover,.summary-card:hover,.financial-card:hover,.notification-card:hover{transform:none!important;box-shadow:var(--v51-shadow)!important}
+.primary-button,.login-button,.register-button,.confirm-button,button[type=submit]:not(.menu-button){background:var(--v51-olive)!important;border:1px solid var(--v51-olive)!important;color:white!important;box-shadow:0 6px 15px rgba(69,92,36,.13)!important;border-radius:9px!important;font-weight:760!important}
+.primary-button:hover,.login-button:hover,.register-button:hover,.confirm-button:hover,button[type=submit]:not(.menu-button):hover{background:#435928!important;box-shadow:0 9px 20px rgba(69,92,36,.19)!important;transform:translateY(-1px)!important}
+.secondary-button,.cancel-button,.back-button{background:#fff!important;color:#465f30!important;border-color:#d7e1cc!important;box-shadow:none!important}
+input,select,textarea,.search-box input,.filter-select{border:1px solid #d8e0d2!important;background:#fff!important;border-radius:9px!important;color:#243123!important}
+input:focus,select:focus,textarea:focus,.search-box input:focus,.filter-select:focus{border-color:#769957!important;box-shadow:0 0 0 4px rgba(104,137,73,.13)!important}
+.card-heading a,.section-heading a,.intelligence-link{color:var(--v51-olive)!important}
+.card-heading h2,.section-heading h2{font-size:17px!important;font-weight:830!important}
+.stat-icon,.summary-icon,.total-icon,.info-icon,.notice-icon,.activity-icon,.livestock-icon,.quick-icon,.card-icon{background:#eef2e9!important;color:#4c6535!important;border:1px solid #e5eddf!important;box-shadow:none!important}
+.livestock-row,.birth-item,.record-row{background:#f9faf7!important;border:1px solid #edf0e8!important;border-radius:10px!important}
+.livestock-row:hover,.birth-item:hover,.record-row:hover{transform:none!important;background:#f1f5ec!important}
+.page-container{width:min(1260px,calc(100% - 54px))!important}
+
+/* Farm dashboard matches chosen reference: light sidebar, cream paper, readable information. */
+.lm-app-shell{display:grid;grid-template-columns:234px minmax(0,1fr);gap:0;width:min(1540px,100%);margin:0 auto;align-items:start;min-height:calc(100vh - 76px)}
+.lm-side-panel{position:sticky;top:76px;align-self:start;min-height:calc(100vh - 76px);padding:26px 14px 22px 18px;border-right:1px solid #e3e8dc;background:#f5f7f1;display:flex;flex-direction:column;gap:2px}
+.lm-farm-identity{display:flex;align-items:center;gap:11px;padding:13px 9px 17px;margin-bottom:13px;border-bottom:1px solid #e1e8d9}
+.lm-farm-icon{display:grid;place-items:center;width:39px;height:39px;border-radius:12px;background:#e7eddb;color:#567333;font-size:24px}
+.lm-farm-identity strong,.lm-farm-identity small{display:block}
+.lm-farm-identity strong{font-size:13px;color:#2b3b29}
+.lm-farm-identity small{font-size:10px;color:#8b9686;margin-top:3px}
+.lm-side-title{margin:6px 12px 9px!important;font-size:10px;letter-spacing:.13em;color:#97a18d;font-weight:850}
+.lm-side-title--spaced{margin-top:27px!important}
+.lm-side-link{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:8px;color:#5e6d57;text-decoration:none;font-size:12.5px;font-weight:700;line-height:1.35;transition:background .16s,color .16s}
+.lm-side-link>span{width:23px;flex:0 0 23px;text-align:center;font-size:16px;color:#6d8355}
+.lm-side-link:hover{background:#eaefdf;color:#3a5629}
+.lm-side-link.is-current,.lm-side-link.is-current:hover{background:var(--v51-olive);color:white;box-shadow:0 4px 9px rgba(70,98,40,.16)}
+.lm-side-link.is-current>span{color:white}
+.lm-side-cta{color:#3c5728;background:#e8efdd}
+.lm-sidebar-footer{margin-top:auto;display:flex;gap:10px;align-items:center;padding:22px 8px 0;border-top:1px solid #e3e9dd}
+.lm-sidebar-footer strong,.lm-sidebar-footer small{display:block}
+.lm-sidebar-footer strong{font-size:10px;color:#65775c}
+.lm-sidebar-footer small{font-size:9px;color:#94a08b;margin-top:3px}
+.lm-app-shell>.dashboard-container{margin:0!important;width:100%!important;max-width:none!important;min-width:0;padding:27px clamp(18px,2.7vw,44px) 65px!important}
+.lm-v51-dashboard .welcome-section{margin:5px 0 21px!important;align-items:center}
+.lm-v51-dashboard .welcome-section h1{margin:7px 0!important;line-height:1.12}
+.lm-v51-dashboard .welcome-section p{font-size:13px!important}
+.lm-welcome-actions{display:flex;gap:10px;align-items:center}
+.lm-quiet-action{display:inline-flex;align-items:center;justify-content:center;border:1px solid #dce6d1;background:white;border-radius:9px;padding:11px 13px;font-size:12px;font-weight:780;color:#526c3e;text-decoration:none;white-space:nowrap}
+.lm-v51-dashboard .stats-grid{gap:13px!important;margin-bottom:18px!important}
+.lm-v51-dashboard .stat-card{padding:19px 16px!important;min-height:119px;display:flex!important;align-items:flex-start!important;gap:13px!important}
+.lm-v51-dashboard .stat-card:nth-child(1){background:#f0f5e9!important;border-color:#e3ecd9!important}
+.lm-v51-dashboard .stat-card:nth-child(2){background:#fff!important}
+.lm-v51-dashboard .stat-card:nth-child(3){background:#f9f5ec!important;border-color:#ede6d9!important}
+.lm-v51-dashboard .stat-card:nth-child(4){background:#f2f4ee!important}
+.lm-v51-dashboard .stat-icon{width:40px!important;height:40px!important;flex:0 0 40px!important;border-radius:10px!important;font-size:19px!important}
+.lm-v51-dashboard .stat-card span{font-size:11px!important;color:#72806f!important;font-weight:750!important;margin:0 0 6px!important}
+.lm-v51-dashboard .stat-card strong{color:#253724!important;font-weight:850!important;font-size:30px!important;line-height:1.1!important;letter-spacing:-.04em!important}
+.lm-v51-dashboard .dashboard-grid{gap:16px!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
+.lm-v51-dashboard .dashboard-card{padding:20px!important;overflow:visible!important}
+.lm-v51-dashboard .livestock-list{gap:9px!important}
+.lm-v51-dashboard .card-heading h2{font-size:16px!important}
+.lm-v51-dashboard .intelligence-section{margin-top:24px!important}
+.lm-v51-dashboard .intelligence-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important}
+.lm-v51-dashboard .farm-score-wrap{background:#f1f5ea!important;box-shadow:none!important;color:#30492e!important;border-radius:11px!important}
+.lm-v51-dashboard .farm-score{background:#536d34!important;border-radius:50%!important;color:#fff!important}
+.lm-v51-dashboard .quick-section{margin-top:24px!important}
+.lm-v51-dashboard .quick-grid{gap:12px!important}
+.lm-v51-dashboard .quick-card{background:#fff!important;border:1px solid #e0e6d9!important;box-shadow:none!important;border-radius:12px!important}
+.lm-v51-dashboard .lm-command-centre{margin-top:22px!important;padding:23px!important;border:1px solid #e2e8d9!important;border-radius:18px!important;background:#eef3e9!important;box-shadow:none!important}
+.lm-v51-dashboard .lm-cc-head h2{color:#283d27!important;font-size:20px!important}
+.lm-v51-dashboard .lm-cc-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}
+.lm-v51-dashboard .lm-kpi{padding:14px!important;border-radius:12px!important;background:white!important}
+.lm-v51-dashboard .lm-kpi strong{font-size:22px!important;color:#405b2e!important}
+.lm-v51-dashboard .lm-cc-columns{gap:13px!important}
+.lm-v51-dashboard .lm-cc-panel{padding:17px!important;border-radius:13px!important}
+.lm-v51-dashboard .lm-cc-panel h3{font-size:15px!important;color:#30472b!important}
+
+/* Create a connected, coherent surface for the rest of the app. */
+body:has(.navbar) .page-header,body:has(.navbar) .subscription-hero{border-radius:18px}
+body:has(.navbar) .subscription-page,body:has(.navbar) .ops-page{width:min(1240px,calc(100% - 54px));margin-left:auto;margin-right:auto}
+body:has(.navbar) .subscription-hero{background:linear-gradient(110deg,#364f28,#637c40)!important}
+body:has(.navbar) .subscription-hero h1,body:has(.navbar) .ops-hero h1{color:white!important}
+body:has(.navbar) .ops-hero{background:linear-gradient(110deg,#344c2c,#718852)!important}
+body:has(.navbar) .subscription-plan.current,.plan-card.current{border-color:var(--v51-olive)!important}
+
+/* Adapt gracefully on laptops, tablets and narrow phones. */
+@media(max-width:1300px){
+  .navbar .nav-container{width:calc(100% - 32px)!important;gap:12px!important}
+  .navbar .logo{min-width:170px!important;font-size:16px!important}
+  .navbar .nav-links>a,.navbar .nav-links .lm-more-menu>summary{padding:10px 8px!important;font-size:12px!important}
+  .lm-account-shortcut{padding-left:10px}
+  .lm-app-shell{grid-template-columns:208px minmax(0,1fr)}
+  .lm-side-panel{padding-left:9px;padding-right:9px}
+  .lm-app-shell>.dashboard-container{padding-left:24px!important;padding-right:24px!important}
+}
+@media(max-width:1090px){
+  .lm-account-label{display:none}
+  .lm-account-shortcut{padding-left:9px}
+  .lm-v51-dashboard .intelligence-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .lm-v51-dashboard .intelligence-card:last-child{grid-column:1/-1}
+  .lm-v51-dashboard .stat-card{padding:15px 11px!important;gap:8px!important}
+  .lm-v51-dashboard .stat-card strong{font-size:26px!important}
+}
+@media(max-width:900px){
+  .navbar .nav-container{min-height:65px!important;width:calc(100% - 28px)!important;gap:8px!important}
+  .navbar .logo{min-width:0!important;font-size:17px!important;margin-right:auto}
+  .navbar .logo .lm-brand-icon{width:39px!important;height:39px!important;flex-basis:39px!important}
+  .navbar .menu-button{display:inline-flex!important;align-items:center!important;justify-content:center!important;order:3!important;width:44px!important;height:42px!important;font-size:22px!important}
+  .navbar .nav-links{display:none!important;position:absolute!important;top:65px!important;left:0!important;right:0!important;z-index:1010!important;background:#fff!important;border:1px solid #dee7d7!important;box-shadow:0 17px 38px rgba(40,57,34,.16)!important;border-radius:0 0 16px 16px!important;padding:14px!important;align-items:stretch!important;flex-direction:column!important;max-height:calc(100dvh - 70px)!important;overflow-y:auto!important;gap:3px!important}
+  .navbar .nav-links.open{display:flex!important}
+  .navbar .nav-links>a,.navbar .nav-links .lm-more-menu>summary{display:block!important;padding:12px 14px!important;font-size:14px!important}
+  .lm-more-menu{width:100%}
+  .lm-more-popover{position:static!important;box-shadow:none!important;border:0!important;width:auto!important;padding:0 0 0 10px!important;max-height:none!important;background:#fafbf8!important}
+  .lm-account-shortcut{order:2!important;border:0!important;padding-left:0}
+  .lm-app-shell{display:block;min-height:auto}
+  .lm-side-panel{display:none}
+  .lm-app-shell>.dashboard-container{padding:24px clamp(14px,4vw,34px) 54px!important}
+  .lm-v51-dashboard .welcome-section{margin-top:0!important}
+  .lm-v51-dashboard .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .lm-v51-dashboard .dashboard-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:650px){
+  .navbar .logo{font-size:16px!important}
+  .navbar .logo .lm-brand-icon{width:36px!important;height:36px!important;flex-basis:36px!important}
+  .lm-v51-dashboard .welcome-section{flex-direction:column!important;align-items:stretch!important;gap:13px!important}
+  .lm-welcome-actions{justify-content:space-between}
+  .lm-welcome-actions a{flex:1;text-align:center;font-size:12px!important;padding:11px 8px!important}
+  .lm-v51-dashboard .stats-grid{gap:10px!important}
+  .lm-v51-dashboard .stat-card{min-height:102px;padding:12px!important;gap:9px!important;flex-direction:column!important}
+  .lm-v51-dashboard .stat-icon{width:34px!important;height:34px!important;flex-basis:34px!important;font-size:17px!important}
+  .lm-v51-dashboard .stat-card span{font-size:10px!important;margin-bottom:2px!important}
+  .lm-v51-dashboard .stat-card strong{font-size:26px!important}
+  .lm-v51-dashboard .dashboard-grid,.lm-v51-dashboard .intelligence-grid,.lm-v51-dashboard .lm-cc-columns{grid-template-columns:1fr!important}
+  .lm-v51-dashboard .intelligence-card:last-child{grid-column:auto}
+  .lm-v51-dashboard .lm-cc-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .lm-v51-dashboard .lm-command-centre{padding:15px!important}
+  .lm-v51-dashboard .lm-kpi{padding:11px!important;gap:7px!important}
+  .lm-v51-dashboard .lm-kpi-icon{font-size:18px!important}
+  .lm-v51-dashboard .lm-kpi strong{font-size:18px!important}
+  .page-container,body:has(.navbar) .subscription-page,body:has(.navbar) .ops-page{width:calc(100% - 28px)!important}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}}
+
+/* Fine-tuned vector navigation and dashboard icons. */
+.stat-icon svg,.quick-card>span svg{width:23px!important;height:23px!important;color:#597440!important;display:block}
+.quick-card>span{display:grid!important;place-items:center!important;width:40px!important;height:40px!important;background:#eef2e9!important;border-radius:10px!important}
+.navbar .lm-more-menu a.active{font-weight:850!important}

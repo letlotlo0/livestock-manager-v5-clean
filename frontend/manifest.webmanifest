@@ -4,8 +4,8 @@
   "start_url": "./dashboard.html",
   "display": "standalone",
   "background_color": "#f5f1e8",
-  "theme_color": "#173d2a",
-  "description": "Livestock tracking tools with secure farmer accounts. V5 isolated cloud preview: per-animal sync with server-verified saves.",
+  "theme_color": "#546B2F",
+  "description": "Livestock tracking tools with secure farmer accounts. Cloud-based livestock records, breeding, animal health and farm management.",
   "icons": [
     {
       "src": "assets/livestock-logo.png",
