@@ -15,8 +15,9 @@
  const getRaw=Storage.prototype.getItem,setRaw=Storage.prototype.setItem;
  let userId='',meta=null,ready=false,busy=false,poller=null,delay=null,formDirty=false,pageReady=false;
  let status={state:'syncing',message:'Connecting to V5 test cloud…'};
- const localKey=key=>'lm_v2_'+userId+'_'+key;
- const metaKey=()=> 'lm_v5_sync_'+userId;
+ const farm=()=>window.LMFarms?.getActiveId?.()||'main';
+ const localKey=key=>'lm_v2_'+userId+(farm()==='main'||['livestockProfiles','farmerProfile'].includes(key)?'':'_farm_'+farm())+'_'+key;
+ const metaKey=()=> 'lm_v5_sync_'+userId+(farm()==='main'?'':'_farm_'+farm());
  function readRaw(key){return getRaw.call(localStorage,key);}
  function writeRaw(key,value){setRaw.call(localStorage,key,String(value));}
  function getData(key){let raw=readRaw(localKey(key));try{return raw===null?null:JSON.parse(raw);}catch(_){throw Error('Invalid local '+key+' JSON. Export your device backup.');}}
@@ -27,7 +28,9 @@
  function report(state,message){status={state,message};window.dispatchEvent(new CustomEvent('livestock:sync',{detail:status}));}
  async function call(path,{method='GET',body}={}){
   let response;
-  try{response=await fetch(path,{method,credentials:'same-origin',cache:'no-store',headers:body===undefined?{}:{'Content-Type':'application/json'},body:body===undefined?undefined:JSON.stringify(body)});}
+  try{const scoped=path.startsWith('/api/v5/')||path.startsWith('/api/farm/records');
+    const url=scoped?path+(path.includes('?')?'&':'?')+'farmId='+encodeURIComponent(farm()):path;
+    response=await fetch(url,{method,credentials:'same-origin',cache:'no-store',headers:body===undefined?{}:{'Content-Type':'application/json'},body:body===undefined?undefined:JSON.stringify(body)});}
   catch(_){let e=new Error('Cloud connection unavailable — device edits are still saved locally.');e.code='NETWORK';throw e;}
   let value=await response.json().catch(()=>({}));
   if(!response.ok){let e=new Error(value.error||'The V5 cloud request failed.');e.status=response.status;e.code=value.code;throw e;}
@@ -39,10 +42,10 @@
   document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
  }
  function backup(){const records={};for(const k of synced){try{let v=getData(k);if(v!==null)records[k]=v;}catch(_){}}
-  saveFile('livestock-v5-device-',{app:'Livestock Manager V5 Preview',exportedAt:new Date().toISOString(),account:userId,records,unconfirmed:meta?.pending||false,conflicts:meta?.conflicts||{}});}
+  saveFile('livestock-v5-device-'+farm()+'-',{app:'Livestock Manager V5 Preview',exportedAt:new Date().toISOString(),account:userId,records,unconfirmed:meta?.pending||false,conflicts:meta?.conflicts||{}});}
  async function cloudBackup(){try{const state=await call('/api/v5/state');const records={livestockAnimals:state.animals.map(row=>({...row.data,id:row.id,photo:row.photo}))};
   for(const d of state.records)records[d.key]=d.data;
-  saveFile('livestock-v5-server-',{app:'Livestock Manager V5 Preview',exportedAt:new Date().toISOString(),account:userId,records});
+  saveFile('livestock-v5-server-'+farm()+'-',{app:'Livestock Manager V5 Preview',exportedAt:new Date().toISOString(),account:userId,records});
  }catch(e){alert('Server backup failed: '+e.message);}}
  function banner(id,text,actions){if(!document.body)return;let old=document.getElementById(id);if(old)old.remove();
   const b=document.createElement('div');b.id=id;b.style.cssText='position:fixed;bottom:12px;left:12px;right:12px;max-width:600px;margin:auto;background:#173b31;color:#fff;z-index:99999;padding:14px;border-radius:12px;box-shadow:0 10px 30px #0007;font:14px/1.5 system-ui';
@@ -195,6 +198,7 @@
  function scheduleSync(key){if(!meta||!userId||!synced.has(key))return;meta.pending=true;persist();report('syncing','Device change waiting for server confirmation…');if(ready)schedule();}
  async function bootstrap(user){
   userId=String(user.id);ready=false;formDirty=false;pageReady=false;
+  if(window.LMFarms)await window.LMFarms.bootstrap(user);
   if(poller)clearInterval(poller);
   meta=loadMeta();const firstStart=!meta;if(!meta)meta=defaultMeta();
   report('syncing','Loading fresh V5 test farm…');

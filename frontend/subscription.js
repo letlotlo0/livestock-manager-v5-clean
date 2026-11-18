@@ -16,7 +16,7 @@
   }
   function current() { return state.status && state.status.entitlement; }
   function limitOf() { var e = current(); return !e || e.animalLimit === null ? UNLIMITED : e.animalLimit; }
-  function getCount() { try { var a = JSON.parse(localStorage.getItem("livestockAnimals") || "[]"); return Array.isArray(a) ? a.length : 0; } catch (e) { return 0; } }
+  function getCount() { if(state.status && Number.isFinite(Number(state.status.animalCount))) return Number(state.status.animalCount); try { var a = JSON.parse(localStorage.getItem("livestockAnimals") || "[]"); return Array.isArray(a) ? a.length : 0; } catch (e) { return 0; } }
   function post(planId) {
     return api("/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ plan: planId }) }).then(function (c) {
       var form = document.createElement("form");

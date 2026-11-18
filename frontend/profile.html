@@ -3,7 +3,7 @@
 
 <head>
 <link rel="icon" type="image/png" href="assets/livestock-logo.png">
-    <meta name="application-name" content="Livestock Manager v3">
+    <meta name="application-name" content="Livestock Manager">
     <meta charset="UTF-8">
 
     <meta
@@ -11,7 +11,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Farmer Profile | Livestock Manager</title>
+    <title>Farm &amp; Account Centre | Livestock Manager</title>
 
     <link
         rel="stylesheet"
@@ -24,6 +24,7 @@
 <script src="auth-api.js"></script>
 <script src="auth-guard.js"></script>
     <link rel="stylesheet" href="v51-design.css?v=5.1.1">
+<link rel="stylesheet" href="profile-center.css?v=5.2.0">
 </head>
 
 <body>
@@ -59,534 +60,67 @@
 </nav>
 
 
-    <!-- PAGE HEADER -->
+    <main class="lm-fc" id="mainContent">
+      <div class="lm-fc-heading"><div><span class="lm-fc-eyebrow">MY ACCOUNT · FARM PORTFOLIO</span><h1>Farm &amp; Account Centre</h1><p>Manage your farm businesses, livestock and financial records from one place.</p></div><div class="lm-fc-heading-actions"><button type="button" class="lm-fc-btn lm-fc-primary" id="addFarmTop">+ Add farm</button></div></div>
 
-    <header class="page-header">
-
-        <div>
-
-            <span class="page-label">
-                FARMER ACCOUNT
-            </span>
-
-            <h1>
-                Farmer Profile
-            </h1>
-
-            <p>
-                Manage your personal and farm information.
-            </p>
-
+      <section class="lm-fc-hero" aria-label="My farmer identity">
+        <div class="lm-fc-owner">
+          <div class="lm-fc-avatar" id="profilePicture" aria-label="Profile photograph">FM</div>
+          <div><span class="lm-fc-eyebrow">FARM OWNER</span><h2 id="ownerName">My account</h2><p id="ownerEmail">—</p><span class="lm-fc-subtext" id="memberSince">Verified farming account</span></div>
+          <label class="lm-fc-photo-link" for="profileImageInput" title="Change profile photo">Edit photo<input id="profileImageInput" type="file" accept="image/jpeg,image/png,image/webp" hidden></label>
         </div>
+        <div class="lm-fc-owner-right"><span>Currently managing</span><strong id="activeFarmName">My Farm</strong><span id="activeFarmLocation">Farm workspace</span><button class="lm-fc-text-btn" id="editPersonal" type="button">Edit my account ↗</button></div>
+      </section>
 
-        <div class="profile-header-actions">
-        <button type="button" class="primary-button" id="editButton">Edit Profile</button>
-        <button type="button" class="secondary-button" id="logoutButton">Logout</button>
+      <section class="lm-fc-stats" aria-label="Farming portfolio numbers">
+        <div><span>Total farms</span><strong id="farmCount">—</strong><small>On this account</small></div>
+        <div><span>Registered animals</span><strong id="animalCount">—</strong><small>Across all farms</small></div>
+        <div><span>Recorded sales</span><strong id="salesTotal">—</strong><small id="salesPeriodLabel">All history · before costs</small></div>
+        <div><span>Operating result</span><strong id="portfolioProfit">—</strong><small id="portfolioProfitNote">Based on available records</small></div>
+      </section>
+
+      <div class="lm-fc-columns">
+        <div class="lm-fc-primary-column">
+          <section class="lm-fc-panel" id="myFarms">
+            <div class="lm-fc-panel-heading"><div><span class="lm-fc-eyebrow">01 · MY OPERATIONS</span><h2>My farms</h2><p>Each farm has its own herd, costs, sales and cloud workspace.</p></div><button class="lm-fc-btn" type="button" id="addFarm">+ Add farm</button></div>
+            <p id="farmListMessage" role="status" class="lm-fc-mutemsg">Loading farms…</p>
+            <div class="lm-fc-farm-list" id="farmList"></div>
+            <p class="lm-fc-microcopy">Switching farms changes the records across the application. A farm's animals never automatically transfer to another farm.</p>
+          </section>
+
+          <section class="lm-fc-panel" id="farmPerformance">
+            <div class="lm-fc-panel-heading"><div><span class="lm-fc-eyebrow">02 · BUSINESS PERFORMANCE</span><h2>Financial health</h2><p>See what the selected farm has earned, spent and invested.</p></div><label class="lm-fc-select">Period <select id="reportPeriod"><option value="all">All recorded history</option><option value="year">This calendar year</option><option value="12m">Last 12 months</option></select></label></div>
+            <div class="lm-fc-kpis"><div><span>Sales income</span><strong id="farmIncome">—</strong></div><div><span>Operating costs + sold animal costs</span><strong id="farmCosts">—</strong></div><div><span>Recorded operating result</span><strong id="farmProfit">—</strong></div></div>
+            <div id="profitAssessment" class="lm-fc-assessment" role="status">Loading farm data…</div>
+            <div class="lm-fc-finance-grid"><div><span>Farm expenses</span><strong id="otherSpend">—</strong></div><div><span>Feed &amp; treatment costs</span><strong id="feedHealthSpend">—</strong></div><div><span>Active herd purchase investment</span><strong id="activeInvestment">—</strong></div><div><span>Estimated herd value</span><strong id="herdValue">—</strong></div></div>
+            <p class="lm-fc-microcopy">Operating result uses recorded sales minus sold-animal costs and recorded running expenses. Active herd purchases are shown separately. This is an operational estimate, not audited net profit or cash flow.</p>
+          </section>
+          <section class="lm-fc-panel" id="reportsCentre">
+            <div class="lm-fc-panel-heading"><div><span class="lm-fc-eyebrow">03 · FARM INTELLIGENCE</span><h2>Farm performance reports</h2><p>Generate a readable, multi-page report for your records, family or financial adviser.</p></div></div>
+            <div class="lm-fc-report-option"><div class="lm-fc-report-icon">▤</div><div><strong>Current farm PDF report</strong><p>Every animal, sales, spending, livestock investment and profitability assessment.</p></div><button class="lm-fc-btn lm-fc-primary" type="button" id="pdfFarm">Download PDF</button></div>
+            <div class="lm-fc-report-option"><div class="lm-fc-report-icon">▦</div><div><strong>Combined portfolio PDF</strong><p>Compare every farm and include their full animal registers and financial records.</p></div><button class="lm-fc-btn" type="button" id="pdfPortfolio">All farms PDF</button></div>
+            <p class="lm-fc-report-note" id="reportNotice" role="status">Reports are generated from farm records available to your account.</p>
+          </section>
         </div>
-
-    </header>
-
-
-    <main class="profile-container">
-
-
-        <!-- PROFILE CARD -->
-
-        <section class="profile-card">
-
-            <div class="profile-top">
-
-                <div class="profile-picture-wrapper">
-
-                    <div
-                        class="profile-picture"
-                        id="profilePicture"
-                    >
-                        👨‍🌾
-                    </div>
-
-                    <label
-                        for="profileImageInput"
-                        class="image-button"
-                    >
-                        📷
-                    </label>
-
-                    <input
-                        type="file"
-                        id="profileImageInput"
-                        accept="image/*"
-                        hidden
-                    >
-
-                </div>
-
-
-                <div class="profile-heading">
-
-                    <h2 id="displayName">
-                        Your Name
-                    </h2>
-
-                    <p id="displayFarm">
-                        Your Farm
-                    </p>
-
-                    <span class="profile-status">
-                        ● Active Farmer
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <!-- PERSONAL INFORMATION -->
-
-            <div class="information-section">
-
-                <div class="section-title">
-
-                    <h2>
-                        Personal Information
-                    </h2>
-
-                    <p>
-                        Your basic contact details.
-                    </p>
-
-                </div>
-
-
-                <div class="information-grid">
-
-                    <div class="information-item">
-
-                        <span>
-                            Full Name
-                        </span>
-
-                        <strong id="infoName">
-                            Not provided
-                        </strong>
-
-                    </div>
-
-
-                    <div class="information-item">
-
-                        <span>
-                            Email Address
-                        </span>
-
-                        <strong id="infoEmail">
-                            Not provided
-                        </strong>
-
-                    </div>
-
-
-                    <div class="information-item">
-
-                        <span>
-                            Phone Number
-                        </span>
-
-                        <strong id="infoPhone">
-                            Not provided
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- FARM INFORMATION -->
-
-            <div class="information-section">
-
-                <div class="section-title">
-
-                    <h2>
-                        Farm Information
-                    </h2>
-
-                    <p>
-                        Information about your farm.
-                    </p>
-
-                </div>
-
-
-                <div class="information-grid">
-
-                    <div class="information-item">
-
-                        <span>
-                            Farm Name
-                        </span>
-
-                        <strong id="infoFarm">
-                            Not provided
-                        </strong>
-
-                    </div>
-
-
-                    <div class="information-item">
-
-                        <span>
-                            Location
-                        </span>
-
-                        <strong id="infoLocation">
-                            Not provided
-                        </strong>
-
-                    </div>
-
-
-                    <div class="information-item location-item">
-
-                        <span>
-                            Map
-                        </span>
-
-                        <a
-                            href="#"
-                            id="mapLink"
-                            target="_blank"
-                        >
-                            📍 Open in Google Maps
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- LIVESTOCK SUMMARY -->
-
-        <section class="livestock-section">
-
-            <div class="section-heading">
-
-                <div>
-
-                    <h2>
-                        My Livestock
-                    </h2>
-
-                    <p>
-                        Overview of your registered animals.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="livestock-grid">
-
-
-                <!-- CATTLE -->
-
-                <div class="livestock-card">
-
-                    <div class="livestock-icon">
-                        🐄
-                    </div>
-
-                    <div>
-
-                        <span>
-                            Cattle
-                        </span>
-
-                        <strong id="cattleCount">
-                            0
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-                <!-- GOATS -->
-
-                <div class="livestock-card">
-
-                    <div class="livestock-icon">
-                        🐐
-                    </div>
-
-                    <div>
-
-                        <span>
-                            Goats
-                        </span>
-
-                        <strong id="goatCount">
-                            0
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-                <!-- SHEEP -->
-
-                <div class="livestock-card">
-
-                    <div class="livestock-icon">
-                        🐑
-                    </div>
-
-                    <div>
-
-                        <span>
-                            Sheep
-                        </span>
-
-                        <strong id="sheepCount">
-                            0
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-                <!-- PIGS -->
-
-                <div class="livestock-card">
-
-                    <div class="livestock-icon">
-                        🐖
-                    </div>
-
-                    <div>
-
-                        <span>
-                            Pigs
-                        </span>
-
-                        <strong id="pigCount">
-                            0
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-
-        </section>
-
-
-        <!-- TOTAL -->
-
-        <section class="total-card">
-
-            <div>
-
-                <span>
-                    Total Animals
-                </span>
-
-                <strong id="totalAnimals">
-                    0
-                </strong>
-
-            </div>
-
-            <div class="total-icon" aria-hidden="true">
-                🐄
-            </div>
-
-        </section>
-
-        <section class="information-section registration-details">
-            <div class="section-heading"><h2>Registration Details</h2><p>Information saved when this farmer account was created.</p></div>
-            <div class="information-grid">
-                <div class="information-card"><span>USERNAME</span><strong id="infoUsername">Not provided</strong></div>
-                <div class="information-card"><span>ACCOUNT CREATED</span><strong id="infoCreated">Not provided</strong></div>
-            </div>
-        </section>
-
+        <aside class="lm-fc-sidebar">
+          <section class="lm-fc-panel lm-fc-sidebar-panel"><span class="lm-fc-eyebrow">FARM AT A GLANCE</span><h2 id="sidebarFarm">My Farm</h2><p class="lm-fc-sidebar-caption" id="sidebarFarmMeta">Current workspace</p><div class="lm-fc-side-stat"><span>Animals</span><strong id="sidebarAnimals">—</strong></div><div class="lm-fc-side-stat"><span>Recorded sales</span><strong id="sidebarSales">—</strong></div><div class="lm-fc-side-stat"><span>Last cloud sync</span><strong id="sidebarSync">Checking…</strong></div><a href="animals.html" class="lm-fc-link">Open herd ↗</a></section>
+          <section class="lm-fc-panel lm-fc-sidebar-panel"><span class="lm-fc-eyebrow">ACCOUNT &amp; SECURITY</span><h2>My account</h2><p class="lm-fc-sidebar-caption" id="profilePlan">Checking membership…</p><button class="lm-fc-link lm-fc-link-button" id="editAccountSecondary" type="button">Update personal information ↗</button><a class="lm-fc-link" href="subscription.html">Manage membership ↗</a><a class="lm-fc-link" href="forgot-password.html">Reset password ↗</a><button class="lm-fc-link lm-fc-link-button" id="logoutButton" type="button">Sign out ↗</button></section>
+          <section class="lm-fc-panel lm-fc-sidebar-panel"><span class="lm-fc-eyebrow">DATA SECURITY</span><h2>Technical backups</h2><p class="lm-fc-sidebar-caption">A PDF is a readable report, not a file that can restore your records. Keep separate backups for disaster recovery.</p><button type="button" class="lm-fc-btn lm-fc-full" id="deviceBackup">Save device data (.json)</button><button type="button" class="lm-fc-btn lm-fc-full" id="serverBackup">Save cloud data (.json)</button></section>
+        </aside>
+      </div>
     </main>
 
-
-    <!-- EDIT PROFILE MODAL -->
-
-    <div
-        class="modal"
-        id="profileModal"
-    >
-
-        <div class="modal-content">
-
-            <div class="modal-header">
-
-                <div>
-
-                    <h2>
-                        Edit Profile
-                    </h2>
-
-                    <p>
-                        Update your farmer information.
-                    </p>
-
-                </div>
-
-                <button
-                    type="button"
-                    class="close-button"
-                    id="closeModal"
-                >
-                    ×
-                </button>
-
-            </div>
-
-
-            <form
-                id="profileForm"
-                class="profile-form"
-            >
-
-
-                <div class="form-group">
-
-                    <label for="farmerName">
-                        Full Name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="farmerName"
-                        placeholder="Enter your full name"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="farmerEmail">
-                        Email Address
-                    </label>
-
-                    <input
-                        type="email"
-                        id="farmerEmail"
-                        placeholder="Enter your email"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="farmerPhone">
-                        Phone Number
-                    </label>
-
-                    <input
-                        type="tel"
-                        id="farmerPhone"
-                        placeholder="e.g. 071 234 5678"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="farmName">
-                        Farm Name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="farmName"
-                        placeholder="Enter your farm name"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="farmLocation">
-                        Farm Location
-                    </label>
-
-                    <input
-                        type="text"
-                        id="farmLocation"
-                        placeholder="e.g. Phokeng, North West"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="mapLocation">
-                        Google Maps Location
-                    </label>
-
-                    <input
-                        type="url"
-                        id="mapLocation"
-                        placeholder="Paste Google Maps link"
-                    >
-
-                </div>
-
-
-                <div class="form-actions">
-
-                    <button
-                        type="button"
-                        class="secondary-button"
-                        id="cancelButton"
-                    >
-                        Cancel
-                    </button>
-
-                    <button
-                        type="submit"
-                        class="primary-button"
-                    >
-                        Save Profile
-                    </button>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
+    <dialog id="accountDialog" class="lm-fc-dialog" aria-labelledby="accountDialogHeading"><form method="dialog" id="accountForm"><div class="lm-fc-dialog-heading"><h2 id="accountDialogHeading">Edit my account</h2><button type="button" class="lm-fc-icon-btn" data-close="accountDialog" aria-label="Close">×</button></div><label for="farmerName">Full name</label><input id="farmerName" required minlength="2" maxlength="120" autocomplete="name"><label for="farmerEmail">Email address (verified)</label><input id="farmerEmail" readonly type="email"><label for="farmerPhone">Contact number</label><input id="farmerPhone" type="tel" maxlength="35" autocomplete="tel"><p class="lm-fc-microcopy">Email changes require a separate verification process.</p><p id="accountFormError" role="alert" class="lm-fc-form-error" hidden></p><div class="lm-fc-form-buttons"><button type="button" class="lm-fc-btn" data-close="accountDialog">Cancel</button><button type="submit" class="lm-fc-btn lm-fc-primary">Save account</button></div></form></dialog>
+    <dialog id="farmDialog" class="lm-fc-dialog" aria-labelledby="farmDialogHeading"><form method="dialog" id="farmForm"><div class="lm-fc-dialog-heading"><h2 id="farmDialogHeading">Add a farm</h2><button type="button" class="lm-fc-icon-btn" data-close="farmDialog" aria-label="Close">×</button></div><label for="farmName">Farm name</label><input id="farmName" required minlength="2" maxlength="120" placeholder="e.g. Main cattle farm"><label for="farmLocation">Location</label><input id="farmLocation" maxlength="160" placeholder="Town, province"><label for="farmOperation">Type of farming</label><select id="farmOperation"><option>Mixed livestock</option><option>Cattle breeding</option><option>Cattle production</option><option>Goat breeding</option><option>Sheep farming</option><option>Other livestock</option></select><label for="farmMap">Google Maps link (optional)</label><input id="farmMap" type="url" maxlength="1000" placeholder="https://maps.app.goo.gl/…"><p class="lm-fc-microcopy">A new farm starts empty. Existing animals remain in their original farm.</p><p id="farmFormError" role="alert" class="lm-fc-form-error" hidden></p><div class="lm-fc-form-buttons"><button type="button" class="lm-fc-btn" data-close="farmDialog">Cancel</button><button type="submit" class="lm-fc-btn lm-fc-primary" id="saveFarmBtn">Create farm</button></div></form></dialog>
     <script src="cloud-config.js"></script>
     <script src="v5-merge.js"></script>
-    <script src="livestock-cloud.js"></script>
+    <script src="lm-farms.js?v=5.2.0"></script>
+    <script src="livestock-cloud.js?v=5.2.0"></script>
     <script src="livestock-core.js"></script>
     <script src="subscription.js"></script>
-    <script src="profile.js"></script>
+    <script src="farm-report.js?v=5.2.0"></script>
+    <script src="lm-pdf.js?v=5.2.0"></script>
+    <script src="profile.js?v=5.2.0"></script>
 
 <script src="navigation.js?v=4.0.8"></script>
 <script src="final-intelligence.js"></script>

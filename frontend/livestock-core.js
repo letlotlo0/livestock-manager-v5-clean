@@ -44,7 +44,9 @@
 
     function scopedKey(key) {
         var id = currentUserId();
-        return id && scopedKeys[key] ? "lm_v2_" + id + "_" + key : key;
+        var farm = window.LMFarms && window.LMFarms.getActiveId() || "main";
+        var accountKey = key === "livestockProfiles" || key === "livestockUsers" || key === "farmerProfile";
+        return id && scopedKeys[key] ? "lm_v2_" + id + (farm === "main" || accountKey ? "" : "_farm_" + farm) + "_" + key : key;
     }
 
     function parse(raw, fallback) {
@@ -55,6 +57,7 @@
     function migrateLegacy(key) {
         var id = currentUserId();
         if (!id || !scopedKeys[key] || window.LM_V5_ISOLATED) return;
+        if (window.LMFarms && window.LMFarms.getActiveId() !== "main" && key !== "livestockProfiles" && key !== "livestockUsers" && key !== "farmerProfile") return;
         var target = "lm_v2_" + id + "_" + key;
         if (nativeGet.call(localStorage, target) !== null) return;
 
