@@ -1,18 +1,5 @@
-<!DOCTYPE html><html lang="en"><head>
-<link href="assets/livestock-logo.png" rel="icon" type="image/png"/>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>What Is a Digital Pedigree? | Livestock Manager</title>
-<link href="family-tree.css" rel="stylesheet"/>
-<link rel="stylesheet" href="digital-pedigree.css">
-<link href="premium-ui.css" rel="stylesheet"/>
-<link href="navigation-premium.css" rel="stylesheet"/>
-<link href="final-intelligence.css" rel="stylesheet"/>
-<link href="subscription.css" rel="stylesheet"/>
-<script src="auth-api.js"></script>
-<script src="auth-guard.js"></script>
-    <link rel="stylesheet" href="v51-design.css?v=5.1.1">
-</head><body><nav class="navbar" aria-label="Main navigation">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Digital Pedigree Passport | Livestock Manager</title><link rel="manifest" href="/manifest.webmanifest"><link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png"><meta name="theme-color" content="#546B2F">
+<link rel="stylesheet" href="premium-ui.css"><link rel="stylesheet" href="navigation-premium.css"><link rel="stylesheet" href="final-intelligence.css"><link rel="stylesheet" href="subscription.css"><link rel="stylesheet" href="v51-design.css?v=5.1.1"><link rel="stylesheet" href="v53-phase6.css?v=5.3.6"><script src="auth-api.js"></script><script src="auth-guard.js"></script></head><body class="v53p6"><nav class="navbar" aria-label="Main navigation">
   <div class="nav-container">
     <a href="dashboard.html" class="logo" aria-label="Livestock Manager dashboard"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="42" height="42"><span>Livestock <em>Manager</em></span></a>
     <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="return window.LMNavToggle ? window.LMNavToggle(this) : false;">☰</button>
@@ -27,6 +14,8 @@
           <a href="livestock-overview.html">Herd overview</a>
           <a href="animal-profile.html">Animal profile</a>
           <a href="digital-pedigree.html" class="active" aria-current="page">Digital pedigree</a>
+          <a href="birth-records.html">Birth records</a>
+          <a href="stud-management.html">Stud management</a>
           <a href="operations.html">Operations</a>
           <a href="feeding.html">Feeding</a>
           <a href="weaning.html">Weaning</a>
@@ -38,18 +27,12 @@
     </div>
     <a class="lm-account-shortcut" href="profile.html" aria-label="Open your farm profile"><span class="lm-avatar">FM</span><span class="lm-account-label">Farm Manager<small>My account</small></span></a>
   </div>
-</nav>
-<main class="tree-page">
-  <section class="tree-hero"><div><span class="eyebrow">HERD GENETICS • EXPLAINED</span><h1>What Is a Digital Pedigree?</h1><p>Understand where your animals come from, which animals are related, and how breeding records build a reliable herd history.</p></div><div class="tree-badge" aria-hidden="true">🧬 <span>Digital Pedigree</span></div></section>
-  <section class="pedigree-content">
-    <article class="pedigree-panel pedigree-intro"><span class="eyebrow">THE MEANING</span><h2>An animal's family history, recorded digitally.</h2><p>A <strong>digital pedigree</strong> is an electronic family record for an animal. It tracks the animal's parents (the <strong>sire</strong> or father and <strong>dam</strong> or mother), and can also show grandparents and offspring across generations.</p><p>In Livestock Manager, your animal records are used to build this family tree automatically when the parent information matches other animals you have registered.</p></article>
-    <article class="pedigree-panel"><h2>What a pedigree can show</h2><ul class="pedigree-list"><li><strong>Identity:</strong> animal name, tag or registration number.</li><li><strong>Parentage:</strong> sire and dam, plus known grandparents.</li><li><strong>Offspring:</strong> recorded calves or other young animals.</li><li><strong>Breeding history:</strong> useful information for future mating decisions.</li><li><strong>Registration:</strong> herdbook details if the farmer has recorded them.</li></ul></article>
-    <article class="pedigree-panel pedigree-example"><h2>A simple example</h2><div class="pedigree-mini-tree"><div class="pedigree-mini-node"><small>FATHER / SIRE</small><strong>R10 1597</strong></div><div class="pedigree-mini-line"></div><div class="pedigree-mini-row"><div class="pedigree-mini-node"><small>SON</small><strong>Animal 2</strong></div><div class="pedigree-mini-node"><small>SON</small><strong>Animal 3</strong></div></div><div class="pedigree-mini-line"></div><div class="pedigree-mini-node"><small>OFFSPRING OF ANIMAL 2</small><strong>Animal 4</strong></div></div><p class="pedigree-muted">Illustrative example only. Your real tree is created from your own animals' records.</p></article>
-    <article class="pedigree-panel"><h2>Why farmers use it</h2><p>A recorded pedigree helps farmers check family relationships, reduce the risk of close-relative breeding, follow desirable traits, and keep more complete livestock records. A digital record is <strong>not automatically an official breed-registration certificate</strong>; official registration comes from the relevant breed society or registry.</p><h2>How to build yours</h2><ol class="pedigree-list"><li>Open <strong>Animals</strong> and register your sire, dam and offspring.</li><li>For each offspring, record its sire and dam using a matching animal name, ID or tag.</li><li>Open <strong>Family Tree</strong> and choose an animal to see the recorded relationships.</li></ol><div class="pedigree-actions"><a href="family-tree.html" class="premium-btn">← Open My Family Tree</a><a href="animals.html" class="premium-btn secondary">Manage Animals</a></div></article>
-  </section>
-</main>
-<script src="cloud-config.js"></script><script src="v5-merge.js"></script>
-    <script src="lm-farms.js?v=5.2.0"></script>
-    <script src="livestock-cloud.js?v=5.2.0"></script><script src="livestock-core.js"></script><script src="navigation.js?v=4.0.9"></script><script src="final-intelligence.js"></script>
-    <script src="v51-design.js?v=5.1.0"></script>
-</body></html>
+</nav><main class="p6-page p6-pedigree-page" id="p6PedigreePage">
+ <header class="p6-heading"><div><span class="p6-eyebrow">BREEDING / DOCUMENTED LINEAGE</span><h1>Digital Pedigree Passport</h1><p>A printable lineage record built from the parentage you have entered for this farm.</p><span class="p6-farm" id="p6PedFarm">Selected farm</span></div><div class="p6-header-actions"><a href="family-tree.html" id="p6OpenFamily" class="p6-btn p6-outline">Interactive Family Tree</a><button type="button" id="p6PedPrint" class="p6-btn p6-primary">Print / Save PDF</button></div></header>
+ <section class="p6-selectbar p6-no-print"><label for="p6PedAnimal">Animal</label><select id="p6PedAnimal"><option value="">Select animal</option></select><span id="p6PedCompleteness" class="p6-muted">Choose a record</span></section>
+ <div id="p6PedEmpty" class="p6-empty"><span class="p6-empty-icon">🌳</span><h2>Select an animal to build its pedigree</h2><p>Enter sire and dam details in the animal register to connect family generations.</p><a href="animals.html" class="p6-btn p6-primary">Open Animals</a></div>
+ <div id="p6PedContent" hidden><section class="p6-passport-top"><div><span class="p6-eyebrow">LIVESTOCK MANAGER / PEDIGREE PASSPORT</span><h2 id="p6PedTitle">Animal pedigree</h2><p id="p6PedSubtitle">Record-based family history</p></div><div class="p6-passport-stamp">FARM RECORD<br><strong id="p6PedTag">ID —</strong></div></section>
+ <div class="p6-grid"><section class="p6-card p6-pedigree-chart"><div class="p6-card-top"><div><span class="p6-eyebrow">ANCESTRY</span><h2>Three-generation view</h2><p>Known, unresolved and missing parents are clearly distinguished.</p></div></div><div id="p6PedTree" class="p6-ped-tree" aria-live="polite"></div><div class="p6-legend"><span>● Linked farm animal</span><span>◐ Entered but unmatched</span><span>○ Not recorded</span></div></section>
+ <aside class="p6-stack"><section class="p6-card"><span class="p6-eyebrow">IDENTIFICATION</span><h2>Recorded details</h2><dl id="p6PedFacts" class="p6-dl"></dl></section><section class="p6-card"><span class="p6-eyebrow">FAMILY CONNECTIONS</span><h2>Offspring in this farm</h2><div id="p6PedChildren" class="p6-children"></div></section></aside></div>
+ <section class="p6-note"><strong>Record integrity</strong><p>This document is generated from farmer-entered records, not a verified breed society registry. A missing or unmatched parent is not assumed. This document is not an official registration certificate, DNA test or inbreeding assessment.</p></section></div>
+</main><script src="cloud-config.js"></script><script src="v5-merge.js"></script><script src="lm-farms.js?v=5.2.0"></script><script src="livestock-cloud.js?v=5.2.0"></script><script src="livestock-core.js"></script><script src="subscription.js"></script><script src="v53-phase6-data.js?v=5.3.6"></script><script src="v53-p6-pedigree.js?v=5.3.6"></script><script src="navigation.js?v=5.3.5"></script><script src="final-intelligence.js"></script><script src="v51-design.js?v=5.1.0"></script></body></html>
