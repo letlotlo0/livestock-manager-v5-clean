@@ -189,3 +189,20 @@ body:has(.navbar) .subscription-plan.current,.plan-card.current{border-color:var
 .stat-icon svg,.quick-card>span svg{width:23px!important;height:23px!important;color:#597440!important;display:block}
 .quick-card>span{display:grid!important;place-items:center!important;width:40px!important;height:40px!important;background:#eef2e9!important;border-radius:10px!important}
 .navbar .lm-more-menu a.active{font-weight:850!important}
+
+/* v5.1.1 hotfix: prevent the dark-navigation link colour from making
+   labels invisible on the white More-menu panel. High specificity is
+   deliberate because navigation-premium.css uses !important. */
+.navbar .nav-links .lm-more-popover a,
+.navbar .nav-links .lm-more-popover a:visited{
+  color:#354c2c!important;
+  background:transparent!important;
+  font-weight:650!important;
+  white-space:normal!important;
+  padding:10px 12px!important;
+}
+.navbar .nav-links .lm-more-popover a:hover,
+.navbar .nav-links .lm-more-popover a:focus-visible{
+  color:#233e20!important;
+  background:#eaf1e3!important;
+}

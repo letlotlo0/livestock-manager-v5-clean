@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/png" href="assets/livestock-logo.png">
+    <meta name="application-name" content="Livestock Manager">
+    <meta charset="UTF-8">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Livestock Manager</title>
+
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="premium-ui.css">
+<link rel="stylesheet" href="navigation-premium.css">
+<link rel="stylesheet" href="final-intelligence.css">
+<script src="auth-api.js"></script>
+<script src="auth-guard.js"></script>
+    <link rel="stylesheet" href="v51-design.css?v=5.1.1">
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+        <nav class="navbar" aria-label="Main navigation">
+  <div class="nav-container">
+    <a href="dashboard.html" class="logo" aria-label="Livestock Manager dashboard"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="42" height="42"><span>Livestock <em>Manager</em></span></a>
+    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="return window.LMNavToggle ? window.LMNavToggle(this) : false;">☰</button>
+    <div class="nav-links" id="navLinks">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="animals.html">Animals</a>
+        <a href="family-tree.html">Breeding</a>
+        <a href="health.html">Treatments</a>
+        <a href="money-stats.html">Sales</a>
+        <a href="farm-reports.html">Reports</a>
+      <details class="lm-more-menu"><summary>More <span aria-hidden="true">⌄</span></summary><div class="lm-more-popover">
+          <a href="livestock-overview.html">Herd overview</a>
+          <a href="animal-profile.html">Animal profile</a>
+          <a href="digital-pedigree.html">Digital pedigree</a>
+          <a href="operations.html">Operations</a>
+          <a href="feeding.html">Feeding</a>
+          <a href="weaning.html">Weaning</a>
+          <a href="growth.html">Growth</a>
+          <a href="vaccinations.html">Vaccinations</a>
+          <a href="farm-alerts.html">Alerts</a>
+          <a href="subscription.html">Plans</a>
+      </div></details>
+    </div>
+    <a class="lm-account-shortcut" href="profile.html" aria-label="Open your farm profile"><span class="lm-avatar">FM</span><span class="lm-account-label">Farm Manager<small>My account</small></span></a>
+  </div>
+</nav>
+
+
+    <!-- =========================
+         HOME
+    ========================== -->
+
+    <main class="home-container">
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <span class="eyebrow">
+                    LIVESTOCK MANAGEMENT
+                </span>
+
+                <h1>
+                    Manage your farm<br>
+                    <span>with confidence.</span>
+                </h1>
+
+                <p>
+                    Keep track of your animals, monitor their
+                    growth, manage farm activities and understand
+                    your livestock business in one place.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a
+                        href="animals.html"
+                        class="primary-button"
+                    >
+                        View My Animals
+                    </a>
+
+                    <a
+                        href="money-stats.html"
+                        class="secondary-button"
+                    >
+                        Money Stats
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="hero-animal">
+                🐄
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             FARM SUMMARY
+        ========================== -->
+
+        <section class="summary-section">
+
+            <div class="section-heading">
+
+                <span>
+                    FARM OVERVIEW
+                </span>
+
+                <h2>
+                    Your farm at a glance
+                </h2>
+
+            </div>
+
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+
+                    <div class="card-icon">
+                        🐄
+                    </div>
+
+                    <div>
+                        <span>
+                            ACTIVE ANIMALS
+                        </span>
+
+                        <strong id="totalAnimals">
+                            0
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <div class="card-icon">
+                        🐣
+                    </div>
+
+                    <div>
+                        <span>
+                            PREGNANT
+                        </span>
+
+                        <strong id="pregnantAnimals">
+                            0
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <div class="card-icon">
+                        💰
+                    </div>
+
+                    <div>
+                        <span>
+                            SOLD
+                        </span>
+
+                        <strong id="soldAnimals">
+                            0
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <div class="card-icon">
+                        📈
+                    </div>
+
+                    <div>
+                        <span>
+                            FARM VALUE
+                        </span>
+
+                        <strong id="farmValue">
+                            R0
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             QUICK ACTIONS
+        ========================== -->
+
+        <section class="quick-section">
+
+            <div class="section-heading">
+
+                <span>
+                    QUICK ACTIONS
+                </span>
+
+                <h2>
+                    What would you like to do?
+                </h2>
+
+            </div>
+
+
+            <div class="quick-grid">
+
+                <a
+                    href="animals.html"
+                    class="quick-card"
+                >
+
+                    <div class="quick-icon">
+                        🐄
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Manage Animals
+                        </h3>
+
+                        <p>
+                            Add, view and manage your
+                            livestock.
+                        </p>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="feeding.html"
+                    class="quick-card"
+                >
+
+                    <div class="quick-icon">
+                        🌾
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Farm Feeding
+                        </h3>
+
+                        <p>
+                            Keep track of feed purchased
+                            for the farm.
+                        </p>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="health.html"
+                    class="quick-card"
+                >
+
+                    <div class="quick-icon">
+                        ❤️
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Animal Health
+                        </h3>
+
+                        <p>
+                            Monitor health and farm
+                            health expenses.
+                        </p>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="money-stats.html"
+                    class="quick-card"
+                >
+
+                    <div class="quick-icon">
+                        💰
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Money Stats
+                        </h3>
+
+                        <p>
+                            See your farm income,
+                            expenses and profit.
+                        </p>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             LIVESTOCK TYPES
+        ========================== -->
+
+        <section class="livestock-section">
+
+            <div class="section-heading">
+
+                <span>
+                    YOUR LIVESTOCK
+                </span>
+
+                <h2>
+                    Focused on four livestock types
+                </h2>
+
+            </div>
+
+
+            <div class="livestock-grid">
+
+                <div class="livestock-card">
+                    <span>🐄</span>
+                    <h3>Cattle</h3>
+                    <strong id="cattleCount">0</strong>
+                    <small>Animals</small>
+                </div>
+
+
+                <div class="livestock-card">
+                    <span>🐐</span>
+                    <h3>Goats</h3>
+                    <strong id="goatCount">0</strong>
+                    <small>Animals</small>
+                </div>
+
+
+                <div class="livestock-card">
+                    <span>🐑</span>
+                    <h3>Sheep</h3>
+                    <strong id="sheepCount">0</strong>
+                    <small>Animals</small>
+                </div>
+
+
+                <div class="livestock-card">
+                    <span>🐖</span>
+                    <h3>Pigs</h3>
+                    <strong id="pigCount">0</strong>
+                    <small>Animals</small>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             RECENT ACTIVITY
+        ========================== -->
+
+        <section class="activity-section">
+
+            <div class="section-heading">
+
+                <span>
+                    FARM ACTIVITY
+                </span>
+
+                <h2>
+                    Recent activity
+                </h2>
+
+            </div>
+
+
+            <div
+                class="activity-list"
+                id="activityList"
+            >
+
+                <div class="activity-empty">
+
+                    <span>
+                        📋
+                    </span>
+
+                    <p>
+                        Your recent farm activity
+                        will appear here.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="cloud-config.js"></script>
+    <script src="v5-merge.js"></script>
+    <script src="livestock-cloud.js"></script>
+    <script src="livestock-core.js"></script>
+    <script src="index.js"></script>
+
+<script src="navigation.js?v=4.0.8"></script>
+<script src="final-intelligence.js"></script>
+    <script src="v51-design.js?v=5.1.0"></script>
+</body>
+</html>
