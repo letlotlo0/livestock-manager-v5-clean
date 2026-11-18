@@ -8,6 +8,8 @@ const {
 const {DOCUMENT_TYPES,validDocument}=require('./farm-records');
 const {installV5Routes}=require('./v5-routes');
 const billing=require('./billing');
+const restrictions=require('./plan-restrictions');
+const {installReportRoutes}=require('./report-routes');
 const alerts=require('./alerts');
 
 function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImpl=globalThis.fetch,validIps}) {
@@ -195,11 +197,27 @@ function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImp
     if(name.length<2||name.length>120||location.length>160||operation.length>40)
       return fail(res,400,'Enter a farm name between 2 and 120 characters.');
     await seedMain(req.authUser.id);
-    const q=await pool.query(`INSERT INTO lm_farms(user_id,farm_id,name,location,operation)
-      SELECT $1,gen_random_uuid()::text,$2,$3,$4
-      WHERE (SELECT count(*) FROM lm_farms WHERE user_id=$1)<20
-      RETURNING *`,[req.authUser.id,name,location,operation]);
-    if(!q.rowCount)return fail(res,409,'Maximum of 20 farms per account reached.');
+    // Farm count and entitlement are checked under a per-owner database lock.
+    const db=await pool.connect();let q;
+    try{
+      await db.query('BEGIN');
+      await db.query('SELECT id FROM lm_auth_users WHERE id=$1 FOR UPDATE',[req.authUser.id]);
+      const e=await billing.loadEntitlement(db,billingCfg,req.authUser.id);
+      if(billingCfg.enforced&&!restrictions.entitled(e,'multiFarm')){
+        await db.query('ROLLBACK');
+        return res.status(402).json({code:'MULTI_FARM_REQUIRED',error:'Multiple farms require Pro+ (R199/month). Your existing records are safe.'});
+      }
+      const count=await db.query('SELECT count(*)::int AS n FROM lm_farms WHERE user_id=$1',[req.authUser.id]);
+      const cap=billingCfg.enforced?e.farmLimit:20;
+      if(Number(count.rows[0].n)>=cap){
+        await db.query('ROLLBACK');
+        return res.status(402).json({code:'FARM_LIMIT',limit:cap,error:`Your plan allows ${cap} farm(s).`});
+      }
+      q=await db.query(`INSERT INTO lm_farms(user_id,farm_id,name,location,operation)
+        VALUES($1,gen_random_uuid()::text,$2,$3,$4) RETURNING *`,[req.authUser.id,name,location,operation]);
+      await db.query('COMMIT');
+    }catch(err){await db.query('ROLLBACK').catch(()=>{});throw err;}
+    finally{db.release();}
     res.status(201).json({farm:cleanFarm(q.rows[0])});
   }));
   app.patch('/api/farms/:farmId',requireAuth,limit(60),asyncRoute(async(req,res)=>{
@@ -227,7 +245,15 @@ function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImp
       next();
     }catch(e){next(e);}
   };
-  app.use('/api/v5',requireAuth,selectFarm);
+  const farmWritePermission=async(req,res,next)=>{
+    try{
+      if(!billingCfg.enforced||['GET','HEAD','OPTIONS'].includes(req.method))return next();
+      const e=await billing.loadEntitlement(pool,billingCfg,req.authUser.id);
+      if(restrictions.mayWriteFarm(e,req.farmId))return next();
+      return res.status(402).json({code:'FARM_READ_ONLY',error:'This farm remains readable after downgrade. Pro+ is required to manage multiple farms.'});
+    }catch(err){next(err);}
+  };
+  app.use('/api/v5',requireAuth,selectFarm,farmWritePermission);
   app.use('/api/farm/records',requireAuth,selectFarm);
   const farmDocumentKey=(farmId,key)=>farmId==='main'||['livestockProfiles','farmerProfile'].includes(key)?key:farmId+'::'+key;
   // Account-owned farm documents. Every read/write is authorized from the verified
@@ -245,6 +271,11 @@ function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImp
     if(!Number.isSafeInteger(expected)||expected<0)return fail(res,400,'Expected version must be a non-negative integer.');
     if(!Object.prototype.hasOwnProperty.call(req.body||{},'data')||!validDocument(key,req.body.data))
       return fail(res,413,'Invalid farm record or record exceeds 6 MB. Reduce photo sizes and retry.');
+    if(billingCfg.enforced){
+      const e=await billing.loadEntitlement(pool,billingCfg,req.authUser.id);
+      if(!restrictions.mayWriteDocument(e,req.farmId,key))
+        return res.status(402).json({code:'FARM_READ_ONLY',error:'Your additional farm is read-only on this plan. Health and vaccination records remain editable.'});
+    }
     const storageKey=farmDocumentKey(req.farmId,key);
     let q;
     if(expected===0){
@@ -260,9 +291,9 @@ function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImp
     if(!q.rowCount)return res.status(409).json({code:'SYNC_CONFLICT',error:'This record was changed on another device. Your local changes have been kept; resolve the conflict before syncing.'});
     return res.json({key,version:Number(q.rows[0].version)});
   }));
-  // Plan animal limit is checked BEFORE the animal is created (falls through to the real route when allowed).
-  app.post('/api/v5/animals',requireAuth,billing.animalGate(pool,billingCfg),(req,res,next)=>next());
-  installV5Routes(app,{pool,requireAuth,asyncRoute,fail,limit});
+  // Animal count is checked and enforced atomically in the INSERT transaction.
+  installV5Routes(app,{pool,requireAuth,asyncRoute,fail,limit,billingCfg});
+  installReportRoutes(app,{pool,requireAuth,asyncRoute,limit,billingCfg,seedMain});
   alerts.install(app,{pool,requireAuth,asyncRoute,fail,limit});
   billing.install(app,{pool,requireAuth,asyncRoute,fail,limit,cfg:billingCfg,origin,logger,fetchImpl,sendMail,...(validIps?{validIps}:{})});
   app.use('/api',(req,res)=>fail(res,404,'API route not found.'));

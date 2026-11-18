@@ -9,6 +9,7 @@
 const crypto = require('node:crypto');
 const dns = require('node:dns').promises;
 const net = require('node:net');
+const restrictions = require('./plan-restrictions');
 
 const PF_HOSTS = ['www.payfast.co.za', 'sandbox.payfast.co.za', 'w1w.payfast.co.za', 'w2w.payfast.co.za'];
 const DAY = 24 * 60 * 60 * 1000;
@@ -43,14 +44,14 @@ const money = value => {
 
 function plansFor(env) {
   return {
-    free: { id: 'free', name: 'Free', amount: '0.00', animalLimit: 25, allPages: false, paid: false, label: 'forever' },
-    pro: { id: 'pro', name: 'Pro', amount: money(env.PLAN_PRO_ZAR || '99.00'), animalLimit: 150, allPages: true, paid: true, frequency: 3, months: 1, label: 'per month' },
-    proplus: { id: 'proplus', name: 'Pro+', amount: money(env.PLAN_PROPLUS_ZAR || '199.00'), animalLimit: null, allPages: true, paid: true, frequency: 3, months: 1, label: 'per month' }
+    free: { id: 'free', name: 'Free', amount: '0.00', ...restrictions.RIGHTS.free, allPages: false, paid: false, label: 'forever' },
+    pro: { id: 'pro', name: 'Pro', amount: money(env.PLAN_PRO_ZAR || '99.00'), ...restrictions.RIGHTS.pro, allPages: true, paid: true, frequency: 3, months: 1, label: 'per month' },
+    proplus: { id: 'proplus', name: 'Pro+', amount: money(env.PLAN_PROPLUS_ZAR || '199.00'), ...restrictions.RIGHTS.proplus, allPages: true, paid: true, frequency: 3, months: 1, label: 'per month' }
   };
 }
 
 /* Pages only Pro / Pro+ can open. Free: home, animals, overview, feeding, health, alerts, profile. */
-const PAID_PAGES = ['growth', 'weaning', 'vaccinations', 'family-tree', 'operations', 'money-stats', 'farm-reports', 'animal-profile', 'digital-pedigree'];
+const PAID_PAGES = ['growth', 'weaning', 'family-tree', 'operations', 'money-stats', 'farm-reports', 'animal-profile', 'digital-pedigree', 'stud-management', 'herd-intelligence'];
 const PAID_PAGE_RE = new RegExp('^/(' + PAID_PAGES.join('|') + ')(\\.html)?$');
 
 function configFor(env = process.env) {
@@ -74,7 +75,7 @@ const isConfigured = cfg => !!(cfg.merchantId && cfg.merchantKey && cfg.passphra
 
 /* What may this account do right now? Pure function, easy to test. */
 function entitlement(cfg, sub, now = new Date()) {
-  const shape = (plan, extra) => ({ plan: plan.id, planName: plan.name, animalLimit: plan.animalLimit, allPages: plan.allPages, ...extra });
+  const shape = (plan, extra) => ({ plan: plan.id, planName: plan.name, animalLimit: plan.animalLimit, farmLimit: plan.farmLimit, features: plan.features, allPages: plan.allPages, ...extra });
   if (!cfg.enforced) return shape(cfg.plans.proplus, { state: 'unlimited' });
   const paidPlan = sub && cfg.plans[sub.plan] && cfg.plans[sub.plan].paid ? cfg.plans[sub.plan] : null;
   if (paidPlan && sub.current_period_end) {
@@ -116,8 +117,9 @@ function pageGate(pool, cfg, userIdFromReq) {
       const id = await userIdFromReq(req);
       if (!id) return next(); // not signed in: the page's own login guard handles that
       const e = await loadEntitlement(pool, cfg, id);
-      if (e.allPages) return next();
       const name = req.path.replace(/^\//, '').replace(/\.html$/, '');
+      const feature = restrictions.PAGE_FEATURES[name];
+      if (feature ? restrictions.entitled(e, feature) : e.allPages) return next();
       return res.redirect(302, '/subscription.html?locked=' + encodeURIComponent(name));
     } catch (err) { next(err); }
   };
@@ -195,7 +197,7 @@ function install(app, { pool, requireAuth, asyncRoute, fail, limit, cfg, origin,
     ]);
     res.json({
       enforced: cfg.enforced, ready: isConfigured(cfg), sandbox: cfg.sandbox, paidPages: PAID_PAGES,
-      plans: Object.values(cfg.plans).map(p => ({ id: p.id, name: p.name, amount: p.amount, label: p.label, animalLimit: p.animalLimit, allPages: p.allPages, paid: p.paid, currency: 'ZAR' })),
+      plans: Object.values(cfg.plans).map(p => ({ id: p.id, name: p.name, amount: p.amount, label: p.label, animalLimit: p.animalLimit, farmLimit: p.farmLimit, features: p.features, allPages: p.allPages, paid: p.paid, currency: 'ZAR' })),
       entitlement: e, animalCount: n.rows[0].n
     });
   }));

@@ -1,7 +1,8 @@
 'use strict';
 const {idOk,validFields,validRemoved,validPhoto}=require('./v5-validation');
+const {loadEntitlement}=require('./billing');
 // Required auth middleware is passed from app.js. All IDs are scoped to req.authUser.id.
-function installV5Routes(app,{pool,requireAuth,asyncRoute,fail,limit}) {
+function installV5Routes(app,{pool,requireAuth,asyncRoute,fail,limit,billingCfg}) {
  app.get('/api/v5/state',requireAuth,asyncRoute(async(req,res)=>{
   const id=req.authUser.id;
   const [a,d]=await Promise.all([
@@ -20,9 +21,30 @@ function installV5Routes(app,{pool,requireAuth,asyncRoute,fail,limit}) {
  app.post('/api/v5/animals',requireAuth,limit(180),asyncRoute(async(req,res)=>{
   const id=req.body?.id,data=req.body?.data;
   if(!idOk(id)||!validFields(data))return fail(res,400,'Invalid animal identifier or details.');
-  const q=await pool.query(`INSERT INTO lm_v5_animals(user_id,animal_id,data,version,farm_id)
-   VALUES($1,$2,$3::jsonb,1,$4) ON CONFLICT (user_id,animal_id) DO NOTHING RETURNING version`,
-    [req.authUser.id,id,JSON.stringify(data),req.farmId]);
+  // Lock the owning account row so two devices cannot both create animal 101.
+  // The same user row is locked by farm creation to prevent concurrent cap bypasses.
+  const client=billingCfg?.enforced?await pool.connect():null;
+  let q;
+  try{
+   const db=client||pool;
+   if(client){
+    await client.query('BEGIN');
+    await client.query('SELECT id FROM lm_auth_users WHERE id=$1 FOR UPDATE',[req.authUser.id]);
+    const e=await loadEntitlement(client,billingCfg,req.authUser.id);
+    if(e.animalLimit!==null){
+     const n=await client.query('SELECT count(*)::int AS n FROM lm_v5_animals WHERE user_id=$1',[req.authUser.id]);
+     if(Number(n.rows[0].n)>=e.animalLimit){
+      await client.query('ROLLBACK');
+      return res.status(402).json({code:'PLAN_LIMIT',limit:e.animalLimit,error:`Your ${e.planName} plan allows up to ${e.animalLimit} animals. Upgrade to add more.`});
+     }
+    }
+   }
+   q=await db.query(`INSERT INTO lm_v5_animals(user_id,animal_id,data,version,farm_id)
+    VALUES($1,$2,$3::jsonb,1,$4) ON CONFLICT (user_id,animal_id) DO NOTHING RETURNING version`,
+     [req.authUser.id,id,JSON.stringify(data),req.farmId]);
+   if(client)await client.query('COMMIT');
+  }catch(err){if(client)await client.query('ROLLBACK').catch(()=>{});throw err;}
+  finally{if(client)client.release();}
   if(!q.rowCount)return res.status(409).json({code:'ANIMAL_CONFLICT',error:'Another device already created this animal.'});
   res.status(201).json({id,version:Number(q.rows[0].version)});
  }));
