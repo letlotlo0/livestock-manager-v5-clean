@@ -110,28 +110,20 @@ document.addEventListener('livestock:ready',function(){
  $('reportPeriod').onchange=recompute;
  function notify(text){setText('reportNotice',text);}
  function pdfName(prefix){return prefix+'-'+new Date().toISOString().slice(0,10)+'.pdf';}
- async function exportPdf(mode){const b=$(mode==='portfolio'?'pdfPortfolio':'pdfFarm');b.disabled=true;notify('Preparing your report…');
+ async function exportPdf(mode){
+  const b=$(mode==='portfolio'?'pdfPortfolio':'pdfFarm');b.disabled=true;
+  notify('Preparing a server-confirmed PDF…');
   try{
-   const chosen=mode==='portfolio'?list():[selected()];
-   if(mode==='portfolio'&&list().length>1&&LivestockCloud.getStatus()?.state!=='synced'&&
-       !confirm('Active farm edits may not be in the cloud yet. The combined report will use server-confirmed records. Continue?'))return;
-   const reports=[];let source='Server-confirmed';
-   for(const f of chosen){let data;
-    const unsynced=f.id===activeId()&&LivestockCloud.getStatus()?.state!=='synced';
-    if(mode==='farm'&&unsynced){
-      data=localSnapshot();source='Device records - UNCONFIRMED';
-    }else{
-      try{data=await serverSnapshot(f.id);}
-      catch(e){if(mode==='portfolio'||f.id!==activeId())throw e;
-        data=localSnapshot();source='Device records - UNCONFIRMED';
-      }
-    }
-    reports.push(calculator.calculate(f,data,period()));
-   }
-   pdf.download({reports,scope:mode==='portfolio'?'portfolio':'farm',source,
-    name:pdfName(mode==='portfolio'?'livestock-portfolio':('livestock-'+selected().name.toLowerCase().replace(/[^a-z0-9]+/g,'-')))});
-   notify('PDF generated. If any cost records are missing, the report marks its assessment as incomplete.');
-  }catch(err){console.error(err);notify('Report failed: '+err.message);}
+   const query=new URLSearchParams({scope:mode,period:period(),farmId:activeId()});
+   const r=await fetch('/api/reports/pdf?'+query.toString(),{credentials:'same-origin',cache:'no-store'});
+   if(!r.ok){const data=await r.json().catch(()=>({}));throw Error(data.error||'Could not download this report.');}
+   const blob=await r.blob();
+   if(blob.type!=='application/pdf'&&blob.size<8)throw Error('Server returned an invalid report.');
+   const url=URL.createObjectURL(blob),a=document.createElement('a');
+   a.href=url;a.download=pdfName(mode==='portfolio'?'livestock-portfolio':'livestock-'+selected().name.toLowerCase().replace(/[^a-z0-9]+/g,'-'));
+   document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2500);
+   notify('Server-confirmed PDF downloaded. Unsynced device edits may not appear; sync first for the latest figures.');
+  }catch(err){notify('Report unavailable: '+err.message);}
   finally{b.disabled=false;}
  }
  $('pdfFarm').onclick=()=>exportPdf('farm');$('pdfPortfolio').onclick=()=>exportPdf('portfolio');

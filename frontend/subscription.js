@@ -31,7 +31,7 @@
     getSubscription: function () { return state.status; },
     getPlan: function () { var e = current(); return { id: e ? e.plan : "free", name: e ? e.planName : "Free", animalLimit: limitOf() }; },
     effectivePlan: function () { var e = current(); return e ? e.plan : "free"; },
-    hasFeature: function () { var e = current(); return !e || e.allPages; },
+    hasFeature: function (name) { var e = current(); if(!e)return false; if(!name)return !!e.allPages; return !!(e.features && e.features[name]); },
     canAddAnimal: function (count) { return (typeof count === "number" ? count : getCount()) < limitOf(); },
     getAnimalsCount: getCount, isReady: function () { return true; }, enforce: function () {}, checkout: post
   };
