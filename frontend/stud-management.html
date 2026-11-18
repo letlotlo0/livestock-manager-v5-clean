@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<meta name="theme-color" content="#546B2F"><title>Stud Management | Livestock Manager</title>
+<link rel="stylesheet" href="farm-alerts.css"><link rel="stylesheet" href="premium-ui.css"><link rel="stylesheet" href="navigation-premium.css"><link rel="stylesheet" href="final-intelligence.css"><link rel="stylesheet" href="subscription.css"><link rel="stylesheet" href="v51-design.css?v=5.1.1">
+<link rel="stylesheet" href="v53-breeding-care.css?v=5.3.5">
+<script src="auth-api.js"></script><script src="auth-guard.js"></script></head><body class="v53p5"><nav class="navbar" aria-label="Main navigation">
+  <div class="nav-container">
+    <a href="dashboard.html" class="logo" aria-label="Livestock Manager dashboard"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="42" height="42"><span>Livestock <em>Manager</em></span></a>
+    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="return window.LMNavToggle ? window.LMNavToggle(this) : false;">☰</button>
+    <div class="nav-links" id="navLinks">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="animals.html">Animals</a>
+        <a href="family-tree.html">Breeding</a>
+        <a href="health.html">Treatments</a>
+        <a href="money-stats.html">Sales</a>
+        <a href="farm-reports.html">Reports</a>
+      <details class="lm-more-menu"><summary>More <span aria-hidden="true">⌄</span></summary><div class="lm-more-popover">
+          <a href="livestock-overview.html">Herd overview</a>
+          <a href="animal-profile.html">Animal profile</a>
+          <a href="digital-pedigree.html">Digital pedigree</a>
+          <a href="birth-records.html">Birth records</a>
+          <a href="stud-management.html" class="active" aria-current="page">Stud management</a>
+          <a href="operations.html">Operations</a>
+          <a href="feeding.html">Feeding</a>
+          <a href="weaning.html">Weaning</a>
+          <a href="growth.html">Growth</a>
+          <a href="vaccinations.html">Vaccinations</a>
+          <a href="farm-alerts.html">Alerts</a>
+          <a href="subscription.html">Plans</a>
+      </div></details>
+    </div>
+    <a class="lm-account-shortcut" href="profile.html" aria-label="Open your farm profile"><span class="lm-avatar">FM</span><span class="lm-account-label">Farm Manager<small>My account</small></span></a>
+  </div>
+</nav><main class="v53p5-page" id="studWorkspace">
+<header class="v53p5-header"><div><div class="v53p5-kicker">BREEDING / SIRE RECORDS</div><h1>Stud Management</h1><p>Review breeding males, offspring, sire records and mating activity across your active farm.</p><span class="v53p5-farm" id="studFarm">Active farm</span></div><div class="v53p5-actions"><a href="family-tree.html" class="v53p5-btn v53p5-quiet">Family tree</a><button type="button" class="v53p5-btn v53p5-primary" id="studAddService">+ Record mating</button></div></header>
+<section class="v53p5-kpis"><div><span>Breeding males</span><strong id="studTotal">0</strong><small>Male animals in your herd</small></div><div><span>Linked offspring</span><strong id="studYoung">0</strong><small>Current herd pedigree</small></div><div><span>Mating records</span><strong id="studServices">0</strong><small>Logged against sires</small></div><div><span>Recorded registrations</span><strong id="studRegistered">0</strong><small>Breeding males registered</small></div></section>
+<div class="v53p5-layout"><section class="v53p5-card"><div class="v53p5-card-header"><div><span class="v53p5-kicker">SIRE REGISTER</span><h2>Breeding animal profiles</h2><p>Choose a sire to view its pedigree, mating history and linked offspring.</p></div><span id="studCount" class="v53p5-pill">0 sires</span></div><div class="v53p5-controls"><label>Find a sire<input id="studSearch" type="search" placeholder="Bull, ram, buck, tag, breed…"></label><label>Species<select id="studSpecies"><option value="all">All species</option><option value="Cattle">Cattle</option><option value="Goat">Goats</option><option value="Sheep">Sheep</option><option value="Pig">Pigs</option></select></label></div><div id="studList" class="v53p5-stud-list" aria-live="polite"></div></section>
+<aside class="v53p5-sidebar"><section class="v53p5-card" id="studInspector" aria-live="polite"><span class="v53p5-kicker">SIRE DETAILS</span><h2>Choose a breeding male</h2><p>Animal identity, offspring and mating history will appear here.</p></section></aside></div>
+<section class="v53p5-card v53p5-activity"><div class="v53p5-card-header"><div><span class="v53p5-kicker">BREEDING HISTORY</span><h2>Mating / service records</h2><p>A service is not proof of pregnancy. Confirm pregnancy separately in Animals.</p></div><span class="v53p5-pill" id="studHistoryCount">0 records</span></div><div id="studHistory" class="v53p5-rows"></div></section>
+<div class="v53p5-overlay" id="studOverlay" hidden></div>
+<section class="v53p5-drawer" id="studDrawer" role="dialog" aria-modal="true" aria-labelledby="studFormTitle" aria-hidden="true" tabindex="-1"><div class="v53p5-drawer-top"><div><span class="v53p5-kicker">BREEDING JOURNAL</span><h2 id="studFormTitle">Record a mating</h2><p>Stored against the breeding male and synced with your farm.</p></div><button type="button" id="studClose" class="v53p5-icon-btn" aria-label="Close mating record">×</button></div><form id="studForm" class="v53p5-form"><label>Breeding male<select id="studMale" required><option value="">Select sire</option></select></label><label>Female / dam<select id="studFemale"><option value="">Not recorded</option></select></label><label>Service date<input id="studDate" type="date" required></label><label>Breeding method<select id="studMethod"><option>Natural mating</option><option>Artificial insemination</option><option>Embryo transfer</option><option>Other</option></select></label><label class="full">Observations<textarea id="studNotes" rows="3" maxlength="1200" placeholder="Heat detection, technician or notes"></textarea></label><div class="full v53p5-form-actions"><button type="submit" class="v53p5-btn v53p5-primary">Save mating record</button><button type="button" id="studCancel" class="v53p5-btn v53p5-quiet">Cancel</button></div><p class="full v53p5-small">Estimated dates are planning guides only. This entry does not mark the female pregnant or create a birth automatically.</p></form></section>
+</main><script src="cloud-config.js"></script><script src="v5-merge.js"></script><script src="lm-farms.js?v=5.2.0"></script><script src="livestock-cloud.js?v=5.2.0"></script><script src="livestock-core.js"></script><script src="subscription.js"></script>
+<script src="v53-stud-management.js?v=5.3.5"></script><script src="navigation.js?v=5.3.5"></script><script src="final-intelligence.js"></script><script src="v51-design.js?v=5.1.0"></script></body></html>

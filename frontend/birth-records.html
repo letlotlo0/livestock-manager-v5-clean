@@ -1,0 +1,47 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<meta name="theme-color" content="#546B2F"><title>Birth Records | Livestock Manager</title>
+<link rel="stylesheet" href="farm-alerts.css"><link rel="stylesheet" href="premium-ui.css"><link rel="stylesheet" href="navigation-premium.css"><link rel="stylesheet" href="final-intelligence.css"><link rel="stylesheet" href="subscription.css"><link rel="stylesheet" href="v51-design.css?v=5.1.1">
+<link rel="stylesheet" href="v53-breeding-care.css?v=5.3.5">
+<script src="auth-api.js"></script><script src="auth-guard.js"></script></head><body class="v53p5"><nav class="navbar" aria-label="Main navigation">
+  <div class="nav-container">
+    <a href="dashboard.html" class="logo" aria-label="Livestock Manager dashboard"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="42" height="42"><span>Livestock <em>Manager</em></span></a>
+    <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="return window.LMNavToggle ? window.LMNavToggle(this) : false;">☰</button>
+    <div class="nav-links" id="navLinks">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="animals.html">Animals</a>
+        <a href="family-tree.html">Breeding</a>
+        <a href="health.html">Treatments</a>
+        <a href="money-stats.html">Sales</a>
+        <a href="farm-reports.html">Reports</a>
+      <details class="lm-more-menu"><summary>More <span aria-hidden="true">⌄</span></summary><div class="lm-more-popover">
+          <a href="livestock-overview.html">Herd overview</a>
+          <a href="animal-profile.html">Animal profile</a>
+          <a href="digital-pedigree.html">Digital pedigree</a>
+          <a href="birth-records.html" class="active" aria-current="page">Birth records</a>
+          <a href="stud-management.html">Stud management</a>
+          <a href="operations.html">Operations</a>
+          <a href="feeding.html">Feeding</a>
+          <a href="weaning.html">Weaning</a>
+          <a href="growth.html">Growth</a>
+          <a href="vaccinations.html">Vaccinations</a>
+          <a href="farm-alerts.html">Alerts</a>
+          <a href="subscription.html">Plans</a>
+      </div></details>
+    </div>
+    <a class="lm-account-shortcut" href="profile.html" aria-label="Open your farm profile"><span class="lm-avatar">FM</span><span class="lm-account-label">Farm Manager<small>My account</small></span></a>
+  </div>
+</nav><main class="v53p5-page" id="birthWorkspace">
+ <header class="v53p5-header"><div><div class="v53p5-kicker">BREEDING / BIRTH RECORDS</div><h1>Birth & Calving Centre</h1><p>Record newborn livestock, review breeding due dates and trace every calf or kid back to its parents.</p><span class="v53p5-farm" id="birthFarm">Active farm</span></div><div class="v53p5-actions"><a href="family-tree.html" class="v53p5-btn v53p5-quiet">Explore pedigree</a><button type="button" class="v53p5-btn v53p5-primary" id="birthOpen">+ Register birth</button></div></header>
+ <section class="v53p5-kpis" aria-label="Birth overview"><div><span>Births recorded</span><strong id="birthTotal">0</strong><small>Animals with a birth date</small></div><div><span>Newborns · 30 days</span><strong id="birthRecent">0</strong><small>Registered in herd records</small></div><div><span>Expected · 30 days</span><strong id="birthDue">0</strong><small>Pregnant animals</small></div><div><span>Past expected date</span><strong id="birthOverdue">0</strong><small>Verify before acting</small></div></section>
+ <div class="v53p5-layout"><section class="v53p5-card"><div class="v53p5-card-header"><div><span class="v53p5-kicker">HERD HISTORY</span><h2>Births and expected arrivals</h2><p>Filter the history or review mothers that are due to give birth.</p></div><span class="v53p5-pill" id="birthMatches">0 records</span></div>
+ <div class="v53p5-tabs" role="group" aria-label="Birth view"><button type="button" class="is-active" data-birth-tab="registered">Registered births</button><button type="button" data-birth-tab="expected">Expected births</button></div>
+ <div class="v53p5-controls"><label>Search<input id="birthSearch" type="search" placeholder="Name, tag, dam or sire…"></label><label>Species<select id="birthSpecies"><option value="all">All species</option><option value="Cattle">Cattle</option><option value="Goat">Goats</option><option value="Sheep">Sheep</option><option value="Pig">Pigs</option></select></label></div><div id="birthList" class="v53p5-rows" aria-live="polite"></div></section>
+ <aside class="v53p5-sidebar"><section class="v53p5-card"><span class="v53p5-kicker">RECORDING GUIDE</span><h2>Complete birth records</h2><p>Register newborn animals so they appear in Animals and Family Tree. Linking the mother and father also builds your pedigree automatically.</p><ul><li>Choose the mother from the current farm.</li><li>Record the actual birth date and sex.</li><li>Add a tag when assigned.</li><li>Review the mother's calving history.</li></ul><a href="animals.html" class="v53p5-inline-link">Open Animal Management</a></section></aside></div>
+ <div class="v53p5-overlay" id="birthOverlay" hidden></div>
+ <section class="v53p5-drawer" id="birthDrawer" role="dialog" aria-modal="true" aria-labelledby="birthFormTitle" aria-hidden="true" tabindex="-1"><div class="v53p5-drawer-top"><div><span class="v53p5-kicker">NEW HERD ENTRY</span><h2 id="birthFormTitle">Register a newborn</h2><p>This adds a real animal to the selected farm, not a separate unsynced note.</p></div><button type="button" class="v53p5-icon-btn" id="birthClose" aria-label="Close birth registration">×</button></div>
+ <form id="birthForm" class="v53p5-form"><label>Animal name<input id="birthName" maxlength="80" placeholder="e.g. Brahman calf 07"></label><label>Ear tag / identifier<input id="birthTag" maxlength="80" placeholder="Optional until tagging"></label><label>Species<select id="birthType" required><option value="">Select species</option><option>Cattle</option><option>Goat</option><option>Sheep</option><option>Pig</option></select></label><label>Sex<select id="birthSex" required><option value="">Select sex</option><option>Female</option><option>Male</option></select></label><label>Date of birth<input id="birthDate" type="date" required></label><label>Birth weight (kg)<input id="birthWeight" type="number" min="0" max="1500" step="0.1" placeholder="Optional"></label><label>Mother / dam<select id="birthDam"><option value="">Unknown / not recorded</option></select></label><label>Father / sire<select id="birthSire"><option value="">Unknown / not recorded</option></select></label><label class="full">Birth notes<textarea id="birthNotes" maxlength="1200" rows="3" placeholder="Delivery observations or assistance (optional)"></textarea></label><div class="full v53p5-form-actions"><button type="submit" class="v53p5-btn v53p5-primary" id="birthSave">Save newborn to herd</button><button type="button" class="v53p5-btn v53p5-quiet" id="birthCancel">Cancel</button></div><p class="full v53p5-small">Saving updates the existing cloud-synced animal register. When a linked mother is confirmed, her records are updated for this birth. A multiple birth on the same day counts as one calving.</p></form></section>
+</main><script src="cloud-config.js"></script><script src="v5-merge.js"></script><script src="lm-farms.js?v=5.2.0"></script><script src="livestock-cloud.js?v=5.2.0"></script><script src="livestock-core.js"></script><script src="subscription.js"></script>
+<script src="v53-birth-records.js?v=5.3.5"></script><script src="navigation.js?v=5.3.5"></script><script src="final-intelligence.js"></script><script src="v51-design.js?v=5.1.0"></script></body></html>

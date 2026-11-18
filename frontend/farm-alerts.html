@@ -1,32 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-<link rel="icon" type="image/png" href="assets/livestock-logo.png">
-    <meta name="application-name" content="Livestock Manager v3">
-    <meta charset="UTF-8">
-    <link rel="manifest" href="manifest.webmanifest">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Alerts & Reminders | Livestock Manager</title>
-
-    <link rel="stylesheet" href="farm-alerts.css">
-    <link rel="stylesheet" href="premium-ui.css">
-<link rel="stylesheet" href="navigation-premium.css">
-<link rel="stylesheet" href="final-intelligence.css">
-<link rel="stylesheet" href="subscription.css">
-<script src="auth-api.js"></script>
-<script src="auth-guard.js"></script>
-    <link rel="stylesheet" href="v51-design.css?v=5.1.1">
-</head>
-
-<body>
-
-    <!-- =========================
-         NAVIGATION
-    ========================== -->
-
-        <nav class="navbar" aria-label="Main navigation">
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<meta name="theme-color" content="#546B2F"><title>Farm Alerts | Livestock Manager</title>
+<link rel="stylesheet" href="farm-alerts.css"><link rel="stylesheet" href="premium-ui.css"><link rel="stylesheet" href="navigation-premium.css"><link rel="stylesheet" href="final-intelligence.css"><link rel="stylesheet" href="subscription.css"><link rel="stylesheet" href="v51-design.css?v=5.1.1">
+<link rel="stylesheet" href="v53-breeding-care.css?v=5.3.5">
+<script src="auth-api.js"></script><script src="auth-guard.js"></script></head><body class="v53p5"><nav class="navbar" aria-label="Main navigation">
   <div class="nav-container">
     <a href="dashboard.html" class="logo" aria-label="Livestock Manager dashboard"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="42" height="42"><span>Livestock <em>Manager</em></span></a>
     <button type="button" class="menu-button" id="menuButton" aria-label="Open navigation" aria-expanded="false" onclick="return window.LMNavToggle ? window.LMNavToggle(this) : false;">☰</button>
@@ -41,6 +20,8 @@
           <a href="livestock-overview.html">Herd overview</a>
           <a href="animal-profile.html">Animal profile</a>
           <a href="digital-pedigree.html">Digital pedigree</a>
+          <a href="birth-records.html">Birth records</a>
+          <a href="stud-management.html">Stud management</a>
           <a href="operations.html">Operations</a>
           <a href="feeding.html">Feeding</a>
           <a href="weaning.html">Weaning</a>
@@ -52,211 +33,12 @@
     </div>
     <a class="lm-account-shortcut" href="profile.html" aria-label="Open your farm profile"><span class="lm-avatar">FM</span><span class="lm-account-label">Farm Manager<small>My account</small></span></a>
   </div>
-</nav>
-
-
-    <!-- =========================
-         MAIN CONTENT
-    ========================== -->
-
-    <main class="page-container">
-
-        <!-- HEADER -->
-
-        <section class="page-header">
-
-            <span class="page-label">
-                FARM MANAGEMENT
-            </span>
-
-            <h1>
-                Alerts & Reminders
-            </h1>
-
-            <p>
-                Stay informed about important livestock
-                activities and upcoming tasks.
-            </p>
-
-        </section>
-
-
-        <!-- =========================
-             NOTIFICATION CONTROL
-        ========================== -->
-
-        <section class="notification-card">
-
-            <div class="notification-icon">
-                🔔
-            </div>
-
-            <div class="notification-information">
-
-                <h2>
-                    Farm Notifications
-                </h2>
-
-                <p id="notificationStatus">
-                    Notifications are currently disabled.
-                </p>
-
-            </div>
-
-            <button
-                type="button"
-                class="notification-button"
-                id="notificationButton"
-            >
-                Enable Notifications
-            </button>
-
-        </section>
-
-        <section class="notification-card" id="emailAlertsCard">
-            <div class="notification-icon">&#9993;</div>
-            <div class="notification-information">
-                <h2>Email Alerts</h2>
-                <p id="emailAlertsStatus">Loading…</p>
-            </div>
-            <button type="button" class="notification-button" id="emailAlertsButton" disabled>Please wait</button>
-        </section>
-
-
-        <!-- =========================
-             ALERT SUMMARY
-        ========================== -->
-
-        <section class="summary-grid">
-
-            <div class="summary-card">
-
-                <span>
-                    DUE TODAY
-                </span>
-
-                <strong id="todayCount">
-                    0
-                </strong>
-
-            </div>
-
-
-            <div class="summary-card">
-
-                <span>
-                    NEXT 7 DAYS
-                </span>
-
-                <strong id="weekCount">
-                    0
-                </strong>
-
-            </div>
-
-
-            <div class="summary-card">
-
-                <span>
-                    OVERDUE
-                </span>
-
-                <strong id="overdueCount">
-                    0
-                </strong>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             ALERTS
-        ========================== -->
-
-        <section class="alerts-section">
-
-            <div class="section-heading">
-
-                <h2>
-                    Upcoming Tasks
-                </h2>
-
-                <p>
-                    Important livestock activities that
-                    may require your attention.
-                </p>
-
-            </div>
-
-
-            <div
-                class="alerts-list"
-                id="alertsList"
-            ></div>
-
-
-            <div
-                class="empty-state"
-                id="emptyState"
-            >
-
-                <div class="empty-icon">
-                    ✓
-                </div>
-
-                <h3>
-                    No upcoming alerts
-                </h3>
-
-                <p>
-                    Your livestock records currently have
-                    no upcoming tasks.
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================
-             INFORMATION
-        ========================== -->
-
-        <section class="info-card">
-
-            <div class="info-icon">
-                💡
-            </div>
-
-            <div>
-
-                <h3>
-                    Keep your livestock records updated
-                </h3>
-
-                <p>
-                    Birth dates, weaning dates, vaccination
-                    dates and health information help the
-                    app create useful reminders.
-                </p>
-
-            </div>
-
-        </section>
-
-    </main>
-
-    <script src="cloud-config.js"></script>
-    <script src="v5-merge.js"></script>
-    <script src="lm-farms.js?v=5.2.0"></script>
-    <script src="livestock-cloud.js?v=5.2.0"></script>
-    <script src="livestock-core.js"></script>
-    <script src="subscription.js"></script>
-    <script src="farm-alerts.js"></script><script src="alert-prefs.js"></script>
-
-<script src="navigation.js?v=4.0.8"></script>
-<script src="final-intelligence.js"></script>
-    <script src="v51-design.js?v=5.1.0"></script>
-</body>
-</html>
+</nav><main class="v53p5-page" id="alertWorkspace">
+ <header class="v53p5-header"><div><div class="v53p5-kicker">FARM MANAGEMENT / PRIORITIES</div><h1>Alerts & Reminders</h1><p>One place for upcoming births, health follow-ups, daily tasks and animal record checks.</p><span class="v53p5-farm" id="alertsFarm">Active farm</span></div><div class="v53p5-actions"><a class="v53p5-btn v53p5-quiet" href="operations.html">Farm operations</a><a class="v53p5-btn v53p5-primary" href="birth-records.html">Birth centre</a></div></header>
+ <section class="v53p5-kpis"><div><span>Past due</span><strong id="overdueCount">0</strong><small>Urgent recorded dates</small></div><div><span>Due today</span><strong id="todayCount">0</strong><small>Scheduled items</small></div><div><span>Next 7 days</span><strong id="weekCount">0</strong><small>Includes today</small></div><div><span>Total to review</span><strong id="allCount">0</strong><small>Across current farm</small></div></section>
+ <div class="v53p5-layout"><section class="v53p5-card"><div class="v53p5-card-header"><div><span class="v53p5-kicker">ACTION CENTRE</span><h2>What needs attention?</h2><p>Filter and open the source record to take action.</p></div><span id="alertsMatches" class="v53p5-pill">0 alerts</span></div>
+ <div class="v53p5-tabs" role="group" aria-label="Alert priority"><button data-alert-tab="all" class="is-active" type="button">All</button><button data-alert-tab="overdue" type="button">Overdue</button><button data-alert-tab="today" type="button">Today</button><button data-alert-tab="upcoming" type="button">Next 7 days</button></div>
+ <div class="v53p5-controls"><label>Search<input type="search" id="alertsSearch" placeholder="Search animals, tasks and notes…"></label><label>Category<select id="alertsCategory"><option value="all">All categories</option><option value="Pregnancy">Births</option><option value="Health">Health</option><option value="Vaccination">Vaccination</option><option value="Weaning">Weaning</option><option value="Operation">Farm operations</option><option value="Growth">Growth</option><option value="Record">Records</option><option value="Finance">Finance</option></select></label></div><div class="v53p5-rows" id="alertsList" aria-live="polite"></div></section>
+ <aside class="v53p5-sidebar"><section class="v53p5-card"><span class="v53p5-kicker">NOTIFICATION SETTINGS</span><h2>Stay informed</h2><p id="notificationStatus" class="v53p5-small">Checking browser notifications…</p><button type="button" class="v53p5-btn v53p5-quiet fullbtn" id="notificationButton">Enable notifications</button><div class="v53p5-separator"></div><h3>Email alerts</h3><p class="v53p5-small" id="emailAlertsStatus">Loading your email settings…</p><button type="button" id="emailAlertsButton" class="v53p5-btn v53p5-quiet fullbtn" disabled>Loading…</button><p class="v53p5-small">Browser notifications require permission. Email settings are account-level; the alerts displayed here are for your selected farm.</p></section><section class="v53p5-card"><span class="v53p5-kicker">QUICK ACCESS</span><h2>Record an event</h2><div class="v53p5-link-list"><a href="birth-records.html">Register birth <span>↗</span></a><a href="stud-management.html">Stud management <span>↗</span></a><a href="vaccinations.html">Vaccinations <span>↗</span></a><a href="health.html">Treatments & health <span>↗</span></a></div></section></aside></div>
+</main><script src="cloud-config.js"></script><script src="v5-merge.js"></script><script src="lm-farms.js?v=5.2.0"></script><script src="livestock-cloud.js?v=5.2.0"></script><script src="livestock-core.js"></script><script src="subscription.js"></script>
+<script src="farm-alerts.js?v=5.3.5"></script><script src="alert-prefs.js"></script><script src="navigation.js?v=5.3.5"></script><script src="final-intelligence.js"></script><script src="v51-design.js?v=5.1.0"></script></body></html>
