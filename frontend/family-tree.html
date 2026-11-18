@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" type="image/png" href="assets/livestock-logo.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Livestock Manager">
+<meta name="theme-color" content="#546B2F">
+
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Herd Family Tree | Livestock Manager</title>
@@ -13,6 +22,7 @@
 <script src="auth-api.js"></script>
 <script src="auth-guard.js"></script>
     <link rel="stylesheet" href="v51-design.css?v=5.1.1">
+<link rel="stylesheet" href="v53-workspace.css?v=5.3.0">
 </head>
 <body>
 <nav class="navbar" aria-label="Main navigation">
@@ -42,17 +52,19 @@
     <a class="lm-account-shortcut" href="profile.html" aria-label="Open your farm profile"><span class="lm-avatar">FM</span><span class="lm-account-label">Farm Manager<small>My account</small></span></a>
   </div>
 </nav>
-<main class="tree-page">
+<main class="tree-page v53-tree-page">
 <section class="tree-hero"><div><span class="eyebrow">HERD GENETICS</span><h1>Herd Family Tree</h1><p>See parentage, offspring and connected generations for your livestock.</p></div><a class="tree-badge" href="digital-pedigree.html" aria-label="What is a digital pedigree?">🧬 <span>Digital Pedigree</span></a></section>
 <section class="tree-controls"><div class="control-block"><label for="animalSelect">Choose an animal</label><select id="animalSelect"><option value="">Select an animal</option></select></div><div class="tree-actions"><button id="centerTree" class="premium-btn" type="button">Center Tree</button><button id="clearTree" class="premium-btn secondary" type="button">Clear</button></div></section>
+<div class="v53-tree-toolbar"><div><span class="v53-eyebrow">PEDIGREE EXPLORER</span><p>Trace recorded parents and offspring. Select a connected animal to focus on its lineage.</p></div><div class="v53-tree-tool-buttons"><button type="button" id="v53ZoomOut" aria-label="Zoom out">−</button><output id="v53ZoomLabel" aria-live="polite">100%</output><button type="button" id="v53ZoomIn" aria-label="Zoom in">+</button><button type="button" id="v53PrintTree">Print / Save PDF</button></div></div>
 <section class="tree-summary" id="treeSummary"></section>
-<section class="tree-canvas-wrap"><div class="tree-canvas" id="treeCanvas"><div class="tree-empty" id="treeEmpty"><div class="empty-icon">🌳</div><h2>Select an animal to view its family</h2><p>Use the parent fields when recording animals to build connected generations.</p></div></div></section>
+<div class="v53-tree-workspace"><section class="tree-canvas-wrap"><div class="tree-canvas" id="treeCanvas"><div class="tree-empty" id="treeEmpty"><div class="empty-icon">🌳</div><h2>Select an animal to view its family</h2><p>Use the parent fields when recording animals to build connected generations.</p></div></div></section>
+<aside class="v53-tree-inspector" id="v53TreeInspector" aria-live="polite"><span class="v53-eyebrow">ANIMAL DETAILS</span><h2>Explore your herd</h2><p>Select an animal to view its parents, descendants and key registration information.</p><a href="animals.html">Manage animal records</a></aside></div>
 <section class="tree-note"><strong>How it works</strong><p>The family tree uses the animal's recorded <b>Sire / Father</b> and <b>Dam / Mother</b> fields. You can enter an animal's name or ID, and Livestock Manager will connect matching records automatically.</p></section>
 </main>
 <script src="cloud-config.js"></script><script src="v5-merge.js"></script>
     <script src="lm-farms.js?v=5.2.0"></script>
     <script src="livestock-cloud.js?v=5.2.0"></script>
-<script src="subscription.js"></script><script src="livestock-core.js"></script><script src="family-tree.js"></script>
+<script src="subscription.js"></script><script src="livestock-core.js"></script><script src="family-tree.js"></script><script src="v53-family-tree.js?v=5.3.0"></script>
 <script src="navigation.js?v=4.0.8"></script>
 <script src="final-intelligence.js"></script>
     <script src="v51-design.js?v=5.1.0"></script>

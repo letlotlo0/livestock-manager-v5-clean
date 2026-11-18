@@ -2,7 +2,16 @@
 <html lang="en">
 
 <head>
-<link rel="icon" type="image/png" href="assets/livestock-logo.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Livestock Manager">
+<meta name="theme-color" content="#546B2F">
+
+
     <meta name="application-name" content="Livestock Manager">
     <meta charset="UTF-8">
 
@@ -24,6 +33,7 @@
 <script src="auth-api.js"></script>
 <script src="auth-guard.js"></script>
     <link rel="stylesheet" href="v51-design.css?v=5.1.1">
+<link rel="stylesheet" href="v53-workspace.css?v=5.3.0">
 </head>
 
 <body>
@@ -65,31 +75,20 @@
          MAIN
     ========================== -->
 
-    <main class="page-container">
+    <main class="page-container v53-animal-page">
 
-        <section class="page-header">
-
-            <span class="page-label">
-                LIVESTOCK MANAGEMENT
-            </span>
-
-            <h1>
-                My Animals
-            </h1>
-
-            <p>
-                Manage your livestock and keep track of
-                their investment and trading performance.
-            </p>
-
-        </section>
+        <section class="page-header v53-workspace-header">
+   <div><span class="page-label">LIVESTOCK MANAGEMENT</span><h1>My Animals</h1>
+   <p>Find, manage and review your active livestock in your selected farm.</p></div>
+   <div class="v53-header-actions"><a class="v53-secondary" href="livestock-overview.html">Herd overview</a><button type="button" id="v53OpenAnimalForm" class="v53-primary">+ Register animal</button></div>
+ </section>
 
 
         <!-- =========================
              SUMMARY
         ========================== -->
 
-        <section class="summary-grid">
+        <section class="summary-grid v53-animals-summary">
 
             <div class="summary-card">
 
@@ -129,14 +128,27 @@
 
             </div>
 
+          <div class="summary-card"><span>PREGNANT ANIMALS</span><strong id="v53Pregnant">0</strong></div>
         </section>
 
 
-        <!-- =========================
+<section class="v53-herd-workspace" aria-label="Herd workspace controls">
+  <div class="v53-workspace-top"><div><span class="v53-eyebrow">HERD REGISTER</span><h2>Animals in this farm</h2><p>Search by animal name, tag, breed or registration number.</p></div><a href="family-tree.html" class="v53-secondary">Explore family tree</a></div>
+  <div class="v53-herd-filters">
+   <label class="v53-search-field"><span class="v53-sr-only">Search animals</span><input id="v53AnimalSearch" type="search" autocomplete="off" placeholder="Search animals, tags, breeds…"></label>
+   <label><span class="v53-sr-only">Species filter</span><select id="v53AnimalSpecies"><option value="">All species</option><option value="Cattle">Cattle</option><option value="Goat">Goats</option><option value="Sheep">Sheep</option><option value="Pig">Pigs</option></select></label>
+   <label><span class="v53-sr-only">Sex filter</span><select id="v53AnimalSex"><option value="">Any sex</option><option value="Female">Female</option><option value="Male">Male</option></select></label>
+   <label><span class="v53-sr-only">Status filter</span><select id="v53AnimalStatus"><option value="">Any status</option><option value="pregnant">Pregnant</option><option value="registered">Registered</option></select></label>
+  </div>
+  <div class="v53-herd-bottom"><div class="v53-tabs" role="tablist" aria-label="Herd status"><button type="button" role="tab" aria-selected="true" id="v53ActiveTab" aria-controls="v53ActivePanel">Active</button><button type="button" role="tab" aria-selected="false" id="v53SoldTab" aria-controls="v53SoldPanel">Sold</button></div><div class="v53-view-actions"><span id="v53ResultsCount" aria-live="polite"></span><button type="button" id="v53CardView" aria-pressed="true" title="Card view">Cards</button><button type="button" id="v53CompactView" aria-pressed="false" title="Compact view">Compact</button></div></div>
+ </section>
+ <div class="v53-form-backdrop" id="v53FormBackdrop" hidden></div>
+         <!-- =========================
              ADD ANIMAL
         ========================== -->
 
-        <section class="form-card">
+        <section class="form-card v53-animal-drawer" id="v53AnimalDrawer" role="dialog" aria-modal="true" aria-label="Register or edit an animal" tabindex="-1" aria-hidden="true">
+ <button type="button" class="v53-close-form" id="v53CloseAnimalForm" aria-label="Close registration form">×</button>
 
             <div class="section-heading">
 
@@ -485,7 +497,7 @@
              ACTIVE ANIMALS
         ========================== -->
 
-        <section class="animals-section">
+        <section class="animals-section" id="v53ActivePanel" role="tabpanel" aria-labelledby="v53ActiveTab">
 
             <div class="section-heading">
 
@@ -520,7 +532,7 @@
                 </h3>
 
                 <p>
-                    Add your first animal above.
+                    Use Register animal to add your first livestock record.
                 </p>
 
             </div>
@@ -532,7 +544,7 @@
              SOLD LIVESTOCK
         ========================== -->
 
-        <section class="sold-section">
+        <section class="sold-section" id="v53SoldPanel" role="tabpanel" aria-labelledby="v53SoldTab" hidden>
 
             <div class="section-heading">
 
@@ -709,6 +721,7 @@
     <script src="livestock-core.js"></script>
     <script src="subscription.js"></script>
     <script src="animals.js"></script>
+<script src="v53-animals.js?v=5.3.0"></script>
 
 <script src="navigation.js?v=4.0.8"></script>
 <script src="final-intelligence.js"></script>

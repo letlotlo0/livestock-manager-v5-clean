@@ -1,0 +1,71 @@
+/* Livestock Manager v5.3: Animals + Family Tree layout layer only.
+   Uses the exact olive, cream, sage and ink variables from v51-design.css.
+   Does not style Dashboard, Profile or shared nav. */
+.v53-sr-only{position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;padding:0!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.v53-animal-page{width:min(1450px,calc(100% - 52px))!important;max-width:none!important;margin:0 auto!important}
+.v53-workspace-header{display:flex;align-items:center;justify-content:space-between;gap:22px;margin:38px 0 25px!important}
+.v53-workspace-header h1{font-size:clamp(28px,2.7vw,38px)!important;line-height:1.12;margin:9px 0!important}
+.v53-workspace-header p{max-width:620px}
+.v53-header-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.v53-primary,.v53-secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:11px 18px;border-radius:12px;text-decoration:none;font-weight:750;font-size:13px;cursor:pointer;white-space:nowrap}
+.v53-primary{background:var(--v51-olive)!important;color:var(--v51-white)!important;border:1px solid var(--v51-olive)!important}
+.v53-secondary{background:var(--v51-white)!important;color:var(--v51-olive-deep)!important;border:1px solid var(--v51-line)!important}
+.v53-animals-summary{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:15px!important}
+.v53-animals-summary .summary-card{border:1px solid var(--v51-line)!important;border-radius:16px!important;background:var(--v51-white)!important;padding:23px!important;box-shadow:var(--v51-shadow)!important}
+.v53-animals-summary .summary-card span{font-size:11px!important;color:var(--v51-slate)!important}
+.v53-animals-summary .summary-card strong{font-size:clamp(24px,2.5vw,34px)!important;color:var(--v51-ink)!important}
+.v53-herd-workspace{background:var(--v51-white);border:1px solid var(--v51-line);padding:24px;border-radius:18px;margin-bottom:16px;box-shadow:var(--v51-shadow)}
+.v53-workspace-top,.v53-herd-bottom{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.v53-eyebrow{font-size:10px;letter-spacing:.14em;font-weight:850;color:var(--v51-olive)!important}
+.v53-workspace-top h2{font-size:22px;margin:4px 0 3px;color:var(--v51-ink)}
+.v53-workspace-top p,.v53-tree-toolbar p{margin:0;color:var(--v51-slate);font-size:13px}
+.v53-herd-filters{display:grid;grid-template-columns:minmax(250px,2fr) repeat(3,minmax(140px,1fr));gap:12px;margin:22px 0 20px}
+.v53-herd-filters label{display:block;min-width:0}.v53-herd-filters input,.v53-herd-filters select{height:46px;width:100%;border:1px solid var(--v51-line);background:var(--v51-white);border-radius:12px;color:var(--v51-ink);padding:0 12px;font:inherit;font-size:13px}
+.v53-herd-filters input:focus,.v53-herd-filters select:focus{outline:2px solid var(--v51-sage);outline-offset:1px}
+.v53-herd-bottom{border-top:1px solid var(--v51-line);padding-top:17px}
+.v53-tabs,.v53-view-actions{display:flex;align-items:center;gap:5px}.v53-tabs button,.v53-view-actions button,.v53-tree-tool-buttons button{border:1px solid var(--v51-line);border-radius:9px;padding:9px 13px;background:var(--v51-white);color:var(--v51-slate);font-size:12px;font-weight:750;cursor:pointer}
+.v53-tabs button[aria-selected=true],.v53-view-actions button[aria-pressed=true]{background:var(--v51-sage-pale)!important;color:var(--v51-olive-deep)!important;border-color:var(--v51-sage)!important}
+.v53-view-actions span{font-size:12px;color:var(--v51-slate);margin-right:12px}
+.v53-animal-page .animals-section,.v53-animal-page .sold-section{border:1px solid var(--v51-line)!important;border-radius:18px!important;background:var(--v51-white)!important;padding:23px!important}
+.v53-animal-page #animalsList{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important}
+.v53-animal-page #animalsList .animal-card{border:1px solid var(--v51-line)!important;border-radius:15px!important;background:var(--v51-white)!important;padding:18px!important;min-width:0!important}
+.v53-animal-page #animalsList .animal-card[hidden],.v53-animal-page #v53ActivePanel[hidden],.v53-animal-page #v53SoldPanel[hidden],.v53-no-matches[hidden]{display:none!important}
+.v53-animal-page .animal-title .animal-icon{width:56px;height:56px;background:var(--v51-sage-pale)!important;border-radius:12px!important;flex:none}
+.v53-animal-page .animal-title h3{font-size:16px!important}.v53-animal-page .animal-title p{font-size:12px!important}
+.v53-animal-page .animal-details .detail{background:var(--v51-cream)!important}
+.v53-animal-page .animal-card .status{background:var(--v51-sage-pale)!important;color:var(--v51-olive-deep)!important}
+.v53-animal-page #animalsList.v53-compact{grid-template-columns:1fr!important}
+.v53-animal-page #animalsList.v53-compact .animal-card{display:grid;grid-template-columns:minmax(220px,1.3fr) minmax(190px,1.2fr) auto;gap:14px;align-items:center}
+.v53-animal-page #animalsList.v53-compact .animal-top{margin:0!important}
+.v53-animal-page #animalsList.v53-compact .animal-details{margin:0!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.v53-animal-page #animalsList.v53-compact .investment-box,.v53-animal-page #animalsList.v53-compact .record-meta{display:none!important}
+.v53-animal-page #animalsList.v53-compact .animal-actions{margin:0!important;justify-self:end;white-space:nowrap}
+.v53-no-matches{padding:36px 15px;text-align:center;color:var(--v51-slate);font-size:13px}
+.v53-form-backdrop{position:fixed;inset:0;background:rgba(17,28,13,.52);z-index:1199;display:none}
+.v53-form-backdrop[hidden]{display:none!important}
+.v53-animal-page .v53-animal-drawer{display:none!important;position:fixed!important;right:0!important;top:0!important;bottom:0!important;z-index:1200!important;margin:0!important;width:min(780px,100vw)!important;max-width:100%!important;overflow-y:auto!important;border-radius:20px 0 0 20px!important;border:1px solid var(--v51-line)!important;box-shadow:-24px 0 60px rgba(20,30,18,.2)!important;background:var(--v51-white)!important;padding:34px 28px 45px!important}
+body.v53-form-open{overflow:hidden!important}
+body.v53-form-open .v53-form-backdrop{display:block!important}
+body.v53-form-open .v53-animal-drawer{display:block!important}
+.v53-close-form{position:sticky;top:0;float:right;z-index:5;border:1px solid var(--v51-line);background:var(--v51-white);color:var(--v51-ink);border-radius:11px;width:38px;height:38px;font-size:26px;cursor:pointer}
+.v53-animal-drawer .section-heading{padding-right:55px}
+.v53-animal-drawer .form-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.v53-animal-drawer label{color:var(--v51-ink)}
+/* tree explorer: preserve original green hero and styles; change layout only */
+.v53-tree-page{max-width:1510px!important}
+.v53-tree-toolbar{background:var(--v51-white);border:1px solid var(--v51-line);border-radius:16px;padding:16px 20px;margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.v53-tree-toolbar p{margin:7px 0 0}.v53-tree-tool-buttons{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.v53-tree-tool-buttons output{color:var(--v51-slate);font-size:12px;min-width:45px;text-align:center}
+.v53-tree-page .tree-summary{margin-top:18px!important}
+.v53-tree-workspace{display:grid;grid-template-columns:minmax(0,1fr) 285px;align-items:start;gap:18px;margin-top:20px}
+.v53-tree-workspace .tree-canvas-wrap{margin-top:0!important;min-width:0;box-shadow:var(--v51-shadow)}
+.v53-tree-workspace .tree-canvas{min-height:560px;}
+.v53-tree-workspace .tree-level{z-index:2}.v53-tree-connectors{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:visible}
+.v53-tree-page .animal-node{cursor:pointer}.v53-tree-page .animal-node:hover{outline:2px solid var(--v51-sage)}
+.v53-tree-inspector{border:1px solid var(--v51-line);background:var(--v51-white);border-radius:18px;padding:24px;position:sticky;top:90px;box-shadow:var(--v51-shadow)}
+.v53-tree-inspector h2{margin:9px 0;font-size:20px;color:var(--v51-ink)}
+.v53-tree-inspector p{color:var(--v51-slate);font-size:13px;line-height:1.6}
+.v53-inspector-stats{margin:18px 0}.v53-inspector-stats div{padding:10px 0;border-bottom:1px solid var(--v51-line)}.v53-inspector-stats dt{font-size:11px;color:var(--v51-slate)}.v53-inspector-stats dd{font-size:13px;font-weight:750;margin:5px 0 0;color:var(--v51-ink);overflow-wrap:anywhere}
+.v53-inspector-link,.v53-tree-inspector>a{display:inline-flex;text-decoration:none;color:var(--v51-olive-deep);font-size:13px;font-weight:750;padding-top:8px}
+@media(max-width:1100px){.v53-herd-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.v53-animal-page #animalsList{grid-template-columns:1fr!important}.v53-tree-workspace{grid-template-columns:1fr}.v53-tree-inspector{position:static}}
+@media(max-width:700px){.v53-animal-page{width:calc(100% - 28px)!important}.v53-workspace-header{align-items:stretch;flex-direction:column}.v53-header-actions>a,.v53-header-actions>button{flex:1}.v53-animals-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important}.v53-animals-summary .summary-card{padding:14px!important}.v53-herd-workspace{padding:16px}.v53-workspace-top,.v53-herd-bottom{align-items:flex-start;flex-direction:column}.v53-workspace-top>a{width:100%}.v53-herd-filters{grid-template-columns:1fr!important;gap:9px}.v53-view-actions{width:100%;flex-wrap:wrap}.v53-animal-page #animalsList.v53-compact .animal-card{display:block}.v53-animal-page #animalsList.v53-compact .animal-details{margin:12px 0!important}.v53-animal-page #animalsList.v53-compact .animal-actions{margin-top:12px!important}.v53-animal-page .v53-animal-drawer{padding:25px 14px!important;border-radius:0!important}.v53-animal-drawer .form-grid{grid-template-columns:1fr!important}.v53-tree-toolbar{flex-direction:column;align-items:flex-start}.v53-tree-tool-buttons{width:100%}}
+@media print{body:has(.v53-tree-page) .navbar,body:has(.v53-tree-page) .tree-controls,body:has(.v53-tree-page) .v53-tree-toolbar,body:has(.v53-tree-page) .tree-note,body:has(.v53-tree-page) .v53-tree-inspector{display:none!important}body:has(.v53-tree-page) .tree-page{padding:0!important;max-width:none!important}.v53-tree-page .tree-hero{box-shadow:none!important}.v53-tree-page .v53-tree-workspace{display:block!important}.v53-tree-page .tree-canvas-wrap{overflow:visible!important;border:none!important;box-shadow:none!important}.v53-tree-page .tree-canvas{zoom:80%!important;min-width:0!important;width:100%!important;page-break-inside:avoid}.v53-tree-page .tree-level+.tree-level{margin-top:70px}}
