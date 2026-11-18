@@ -70,6 +70,14 @@ document.addEventListener("livestock:ready", function () {
     function esc(v) { return LivestockCore.escapeHTML(v == null ? "" : String(v)); }
 
     var photo = document.getElementById("feedPhoto"), submit = document.getElementById("feedSubmitButton");
+    // Phase 3 presentation hook: closing the editor must also clear an unfinished edit.
+    window.LMFeedResetEditor = function () {
+        editId = null;
+        photoData = "";
+        if (form) form.reset();
+        if (submit) submit.textContent = "Add Feed Purchase";
+        if (photo) photo.value = "";
+    };
     if (photo) photo.onchange = function () {
         if (!photo.files || !photo.files[0]) return;
         LivestockCore.fileToDataURL(photo.files[0], function (x) { photoData = x || ""; });

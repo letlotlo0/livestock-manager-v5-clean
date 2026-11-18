@@ -2,8 +2,15 @@
 <html lang="en">
 
 <head>
-<link rel="icon" type="image/png" href="assets/livestock-logo.png">
-    <meta name="application-name" content="Livestock Manager v3">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Livestock Manager">
+<meta name="theme-color" content="#546B2F">
+    <meta name="application-name" content="Livestock Manager">
 
     <meta charset="UTF-8">
 
@@ -26,9 +33,10 @@
 <script src="auth-api.js"></script>
 <script src="auth-guard.js"></script>
     <link rel="stylesheet" href="v51-design.css?v=5.1.1">
+    <link rel="stylesheet" href="v53-production.css?v=5.3.3">
 </head>
 
-<body>
+<body class="v53-p3 v53-p3-growth">
 
 
     <!-- =========================
@@ -237,6 +245,23 @@
         </section>
 
 
+
+        <section class="v53-p3-panel v53-p3-trend" aria-labelledby="p3TrendTitle">
+          <div class="v53-p3-section-head">
+            <div><span class="v53-p3-eyebrow">PERFORMANCE</span><h2 id="p3TrendTitle">Weight trend</h2>
+              <p>See changes across recorded weigh-ins. This is a historical chart, not a growth prediction.</p></div>
+            <label class="v53-p3-inline-label" for="p3GrowthRange">Show
+              <select id="p3GrowthRange" aria-label="Time period for weight trend"><option value="all">All records</option><option value="90">Last 90 days</option><option value="30">Last 30 days</option></select>
+            </label>
+          </div>
+          <div class="v53-p3-plot" id="p3GrowthPlot" role="img" aria-label="Recorded weight trend">Choose an animal to view its trend.</div>
+          <div class="v53-p3-metrics" aria-live="polite">
+            <div><span>Average daily gain</span><strong id="p3DailyGain">—</strong></div>
+            <div><span>Days between first and last</span><strong id="p3TrackedDays">—</strong></div>
+            <div><span>Valid weigh-ins</span><strong id="p3TrackedPoints">0</strong></div>
+          </div>
+          <p class="v53-p3-footnote">Average daily gain requires at least two dated weigh-ins on different days. Data shown is for the selected animal and active farm.</p>
+        </section>
 
         <!-- =========================
              GROWTH PROGRESS
@@ -546,6 +571,7 @@
     <script src="livestock-core.js"></script>
     <script src="subscription.js"></script>
     <script src="growth.js"></script>
+    <script src="v53-growth-workspace.js?v=5.3.3"></script>
 
 <script src="navigation.js?v=4.0.8"></script>
 <script src="final-intelligence.js"></script>

@@ -2,8 +2,15 @@
 <html lang="en">
 
 <head>
-<link rel="icon" type="image/png" href="assets/livestock-logo.png">
-    <meta name="application-name" content="Livestock Manager v3">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Livestock Manager">
+<meta name="theme-color" content="#546B2F">
+    <meta name="application-name" content="Livestock Manager">
 
     <meta charset="UTF-8">
 
@@ -26,9 +33,10 @@
 <script src="auth-api.js"></script>
 <script src="auth-guard.js"></script>
     <link rel="stylesheet" href="v51-design.css?v=5.1.1">
+    <link rel="stylesheet" href="v53-production.css?v=5.3.3">
 </head>
 
-<body>
+<body class="v53-p3 v53-p3-weaning">
 
 
     <!-- =========================
@@ -199,6 +207,20 @@
         </section>
 
 
+
+        <section class="v53-p3-panel v53-p3-wean-plan" aria-labelledby="p3WeanPlanTitle">
+          <div class="v53-p3-section-head"><div><span class="v53-p3-eyebrow">WEANING PLAN</span><h2 id="p3WeanPlanTitle">Pending weaning schedule</h2><p>Pending records are shown by their entered date so you can plan follow-up work.</p></div><span id="p3WeanDueCount" class="v53-p3-pill">0 need attention</span></div>
+          <div id="p3WeanQueue" class="v53-p3-plan-items"><p class="v53-p3-placeholder">No pending weaning records yet.</p></div>
+          <p class="v53-p3-footnote">Dates are farmer-entered. They do not automatically determine the best weaning age or replace veterinary advice.</p>
+        </section>
+        <section class="v53-p3-panel v53-p3-wean-filters" aria-label="Filter weaning records">
+          <div class="v53-p3-section-head"><div><h2>Find weaning records</h2><p>View the animals that need action or have already been weaned.</p></div><span id="p3WeanMatchCount" aria-live="polite">0 records</span></div>
+          <div class="v53-p3-controls v53-p3-wean-controls">
+            <label for="p3WeanSearch">Search animals<input id="p3WeanSearch" type="search" placeholder="Name, tag, breed, notes..." autocomplete="off"></label>
+            <label for="p3WeanStatus">Status<select id="p3WeanStatus"><option value="all">All records</option><option value="pending">Pending</option><option value="weaned">Weaned</option><option value="overdue">Past planned date</option><option value="soon">Next 30 days</option></select></label>
+          </div>
+          <p id="p3WeanNoMatches" class="v53-p3-no-results" hidden>No matching records. Clear your filters to see all entries.</p>
+        </section>
 
         <!-- =========================
              RECORDS
@@ -449,6 +471,7 @@
     <script src="livestock-core.js"></script>
     <script src="subscription.js"></script>
     <script src="weaning.js"></script>
+    <script src="v53-weaning-workspace.js?v=5.3.3"></script>
 
 <script src="navigation.js?v=4.0.8"></script>
 <script src="final-intelligence.js"></script>
