@@ -97,3 +97,21 @@ CREATE TABLE IF NOT EXISTS lm_alert_prefs (
  last_digest_on date,
  updated_at timestamptz NOT NULL DEFAULT now()
 );
+
+-- V5.2 multi-farm: existing records remain in the account's "main" farm.
+-- No deletion or copying of livestock data during migration.
+CREATE TABLE IF NOT EXISTS lm_farms (
+ user_id uuid NOT NULL REFERENCES lm_auth_users(id) ON DELETE CASCADE,
+ farm_id text NOT NULL CHECK (farm_id ~ '^(main|[a-f0-9-]{36})$'),
+ name varchar(120) NOT NULL,
+ location varchar(160) NOT NULL DEFAULT '',
+ operation varchar(40) NOT NULL DEFAULT 'Mixed livestock',
+ map_url text NOT NULL DEFAULT '',
+ created_at timestamptz NOT NULL DEFAULT now(),
+ updated_at timestamptz NOT NULL DEFAULT now(),
+ PRIMARY KEY(user_id,farm_id)
+);
+INSERT INTO lm_farms(user_id,farm_id,name)
+ SELECT id,'main','My Farm' FROM lm_auth_users ON CONFLICT DO NOTHING;
+ALTER TABLE lm_v5_animals ADD COLUMN IF NOT EXISTS farm_id text NOT NULL DEFAULT 'main';
+CREATE INDEX IF NOT EXISTS lm_v5_animals_by_farm ON lm_v5_animals(user_id,farm_id,updated_at DESC);

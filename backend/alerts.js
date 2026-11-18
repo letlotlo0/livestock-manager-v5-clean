@@ -55,10 +55,18 @@ const sastToday = now => new Date(now.getTime() + 2 * 3600 * 1000).toISOString()
 async function loadFarm(pool, userId) {
   const [a, r] = await Promise.all([
     pool.query('SELECT animal_id AS id,data FROM lm_v5_animals WHERE user_id=$1', [userId]),
-    pool.query(`SELECT record_key,data FROM lm_farm_records WHERE user_id=$1 AND record_key IN ('livestockHealthRecords','livestockVaccinations')`, [userId])
+    pool.query(`SELECT record_key,data FROM lm_farm_records WHERE user_id=$1
+       AND (record_key IN ('livestockHealthRecords','livestockVaccinations')
+       OR record_key LIKE '%::livestockHealthRecords' OR record_key LIKE '%::livestockVaccinations')`, [userId])
   ]);
-  const byKey = Object.fromEntries(r.rows.map(x => [x.record_key, x.data]));
-  return { animals: a.rows.map(x => ({ ...x.data, id: x.id })), health: byKey.livestockHealthRecords, vaccinations: byKey.livestockVaccinations };
+  // Account-wide digest: include reminders from all user-owned farms, not just the first.
+  const health=[],vaccinations=[];
+  for(const row of r.rows){
+    if(!Array.isArray(row.data))continue;
+    if(row.record_key.endsWith('livestockHealthRecords'))health.push(...row.data);
+    if(row.record_key.endsWith('livestockVaccinations'))vaccinations.push(...row.data);
+  }
+  return { animals: a.rows.map(x => ({ ...x.data, id: x.id })), health, vaccinations };
 }
 
 /* Send each verified, opted-in user at most one digest per South African day, after 06:00 SAST. */
