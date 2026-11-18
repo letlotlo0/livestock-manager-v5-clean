@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<link href="assets/livestock-logo.png" rel="icon" type="image/png"/><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1.0" name="viewport"/><title>Plans &amp; Subscription | Livestock Manager</title><link href="premium-ui.css" rel="stylesheet"/><link href="navigation-premium.css" rel="stylesheet"/><link href="final-intelligence.css" rel="stylesheet"/><link href="subscription.css" rel="stylesheet"/><script src="auth-api.js"></script><script src="auth-guard.js"></script>    <link rel="stylesheet" href="v51-design.css?v=5.1.1">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Livestock Manager">
+<meta name="theme-color" content="#546B2F">
+
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1.0" name="viewport"/><title>Plans &amp; Subscription | Livestock Manager</title><link href="premium-ui.css" rel="stylesheet"/><link href="navigation-premium.css" rel="stylesheet"/><link href="final-intelligence.css" rel="stylesheet"/><link href="subscription.css?v=5.3-plans-1" rel="stylesheet"/><script src="auth-api.js"></script><script src="auth-guard.js"></script>    <link rel="stylesheet" href="v51-design.css?v=5.1.1">
 </head><body>
 <nav class="navbar" aria-label="Main navigation">
   <div class="nav-container">
@@ -29,8 +38,28 @@
     <a class="lm-account-shortcut" href="profile.html" aria-label="Open your farm profile"><span class="lm-avatar">FM</span><span class="lm-account-label">Farm Manager<small>My account</small></span></a>
   </div>
 </nav>
-<main class="subscription-page"><section class="subscription-hero"><span class="lm-eyebrow" style="color:#c9e3cf">PLANS &amp; BILLING</span><h1>Choose your plan</h1><p>Start free. Upgrade when your farm grows. Cancel any time.</p></section><section class="billing-root" id="billingRoot" aria-live="polite"><p class="subscription-muted">Loading your plan…</p></section></main>
+<main class="subscription-page lm-pricing-page">
+  <section class="subscription-hero lm-pricing-hero" aria-labelledby="lmPlansTitle">
+    <span class="lm-eyebrow" style="color:#c9e3cf">PLANS &amp; BILLING</span>
+    <h1 id="lmPlansTitle">The right tools for every stage of your farm.</h1>
+    <p>Start with your herd. Grow into smarter reporting, powerful breeding insights and multi-farm management when you're ready.</p>
+    <div class="lm-pricing-hero-points" aria-label="What every farmer keeps">
+      <span>✓ Keep your livestock records</span>
+      <span>✓ Health history on every plan</span>
+      <span>✓ Export your raw data</span>
+    </div>
+  </section>
+  <section class="lm-pricing-intro" aria-labelledby="lmCompareTitle">
+    <div>
+      <span class="lm-pricing-kicker">SIMPLE, PRACTICAL PRICING</span>
+      <h2 id="lmCompareTitle">Choose how you manage your farm</h2>
+      <p>One farm or three, herd records or detailed performance reports — choose the tools that fit your operation.</p>
+    </div>
+    <span class="lm-pricing-currency">South African rand · billed monthly</span>
+  </section>
+  <section class="billing-root" id="billingRoot" aria-live="polite"><p class="subscription-muted">Loading your plan…</p></section>
+</main>
 <script src="cloud-config.js"></script><script src="v5-merge.js"></script>
     <script src="lm-farms.js?v=5.2.0"></script>
-    <script src="livestock-cloud.js?v=5.2.0"></script><script src="livestock-core.js"></script><script src="subscription.js"></script><script src="navigation.js?v=4.0.8"></script>    <script src="v51-design.js?v=5.1.0"></script>
+    <script src="livestock-cloud.js?v=5.2.0"></script><script src="livestock-core.js"></script><script src="subscription.js?v=5.3-plans-1"></script><script src="navigation.js?v=4.0.8"></script>    <script src="v51-design.js?v=5.1.0"></script>
 </body></html>

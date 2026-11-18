@@ -21,3 +21,72 @@
 .billing-plan{position:relative}.billing-plan.current{outline:3px solid #1f6c43}.billing-plan.popular{box-shadow:0 6px 24px #1f6c4333}
 .billing-badge{position:absolute;top:-12px;right:16px;background:#1f6c43;color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px}
 .billing-features{margin:0;padding-left:18px;display:grid;gap:6px;color:#173b31}
+
+/* V5.3 Plans presentation refresh: intentionally scoped to subscription.html only.
+   Existing site colours are retained; no dashboard, profile, or global navigation edits. */
+.lm-pricing-page{max-width:1210px;margin:0 auto;padding:26px 20px 76px}
+.lm-pricing-hero{padding:48px 44px;border-radius:26px}
+.lm-pricing-hero h1{font-size:clamp(30px,4.2vw,48px);line-height:1.12;max-width:760px;letter-spacing:-.035em;margin:12px 0 14px}
+.lm-pricing-hero p{font-size:15px;max-width:740px;margin:0}
+.lm-pricing-hero-points{display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:25px;font-size:12px;font-weight:700;color:#dfebe1}
+.lm-pricing-intro{display:flex;justify-content:space-between;align-items:end;gap:24px;margin:40px 2px 20px}
+.lm-pricing-kicker{color:#497457;font-size:11px;font-weight:900;letter-spacing:.14em}
+.lm-pricing-intro h2{margin:9px 0 7px;font-size:clamp(23px,3vw,32px);line-height:1.15;color:#153b2a;letter-spacing:-.025em}
+.lm-pricing-intro p{margin:0;font-size:13px;color:#65776c;max-width:650px;line-height:1.65}
+.lm-pricing-currency{color:#6b7b6f;font-size:12px;white-space:nowrap}
+.lm-pricing-page .billing-root{max-width:none;padding:0;gap:18px}
+.lm-pricing-page .lm-pricing-notice{background:#f9f3e7;border:1px solid #e5d8bd;border-radius:14px;padding:14px 18px;color:#6f582a;font-size:12px;line-height:1.6}
+.lm-pricing-notice strong{display:block;font-size:13px;margin-bottom:2px}
+.lm-pricing-page .lm-pricing-account{display:flex;gap:16px;align-items:center;justify-content:space-between;background:#fff;border:1px solid #dde7df;border-radius:18px;padding:19px 22px;box-shadow:0 8px 30px rgba(21,59,42,.04)}
+.lm-pricing-account-label{display:block;font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#6a7d70;margin-bottom:5px}
+.lm-pricing-account-title{font-weight:900;font-size:18px;color:#153b2a}
+.lm-pricing-account-summary{font-size:12px;color:#67786f;margin-top:5px;line-height:1.55}
+.lm-pricing-usage{min-width:210px;max-width:285px;flex:1}
+.lm-pricing-usage-top{display:flex;justify-content:space-between;gap:12px;font-size:12px;font-weight:800;color:#2b5b3c}
+.lm-pricing-usage-track{height:8px;margin-top:10px;overflow:hidden;border-radius:999px;background:#e4ece4}
+.lm-pricing-usage-bar{height:100%;border-radius:999px;background:#527e56;transition:width .25s}
+.lm-pricing-page .billing-plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
+.lm-pricing-page .billing-plan{display:flex;flex-direction:column;align-items:stretch;gap:0;padding:25px 24px 22px;border:1px solid #e1e8df;border-radius:21px;box-shadow:0 10px 30px rgba(21,59,42,.035);background:#fff;min-width:0}
+.lm-pricing-page .billing-plan.current{outline:none;border:2px solid #346548}
+.lm-pricing-page .billing-plan.popular{border:2px solid #346548;box-shadow:0 15px 42px rgba(21,59,42,.12)}
+.lm-pricing-plan-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;min-height:22px}
+.lm-pricing-plan-type{color:#648071;font-weight:900;letter-spacing:.13em;font-size:10px}
+.lm-pricing-plan-tag{border-radius:999px;padding:6px 10px;background:#e7efe7;color:#2a5a3d;font-weight:850;font-size:10px;line-height:1;white-space:nowrap}
+.lm-pricing-plan-tag.best{color:#fff;background:#204c33}
+.lm-pricing-page .billing-plan h2{font-size:26px;color:#153b2a;letter-spacing:-.025em;margin:0}
+.lm-pricing-plan-desc{margin:9px 0 21px;color:#6a7b70;font-size:12px;line-height:1.6;min-height:57px}
+.lm-pricing-page .billing-price{font-size:39px;letter-spacing:-.045em;line-height:1;font-weight:950;color:#153b2a}
+.lm-pricing-page .billing-price small{font-size:12px;letter-spacing:0;font-weight:600;color:#64756a;display:inline-block;margin-left:4px}
+.lm-pricing-plan-capacity{display:flex;flex-wrap:wrap;gap:8px;margin:19px 0 22px}
+.lm-pricing-plan-capacity span{display:inline-flex;border:1px solid #dbe5dc;background:#f4f8f3;padding:7px 9px;border-radius:9px;font-size:11px;font-weight:850;color:#35583e}
+.lm-pricing-section-label{display:block;margin-bottom:12px;color:#284c37;font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:uppercase}
+.lm-pricing-page .billing-features{list-style:none;padding:0;margin:0 0 23px;display:grid;gap:12px;flex:1}
+.lm-pricing-page .billing-features li{display:flex;align-items:flex-start;gap:9px;color:#475b4e;font-size:12px;line-height:1.42}
+.lm-pricing-page .billing-features li::before{content:'✓';display:block;color:#2a6b47;font-size:13px;font-weight:900;flex:0 0 13px}
+.lm-pricing-not-included{border-top:1px solid #e8eee8;padding:16px 0 20px;color:#7d8c80;font-size:11px;line-height:1.55;min-height:70px}
+.lm-pricing-not-included strong{display:block;color:#61766a;margin-bottom:5px;font-size:10px;text-transform:uppercase;letter-spacing:.06em}
+.lm-pricing-page .billing-btn{border-radius:12px;padding:14px 14px;width:100%;font-size:12px;font-weight:900;background:#204c33;min-height:46px;transition:filter .15s}
+.lm-pricing-page .billing-btn:hover:not(:disabled){filter:brightness(1.1)}
+.lm-pricing-page .billing-btn:disabled{cursor:not-allowed}
+.lm-pricing-page .billing-btn.secondary{background:#e9eee9;color:#274b37}
+.lm-pricing-cta-note{font-size:11px;color:#728074;margin-top:10px;text-align:center;line-height:1.5}
+.lm-pricing-table-box{background:#fff;border:1px solid #e1e8df;border-radius:19px;padding:25px 26px;overflow:auto}
+.lm-pricing-table-box h3{color:#153b2a;font-size:21px;margin:0 0 6px}
+.lm-pricing-table-box p{color:#6d7d70;margin:0 0 18px;font-size:12px;line-height:1.5}
+.lm-pricing-table{border-collapse:collapse;width:100%;min-width:540px;font-size:12px}
+.lm-pricing-table th,.lm-pricing-table td{border-bottom:1px solid #ecf0eb;padding:13px 12px;text-align:center}
+.lm-pricing-table th:first-child,.lm-pricing-table td:first-child{text-align:left;color:#405648;font-weight:700}
+.lm-pricing-table th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#3f644b}
+.lm-pricing-table td{color:#51665a}
+.lm-pricing-table td.yes{color:#267447;font-weight:900}
+.lm-pricing-table td.no{color:#a5b0a4}
+.lm-pricing-faq{border:1px solid #e1e8df;border-radius:18px;background:#fff;padding:22px 26px}
+.lm-pricing-faq h3{margin:0 0 12px;color:#153b2a;font-size:19px}
+.lm-pricing-faq details{border-top:1px solid #edf1ec;padding:14px 0}
+.lm-pricing-faq summary{font-size:12px;font-weight:850;cursor:pointer;color:#284735}
+.lm-pricing-faq p{color:#64776b;font-size:12px;line-height:1.7;margin:10px 0 0}
+.lm-pricing-footer-note{font-size:12px;color:#67786e;line-height:1.7;margin:0}
+.lm-pricing-page .billing-status{border-radius:12px;font-size:12px;line-height:1.55}
+.lm-pricing-page .lm-pricing-cancel{max-width:220px;margin:0 0 0 auto}
+@media(max-width:940px){.lm-pricing-page .billing-plans{grid-template-columns:repeat(2,minmax(0,1fr))}.lm-pricing-page .billing-plan:last-child{grid-column:1 / -1}.lm-pricing-currency{white-space:normal}}
+@media(max-width:630px){.lm-pricing-page{padding:16px 12px 50px}.lm-pricing-hero{padding:30px 24px}.lm-pricing-hero-points{flex-direction:column;gap:7px}.lm-pricing-intro{align-items:flex-start;flex-direction:column;margin-top:28px;gap:8px}.lm-pricing-page .billing-plans{grid-template-columns:1fr}.lm-pricing-page .billing-plan:last-child{grid-column:auto}.lm-pricing-page .lm-pricing-account{align-items:stretch;flex-direction:column}.lm-pricing-usage{width:100%;min-width:0;max-width:none}.lm-pricing-page .billing-plan{padding:23px 20px}.lm-pricing-plan-desc{min-height:auto}.lm-pricing-table-box,.lm-pricing-faq{padding:21px 17px}}
