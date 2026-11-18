@@ -18,9 +18,10 @@
 <script src="auth-api.js"></script>
 <script src="auth-guard.js"></script>
     <link rel="stylesheet" href="v51-design.css?v=5.1.1">
+    <link rel="stylesheet" href="v53-business.css?v=5.3.4">
 </head>
 
-<body>
+<body class="v53-p4 v53-p4-reports">
 
     <!-- NAVIGATION -->
 
@@ -77,6 +78,12 @@
         </section>
 
 
+        <div class="v53p4-toolbar"><div class="v53p4-context"><span class="v53p4-dot"></span><strong id="p4ReportFarm">Active farm</strong><span class="v53p4-muted">· Farm-specific records</span></div><div class="v53p4-actions"><a class="v53p4-btn v53p4-btn-quiet" href="money-stats.html">View finances</a><a class="v53p4-btn v53p4-btn-primary" href="profile.html#reportsCentre">Download PDF reports</a></div></div>
+        <section class="v53p4-panel" aria-labelledby="p4InsightsTitle"><div class="v53p4-section-heading"><div><span class="v53p4-kicker">PERFORMANCE REPORT</span><h2 id="p4InsightsTitle">Farm business snapshot</h2><p>Financial activity and record completeness for the selected farm.</p></div><label class="v53p4-field">Period<select id="p4ReportPeriod"><option value="all">All history</option><option value="year">This year</option><option value="12m">Last 12 months</option></select></label></div>
+          <div class="v53p4-kpis"><div><span>Sales income</span><strong id="p4ReportSales">—</strong></div><div><span>Operating costs</span><strong id="p4ReportCosts">—</strong></div><div><span>Operating result</span><strong id="p4ReportResult">—</strong></div><div><span>Animals on farm</span><strong id="p4ReportAnimals">—</strong></div></div>
+          <p id="p4ReportAssessment" class="v53p4-note" role="status"></p><div class="v53p4-two-col"><div><h3>Herd composition</h3><div id="p4HerdBars" class="v53p4-bars"></div></div><div><h3>Reporting checklist</h3><div id="p4RecordChecklist" class="v53p4-checklist"></div></div></div>
+        </section>
+        <section class="v53p4-panel v53p4-report-links"><div class="v53p4-section-heading"><div><span class="v53p4-kicker">REPORT LIBRARY</span><h2>Explore your farm's records</h2><p>Open the detailed workspace or use the PDF exporter in Farm & Account Centre.</p></div></div><div class="v53p4-link-grid"><a href="animals.html"><strong>Animal register</strong><span>All livestock and animal profiles</span></a><a href="growth.html"><strong>Growth & weight</strong><span>Weight records and trends</span></a><a href="health.html"><strong>Health history</strong><span>Treatments and follow-ups</span></a><a href="operations.html"><strong>Farm operations</strong><span>Tasks, completed work and needs attention</span></a></div></section>
         <!-- SUMMARY -->
 
         <section class="summary-grid">
@@ -358,6 +365,8 @@
     <script src="livestock-core.js"></script>
     <script src="subscription.js"></script>
     <script src="farm-reports.js"></script>
+    <script src="farm-report.js"></script>
+    <script src="v53-reports-workspace.js?v=5.3.4"></script>
 
 <script src="navigation.js?v=4.0.8"></script>
 <script src="final-intelligence.js"></script>

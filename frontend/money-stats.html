@@ -19,9 +19,10 @@
 <script src="auth-api.js"></script>
 <script src="auth-guard.js"></script>
     <link rel="stylesheet" href="v51-design.css?v=5.1.1">
+    <link rel="stylesheet" href="v53-business.css?v=5.3.4">
 </head>
 
-<body>
+<body class="v53-p4 v53-p4-finance">
 
     <!-- NAVIGATION -->
 
@@ -76,6 +77,10 @@
         </section>
 
 
+        <div class="v53p4-toolbar" aria-label="Financial workspace actions">
+          <div class="v53p4-context"><span class="v53p4-dot"></span><span id="p4FinanceFarm">Active farm</span><span class="v53p4-muted">· All totals below are for this farm</span></div>
+          <div class="v53p4-actions"><a class="v53p4-btn v53p4-btn-quiet" href="farm-reports.html">Open reports</a><button type="button" class="v53p4-btn v53p4-btn-primary" id="p4AddExpense" aria-expanded="false">+ Record expense</button></div>
+        </div>
         <!-- FINANCIAL SUMMARY -->
 
         <section class="stats-grid">
@@ -150,6 +155,12 @@
         </section>
 
 
+        <section class="v53p4-panel" aria-labelledby="p4PeriodTitle">
+          <div class="v53p4-section-heading"><div><span class="v53p4-kicker">FINANCIAL PERFORMANCE</span><h2 id="p4PeriodTitle">Recorded farm performance</h2><p>Understand sales, animal purchase costs and operating expenses by period.</p></div><label class="v53p4-field">Period<select id="p4FinancePeriod"><option value="all">All history</option><option value="year">This year</option><option value="12m">Last 12 months</option></select></label></div>
+          <div class="v53p4-kpis"><div><span>Livestock sales</span><strong id="p4PeriodSales">—</strong></div><div><span>Recorded running costs</span><strong id="p4PeriodSpending">—</strong></div><div><span>Animal cost basis</span><strong id="p4PeriodBasis">—</strong></div><div><span>Operating result</span><strong id="p4PeriodResult">—</strong></div></div>
+          <p class="v53p4-note" id="p4FinanceAssessment" role="status"></p>
+          <div class="v53p4-two-col"><section><h3>Spending breakdown</h3><div id="p4ExpenseBars" class="v53p4-bars"></div></section><section><h3>Recorded monthly activity</h3><div id="p4MonthBars" class="v53p4-bars"></div><p class="v53p4-micro">Sales and running costs by month. Not an accounting cash-flow statement.</p></section></div>
+        </section>
         <!-- PROFIT / LOSS -->
 
         <section class="financial-card">
@@ -241,7 +252,7 @@
 
         <!-- ADD OTHER EXPENSE -->
 
-        <section class="financial-card">
+        <section class="financial-card" id="p4ExpenseEditor" hidden>
 
             <div class="section-heading">
 
@@ -360,6 +371,9 @@
         </section>
 
 
+        <section class="v53p4-panel v53p4-filters" aria-label="Expense search and filters"><div class="v53p4-section-heading"><div><span class="v53p4-kicker">TRANSACTIONS</span><h2>Find recorded expenses</h2><p>Search your expenses without changing the original entries.</p></div><span id="p4ExpenseMatch" class="v53p4-counter"></span></div>
+          <div class="v53p4-controls"><label class="v53p4-field">Search<input id="p4ExpenseSearch" type="search" placeholder="Transport, supplier, description…" autocomplete="off"></label><label class="v53p4-field">Category<select id="p4ExpenseCategory"><option value="all">All categories</option></select></label><button type="button" class="v53p4-btn v53p4-btn-quiet" id="p4ClearExpense">Clear filters</button></div><p id="p4NoExpenseMatches" class="v53p4-note" hidden>No expenses match these filters.</p>
+        </section>
         <!-- EXPENSE HISTORY -->
 
         <section class="financial-card">
@@ -459,6 +473,8 @@
     <script src="livestock-core.js"></script>
     <script src="subscription.js"></script>
     <script src="money-stats.js"></script>
+    <script src="farm-report.js"></script>
+    <script src="v53-finance-workspace.js?v=5.3.4"></script>
 
 <script src="navigation.js?v=4.0.8"></script>
 <script src="final-intelligence.js"></script>
