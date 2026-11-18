@@ -2,10 +2,16 @@
 <html lang="en">
 
 <head>
-<link rel="icon" type="image/png" href="assets/livestock-logo.png">
-    <meta name="application-name" content="Livestock Manager v3">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Livestock Manager">
+<meta name="theme-color" content="#546B2F">
+    <meta name="application-name" content="Livestock Manager">
     <meta charset="UTF-8">
-    <link rel="manifest" href="manifest.webmanifest">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Health | Livestock Manager</title>
@@ -18,9 +24,10 @@
 <script src="auth-api.js"></script>
 <script src="auth-guard.js"></script>
     <link rel="stylesheet" href="v51-design.css?v=5.1.1">
+    <link rel="stylesheet" href="v53-care.css?v=5.3.2">
 </head>
 
-<body>
+<body class="v53-health-page">
 
     <nav class="navbar" aria-label="Main navigation">
   <div class="nav-container">
@@ -66,6 +73,10 @@
             monitoring money spent on medication and vaccines.
         </p>
 
+        <div class="v53-health-actions">
+            <button type="button" class="primary-button" id="v53OpenHealth">+ Record treatment</button>
+            <a class="v53-outline" href="vaccinations.html">Vaccination schedule ↗</a>
+        </div>
     </section>
 
 
@@ -99,16 +110,32 @@
 
         </div>
 
+        <div class="summary-card v53-followup-stat">
+            <span>FOLLOW-UPS DUE / OVERDUE</span>
+            <strong id="v53HealthDueCount">0</strong>
+        </div>
     </section>
 
+    <section class="v53-health-queue" aria-labelledby="v53CareQueueTitle">
+        <div class="v53-health-queue-head">
+            <div>
+                <span class="v53-kicker">DAILY CARE</span>
+                <h2 id="v53CareQueueTitle">Treatment follow-ups</h2>
+                <p>Upcoming and overdue dates from the treatments you recorded.</p>
+            </div>
+            <a class="v53-outline" href="farm-alerts.html">All farm alerts ↗</a>
+        </div>
+        <div id="v53HealthQueue" class="v53-queue-list" aria-live="polite"></div>
+    </section>
 
     <!-- HEALTH RECORD -->
 
-    <section class="form-card">
+    <section class="form-card v53-health-drawer" id="v53HealthDrawer" role="dialog" aria-modal="true" aria-labelledby="v53HealthFormHeading" hidden>
+        <button type="button" class="v53-close-drawer" id="v53CloseHealth" aria-label="Close treatment form">×</button>
 
         <div class="section-heading">
 
-            <h2>Add Health Record</h2>
+            <h2 id="v53HealthFormHeading">Add Health Record</h2>
 
             <p>
                 Record treatment, medication or vaccination.
@@ -289,6 +316,8 @@
     </section>
 
 
+    <div id="v53HealthBackdrop" class="v53-care-backdrop" hidden></div>
+
     <!-- RECORDS -->
 
     <section class="records-section">
@@ -303,6 +332,23 @@
 
         </div>
 
+
+        <div class="v53-history-controls">
+            <label class="v53-search-field"><span class="v53-sr-only">Search health records</span>
+                <input id="v53HealthSearch" type="search" placeholder="Search animal, treatment or supplier…" autocomplete="off">
+            </label>
+            <label class="v53-status-picker"><span class="v53-sr-only">Filter treatments</span>
+                <select id="v53HealthStatus">
+                    <option value="all">All records</option>
+                    <option value="overdue">Overdue</option>
+                    <option value="soon">Due within 30 days</option>
+                    <option value="scheduled">Scheduled later</option>
+                    <option value="none">No follow-up date</option>
+                </select>
+            </label>
+        </div>
+        <p class="v53-results-caption" id="v53HealthResults" aria-live="polite"></p>
+        <div id="v53HealthNoMatch" class="v53-empty-filter" hidden>No treatments match these filters.</div>
 
         <div
             id="recordsList"
@@ -321,7 +367,7 @@
             <h3>No health records yet</h3>
 
             <p>
-                Add your first health record above.
+                Use “Record treatment” to add your first health record.
             </p>
 
         </div>
@@ -337,6 +383,7 @@
     <script src="livestock-core.js"></script>
     <script src="subscription.js"></script>
     <script src="health.js"></script>
+    <script src="v53-health.js?v=5.3.2"></script>
 
 <script src="navigation.js?v=4.0.8"></script>
 <script src="final-intelligence.js"></script>

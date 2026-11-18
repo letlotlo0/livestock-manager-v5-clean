@@ -296,6 +296,13 @@ document.addEventListener("livestock:ready", function () {
     }
 
 
+    // Render farmer-provided notes safely inside record cards.
+    function escapeHTML(value) {
+        return String(value == null ? '' : value).replace(/[&<>"']/g, function (ch) {
+            return {'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[ch];
+        });
+    }
+
     /* =========================================
        GET STATUS
     ========================================= */
@@ -641,7 +648,7 @@ document.addEventListener("livestock:ready", function () {
 
             notesText =
                 '<p class="animal-name">' +
-                vaccination.notes +
+                escapeHTML(vaccination.notes) +
                 '</p>';
 
         }
@@ -663,11 +670,11 @@ document.addEventListener("livestock:ready", function () {
                 '<div>' +
 
                     '<h3>' +
-                        vaccination.vaccinationName +
+                        escapeHTML(vaccination.vaccinationName) +
                     '</h3>' +
 
                     '<p class="animal-name">' +
-                        vaccination.animalName +
+                        escapeHTML(vaccination.animalName) +
                     '</p>' +
 
 
@@ -712,7 +719,7 @@ document.addEventListener("livestock:ready", function () {
                         'type="button" ' +
                         'class="delete-vaccination" ' +
                         'data-id="' +
-                        vaccination.id +
+                        escapeHTML(vaccination.id) +
                     '">' +
 
                         'Delete' +
@@ -830,7 +837,16 @@ document.addEventListener("livestock:ready", function () {
                         true;
 
 
-                    if (
+                    if (filter === 'due30') {
+                        var today = getToday();
+                        var limit = new Date(today + 'T00:00:00');
+                        limit.setDate(limit.getDate() + 30);
+                        var maxDate = [limit.getFullYear(),
+                            String(limit.getMonth()+1).padStart(2,'0'),
+                            String(limit.getDate()).padStart(2,'0')].join('-');
+                        matchesFilter = !!vaccination.nextDate &&
+                            vaccination.nextDate >= today && vaccination.nextDate <= maxDate;
+                    } else if (
                         filter === "seasonal"
                     ) {
 
@@ -865,6 +881,7 @@ document.addEventListener("livestock:ready", function () {
                     "block";
             }
 
+            window.dispatchEvent(new Event('lm53:vaccinations-rendered'));
             return;
         }
 
@@ -891,6 +908,7 @@ document.addEventListener("livestock:ready", function () {
 
 
         addDeleteEvents();
+        window.dispatchEvent(new Event('lm53:vaccinations-rendered'));
     }
 
 

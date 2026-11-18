@@ -2,8 +2,15 @@
 <html lang="en">
 
 <head>
-<link rel="icon" type="image/png" href="assets/livestock-logo.png">
-    <meta name="application-name" content="Livestock Manager v3">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Livestock Manager">
+<meta name="theme-color" content="#546B2F">
+    <meta name="application-name" content="Livestock Manager">
 
     <meta charset="UTF-8">
 
@@ -26,10 +33,11 @@
 <script src="auth-api.js"></script>
 <script src="auth-guard.js"></script>
     <link rel="stylesheet" href="v51-design.css?v=5.1.1">
+    <link rel="stylesheet" href="v53-care.css?v=5.3.2">
 </head>
 
 
-<body>
+<body class="v53-vax-page">
 <nav class="navbar" aria-label="Main navigation">
   <div class="nav-container">
     <a href="dashboard.html" class="logo" aria-label="Livestock Manager dashboard"><img class="lm-brand-icon" src="assets/livestock-logo.svg" alt="" width="42" height="42"><span>Livestock <em>Manager</em></span></a>
@@ -196,6 +204,18 @@
         </section>
 
 
+        <section class="v53-vax-schedule" aria-labelledby="v53VaxScheduleTitle">
+            <div class="v53-vax-schedule-header">
+                <div>
+                    <span class="v53-kicker">VACCINATION PLANNER</span>
+                    <h2 id="v53VaxScheduleTitle">Next appointments</h2>
+                    <p>Follow-ups that are overdue or due in the next 30 days.</p>
+                </div>
+                <a class="v53-outline" href="health.html">Treatment records ↗</a>
+            </div>
+            <div class="v53-vax-queue" id="v53VaxQueue" aria-live="polite"></div>
+        </section>
+
         <!-- =====================================
              SEARCH + FILTER
         ====================================== -->
@@ -227,6 +247,9 @@
                 <option value="upcoming">
                     Upcoming
                 </option>
+                <option value="due30">
+                    Due within 30 days
+                </option>
 
                 <option value="overdue">
                     Overdue
@@ -244,6 +267,14 @@
 
         </section>
 
+
+        <div class="v53-vax-quickfilters" role="group" aria-label="Quick vaccination filters">
+            <button type="button" class="v53-filter-chip" data-vax-filter="all" aria-pressed="true">All</button>
+            <button type="button" class="v53-filter-chip" data-vax-filter="overdue" aria-pressed="false">Overdue</button>
+            <button type="button" class="v53-filter-chip" data-vax-filter="due30" aria-pressed="false">Next 30 days</button>
+            <button type="button" class="v53-filter-chip" data-vax-filter="completed" aria-pressed="false">Completed</button>
+            <span class="v53-results-caption" id="v53VaxResults" aria-live="polite"></span>
+        </div>
 
         <!-- =====================================
              VACCINATION LIST
@@ -504,6 +535,7 @@
     <script src="livestock-core.js"></script>
     <script src="subscription.js"></script>
     <script src="vaccinations.js"></script>
+    <script src="v53-vaccinations.js?v=5.3.2"></script>
 
 <script src="navigation.js?v=4.0.8"></script>
 <script src="final-intelligence.js"></script>
