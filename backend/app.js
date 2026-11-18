@@ -42,6 +42,7 @@ function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImp
   app.use('/api',(req,res,next)=>{res.setHeader('Cache-Control','no-store');next();});
   app.use('/api/auth',express.json({limit:'16kb'}));
   app.use('/api/farm',express.json({limit:'7mb'}));
+  app.use('/api/farms',express.json({limit:'16kb'}));
   app.use('/api/v5',express.json({limit:'3mb'}));
   app.use('/api/billing',express.json({limit:'4kb'}));
   app.use('/api/alerts',express.json({limit:'2kb'}));
@@ -176,12 +177,65 @@ function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImp
     finally{client.release();}
     clearCookie(res);res.json({message:'Password changed. You can now log in.'});
   }));
+  // Farms belong to the signed-in account, never to a client-supplied owner ID.
+  const cleanFarm = row=>({id:row.farm_id,name:row.name,location:row.location,operation:row.operation,mapUrl:row.map_url,createdAt:row.created_at});
+  const farmIdValid=id=>id==='main'||/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(id);
+  async function seedMain(userId){
+    await pool.query(`INSERT INTO lm_farms(user_id,farm_id,name) VALUES($1,'main','My Farm') ON CONFLICT DO NOTHING`,[userId]);
+  }
+  app.get('/api/farms',requireAuth,asyncRoute(async(req,res)=>{
+    await seedMain(req.authUser.id);
+    const q=await pool.query(`SELECT * FROM lm_farms WHERE user_id=$1 ORDER BY (farm_id<>'main'),created_at,farm_id`,[req.authUser.id]);
+    res.json({farms:q.rows.map(cleanFarm)});
+  }));
+  app.post('/api/farms',requireAuth,limit(30),asyncRoute(async(req,res)=>{
+    const name=String(req.body?.name||'').trim();
+    const location=String(req.body?.location||'').trim();
+    const operation=String(req.body?.operation||'Mixed livestock').trim();
+    if(name.length<2||name.length>120||location.length>160||operation.length>40)
+      return fail(res,400,'Enter a farm name between 2 and 120 characters.');
+    await seedMain(req.authUser.id);
+    const q=await pool.query(`INSERT INTO lm_farms(user_id,farm_id,name,location,operation)
+      SELECT $1,gen_random_uuid()::text,$2,$3,$4
+      WHERE (SELECT count(*) FROM lm_farms WHERE user_id=$1)<20
+      RETURNING *`,[req.authUser.id,name,location,operation]);
+    if(!q.rowCount)return fail(res,409,'Maximum of 20 farms per account reached.');
+    res.status(201).json({farm:cleanFarm(q.rows[0])});
+  }));
+  app.patch('/api/farms/:farmId',requireAuth,limit(60),asyncRoute(async(req,res)=>{
+    const farmId=String(req.params.farmId||'');
+    const name=String(req.body?.name||'').trim(),location=String(req.body?.location||'').trim();
+    const operation=String(req.body?.operation||'Mixed livestock').trim();
+    const mapUrl=String(req.body?.mapUrl||'').trim();
+    if(!farmIdValid(farmId)||name.length<2||name.length>120||location.length>160||operation.length>40||mapUrl.length>1000||
+      (mapUrl&&!/^https:\/\/(www\.)?(google\.[a-z.]+\/maps|maps\.google\.[a-z.]+\/|maps\.app\.goo\.gl\/)/i.test(mapUrl)))
+      return fail(res,400,'Check the farm details and use a valid Google Maps HTTPS link.');
+    const q=await pool.query(`UPDATE lm_farms SET name=$3,location=$4,operation=$5,map_url=$6,updated_at=now()
+      WHERE user_id=$1 AND farm_id=$2 RETURNING *`,[req.authUser.id,farmId,name,location,operation,mapUrl]);
+    if(!q.rowCount)return fail(res,404,'Farm not found.');
+    res.json({farm:cleanFarm(q.rows[0])});
+  }));
+  // Fail closed: every farm record and animal operation must select an owned farm.
+  const selectFarm=async(req,res,next)=>{
+    try{
+      const id=String(req.query.farmId||'main');
+      if(!farmIdValid(id))return fail(res,400,'Invalid farm.');
+      await seedMain(req.authUser.id);
+      const q=await pool.query('SELECT 1 FROM lm_farms WHERE user_id=$1 AND farm_id=$2',[req.authUser.id,id]);
+      if(!q.rowCount)return fail(res,404,'Farm not found.');
+      req.farmId=id;
+      next();
+    }catch(e){next(e);}
+  };
+  app.use('/api/v5',requireAuth,selectFarm);
+  app.use('/api/farm/records',requireAuth,selectFarm);
+  const farmDocumentKey=(farmId,key)=>farmId==='main'||['livestockProfiles','farmerProfile'].includes(key)?key:farmId+'::'+key;
   // Account-owned farm documents. Every read/write is authorized from the verified
   // session cookie; a client-supplied farmerId cannot select another account.
   app.get('/api/farm/records',requireAuth,asyncRoute(async(req,res)=>{
     const q=await pool.query(`SELECT record_key,data,version,updated_at FROM lm_farm_records
-      WHERE user_id=$1 ORDER BY record_key`,[req.authUser.id]);
-    res.json({records:q.rows.map(row=>({key:row.record_key,data:row.data,version:Number(row.version),updatedAt:row.updated_at}))});
+      WHERE user_id=$1 AND (record_key LIKE $2 OR record_key IN ('livestockProfiles','farmerProfile')) ORDER BY record_key`,[req.authUser.id,req.farmId==='main'?'%':req.farmId+'::%']);
+    res.json({records:q.rows.filter(row=>req.farmId!=='main'||!row.record_key.includes('::')).map(row=>({key:(req.farmId==='main'||['livestockProfiles','farmerProfile'].includes(row.record_key))?row.record_key:row.record_key.slice(req.farmId.length+2),data:row.data,version:Number(row.version),updatedAt:row.updated_at}))});
   }));
   app.put('/api/farm/records/:key',requireAuth,limit(240),asyncRoute(async(req,res)=>{
     const key=req.params.key;
@@ -191,16 +245,17 @@ function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImp
     if(!Number.isSafeInteger(expected)||expected<0)return fail(res,400,'Expected version must be a non-negative integer.');
     if(!Object.prototype.hasOwnProperty.call(req.body||{},'data')||!validDocument(key,req.body.data))
       return fail(res,413,'Invalid farm record or record exceeds 6 MB. Reduce photo sizes and retry.');
+    const storageKey=farmDocumentKey(req.farmId,key);
     let q;
     if(expected===0){
       q=await pool.query(`INSERT INTO lm_farm_records(user_id,record_key,data,version)
         VALUES($1,$2,$3::jsonb,1) ON CONFLICT (user_id,record_key) DO NOTHING RETURNING version`,
-        [req.authUser.id,key,JSON.stringify(req.body.data)]);
+        [req.authUser.id,storageKey,JSON.stringify(req.body.data)]);
     } else {
       q=await pool.query(`UPDATE lm_farm_records
         SET data=$3::jsonb,version=version+1,updated_at=now()
         WHERE user_id=$1 AND record_key=$2 AND version=$4 RETURNING version`,
-        [req.authUser.id,key,JSON.stringify(req.body.data),expected]);
+        [req.authUser.id,storageKey,JSON.stringify(req.body.data),expected]);
     }
     if(!q.rowCount)return res.status(409).json({code:'SYNC_CONFLICT',error:'This record was changed on another device. Your local changes have been kept; resolve the conflict before syncing.'});
     return res.json({key,version:Number(q.rows[0].version)});
