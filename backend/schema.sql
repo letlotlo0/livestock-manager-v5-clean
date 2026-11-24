@@ -124,3 +124,17 @@ CREATE TABLE IF NOT EXISTS lm_admin_audit (
  created_at timestamptz NOT NULL DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS lm_admin_audit_recent ON lm_admin_audit(created_at DESC);
+
+-- V5.4.1 founder support inbox. User-authored requests only (no customer animal data).
+CREATE TABLE IF NOT EXISTS lm_support_tickets (
+ id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+ user_id uuid NOT NULL REFERENCES lm_auth_users(id) ON DELETE CASCADE,
+ category varchar(32) NOT NULL CHECK (category IN ('account','subscription','payment','cloud_sync','animal_records','other')),
+ subject varchar(140) NOT NULL,
+ description text NOT NULL CHECK (char_length(description) BETWEEN 15 AND 4000),
+ status varchar(20) NOT NULL DEFAULT 'open' CHECK (status IN ('open','in_progress','resolved','closed')),
+ created_at timestamptz NOT NULL DEFAULT now(),
+ updated_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS lm_support_tickets_by_user ON lm_support_tickets(user_id,created_at DESC);
+CREATE INDEX IF NOT EXISTS lm_support_tickets_queue ON lm_support_tickets(status,created_at DESC);

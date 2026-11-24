@@ -93,6 +93,28 @@ function installAdmin(app,{pool,requireAuth,asyncRoute,limit,env=process.env,ori
   const q=await pool.query(`SELECT a.action,a.created_at,u.email actor_email FROM lm_admin_audit a JOIN lm_auth_users u ON u.id=a.actor_user_id ORDER BY a.id DESC LIMIT 60`);
   res.json({events:q.rows});
  }));
+
+ // V5.4.1 support: ticket handling requires both founder allowlist and valid MFA elevation.
+ app.get('/api/admin/support',...privateRoute,asyncRoute(async(req,res)=>{
+  const status=String(req.query.status||'all');
+  if(!['all','open','in_progress','resolved','closed'].includes(status))return res.status(400).json({error:'Invalid support status.'});
+  const q=await pool.query(`SELECT t.id,t.category,t.subject,t.description,t.status,t.created_at,t.updated_at,u.email,u.full_name
+    FROM lm_support_tickets t JOIN lm_auth_users u ON u.id=t.user_id
+    WHERE ($1='all' OR t.status=$1) ORDER BY t.created_at DESC LIMIT 100`,[status]);
+  res.json({tickets:q.rows});
+ }));
+ app.patch('/api/admin/support/:ticketId',limit(30),...privateRoute,asyncRoute(async(req,res)=>{
+  const id=String(req.params.ticketId||''),status=String(req.body?.status||'');
+  if(!/^[1-9]\d{0,17}$/.test(id)||!['open','in_progress','resolved','closed'].includes(status))return res.status(400).json({error:'Invalid ticket or status.'});
+  const db=await pool.connect();
+  try{
+   await db.query('BEGIN');
+   const q=await db.query(`UPDATE lm_support_tickets SET status=$2,updated_at=now() WHERE id=$1 RETURNING id,status`,[id,status]);
+   if(!q.rowCount){await db.query('ROLLBACK');return res.status(404).json({error:'Support ticket not found.'});}
+   await db.query('INSERT INTO lm_admin_audit(actor_user_id,action) VALUES($1,$2)',[req.authUser.id,'support_'+status]);
+   await db.query('COMMIT');res.json({ticket:q.rows[0]});
+  }catch(err){await db.query('ROLLBACK').catch(()=>{});throw err;}finally{db.release();}
+ }));
  // Admin is not granted access to livestock or financial records belonging to individual customers.
 }
 module.exports={installAdmin,decodeBase32,validTotp,founderAllowed,validElevation,tokenFor};
