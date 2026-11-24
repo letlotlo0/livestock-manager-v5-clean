@@ -1,0 +1,5 @@
+/* Livestock Manager founder copyright, deliberately scoped to footer. */
+.lm-legal-footer{box-sizing:border-box;clear:both;position:relative;z-index:1;width:100%;margin:16px 0 0;padding:18px 16px 22px;text-align:center;color:#58664c;font:500 12px/1.65 Arial,sans-serif;background:transparent;overflow-wrap:anywhere}
+.lm-legal-founder{display:inline;margin-left:4px}
+@media(max-width:620px){.lm-legal-footer{padding:16px 12px 24px;font-size:11px}.lm-legal-founder{display:block;margin:2px 0 0}}
+@media print{.lm-legal-footer{color:#555}}

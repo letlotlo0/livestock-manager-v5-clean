@@ -21,12 +21,25 @@
   $('pageText').textContent=`Page ${page}`;$('prev').disabled=page<=1;$('next').disabled=!hasMore;}
  async function payments(){const data=await api('/payments');renderRows('paymentRows',data.payments,[p=>p.email,p=>p.plan,p=>formatMoney(p.amount),p=>p.status,p=>formatDate(p.created_at)]);renderRows('eventRows',data.verifiedNotifications,[e=>e.email,e=>e.payment_status,e=>formatMoney(e.amount_gross),e=>formatDate(e.created_at)]);}
  async function audit(){const data=await api('/audit');renderRows('auditRows',data.events,[e=>e.actor_email,e=>e.action,e=>formatDate(e.created_at)]);}
- const switchTab=async(name)=>{document.querySelectorAll('.tabs button').forEach(b=>{b.classList.toggle('active',b.dataset.tab===name);b.setAttribute('aria-selected',String(b.dataset.tab===name));});['users','payments','audit'].forEach(t=>show(t+'Panel',t===name));await ({users,payments,audit})[name]();};
+
+ async function support(){
+  const filter=encodeURIComponent($('supportFilter').value);const data=await api('/support?status='+filter),root=$('supportRows');root.replaceChildren();
+  if(!data.tickets.length){const tr=document.createElement('tr');const cell=td(tr,'No support requests found.');cell.colSpan=6;root.append(tr);return;}
+  for(const t of data.tickets){
+   const tr=document.createElement('tr');td(tr,`#${t.id} · ${t.category}`);td(tr,`${t.full_name} (${t.email})`);
+   const issue=td(tr,t.subject);const details=document.createElement('details'),summary=document.createElement('summary'),description=document.createElement('p');summary.textContent='View details';description.textContent=t.description;details.append(summary,description);issue.append(details);td(tr,t.status.replace('_',' '));td(tr,formatDate(t.created_at));
+   const cell=document.createElement('td'),select=document.createElement('select');select.setAttribute('aria-label','Change ticket #'+t.id+' status');
+   for(const s of ['open','in_progress','resolved','closed']){const option=document.createElement('option');option.value=s;option.textContent=s.replace('_',' ');option.selected=s===t.status;select.append(option);}
+   select.addEventListener('change',async()=>{const original=t.status;select.disabled=true;$('supportStatus').textContent='Saving ticket…';try{await api('/support/'+t.id,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:select.value})});$('supportStatus').textContent='Ticket updated and audit logged.';await support();}catch(err){select.value=original;$('supportStatus').textContent=err.message;}finally{select.disabled=false;}});cell.append(select);tr.append(cell);root.append(tr);
+  }
+ }
+ const switchTab=async(name)=>{document.querySelectorAll('.tabs button').forEach(b=>{b.classList.toggle('active',b.dataset.tab===name);b.setAttribute('aria-selected',String(b.dataset.tab===name));});['users','payments','support','audit'].forEach(t=>show(t+'Panel',t===name));await ({users,payments,support,audit})[name]();};
  async function openWorkspace(){show('unlockSection',false);show('workspace',true);show('lock',true);await overview();await switchTab('users');}
  function lockScreen(msg){show('unlockSection',true);show('workspace',false);show('lock',false);$('unlockStatus').textContent=msg||'';}
  $('unlockForm').addEventListener('submit',async e=>{e.preventDefault();$('unlockStatus').textContent='Verifying…';try{await api('/unlock',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:$('code').value})});$('code').value='';await openWorkspace();}catch(err){$('unlockStatus').textContent=err.message;}});
  $('lock').addEventListener('click',async()=>{try{await api('/lock',{method:'POST'})}catch{}lockScreen('Administrator access locked.');});
  $('refresh').addEventListener('click',async()=>{try{await overview();await switchTab(document.querySelector('.tabs .active').dataset.tab)}catch(err){lockScreen(err.message);}});
+ $('supportFilter').addEventListener('change',()=>support().catch(err=>{$('supportStatus').textContent=err.message;}));
  $('searchForm').addEventListener('submit',e=>{e.preventDefault();page=1;users().catch(err=>{$('status').textContent=err.message;});});
  $('prev').addEventListener('click',()=>{if(page>1){page--;users().catch(()=>{});}});
  $('next').addEventListener('click',()=>{if(hasMore){page++;users().catch(()=>{});}});
