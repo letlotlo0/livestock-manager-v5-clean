@@ -11,6 +11,7 @@ const billing=require('./billing');
 const restrictions=require('./plan-restrictions');
 const {installReportRoutes}=require('./report-routes');
 const alerts=require('./alerts');
+const {installAdmin}=require('./admin');
 
 function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImpl=globalThis.fetch,validIps}) {
   if(!pool||!origin||!sendMail) throw new Error('Missing auth server dependencies.');
@@ -48,6 +49,7 @@ function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImp
   app.use('/api/v5',express.json({limit:'3mb'}));
   app.use('/api/billing',express.json({limit:'4kb'}));
   app.use('/api/alerts',express.json({limit:'2kb'}));
+  app.use('/api/admin',express.json({limit:'2kb'}));
   app.use('/api/billing/itn',express.urlencoded({extended:false,limit:'16kb'}));
   app.use('/api',(req,res,next)=>{
     // PayFast's server-to-server notification has no Origin header; it is authenticated by signature instead.
@@ -228,6 +230,14 @@ function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImp
     if(!farmIdValid(farmId)||name.length<2||name.length>120||location.length>160||operation.length>40||mapUrl.length>1000||
       (mapUrl&&!/^https:\/\/(www\.)?(google\.[a-z.]+\/maps|maps\.google\.[a-z.]+\/|maps\.app\.goo\.gl\/)/i.test(mapUrl)))
       return fail(res,400,'Check the farm details and use a valid Google Maps HTTPS link.');
+    // Existing extra farms remain readable after downgrade, but their metadata
+    // cannot be edited without a Pro+ entitlement. Closing this route matters:
+    // blocking only the animal/document endpoints does not protect farm details.
+    if (billingCfg.enforced && farmId !== 'main') {
+      const e = await billing.loadEntitlement(pool,billingCfg,req.authUser.id);
+      if (!restrictions.mayWriteFarm(e,farmId))
+        return res.status(402).json({code:'FARM_READ_ONLY',error:'This additional farm is read-only on your current plan. Upgrade to Pro+ to edit its details.'});
+    }
     const q=await pool.query(`UPDATE lm_farms SET name=$3,location=$4,operation=$5,map_url=$6,updated_at=now()
       WHERE user_id=$1 AND farm_id=$2 RETURNING *`,[req.authUser.id,farmId,name,location,operation,mapUrl]);
     if(!q.rowCount)return fail(res,404,'Farm not found.');
@@ -295,6 +305,7 @@ function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImp
   installV5Routes(app,{pool,requireAuth,asyncRoute,fail,limit,billingCfg});
   installReportRoutes(app,{pool,requireAuth,asyncRoute,limit,billingCfg,seedMain});
   alerts.install(app,{pool,requireAuth,asyncRoute,fail,limit});
+  installAdmin(app,{pool,requireAuth,asyncRoute,limit,env,origin,logger});
   billing.install(app,{pool,requireAuth,asyncRoute,fail,limit,cfg:billingCfg,origin,logger,fetchImpl,sendMail,...(validIps?{validIps}:{})});
   app.use('/api',(req,res)=>fail(res,404,'API route not found.'));
   app.use((err,req,res,next)=>{

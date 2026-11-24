@@ -115,3 +115,12 @@ INSERT INTO lm_farms(user_id,farm_id,name)
  SELECT id,'main','My Farm' FROM lm_auth_users ON CONFLICT DO NOTHING;
 ALTER TABLE lm_v5_animals ADD COLUMN IF NOT EXISTS farm_id text NOT NULL DEFAULT 'main';
 CREATE INDEX IF NOT EXISTS lm_v5_animals_by_farm ON lm_v5_animals(user_id,farm_id,updated_at DESC);
+
+-- V5.4 founder administration audit: only minimum non-sensitive metadata.
+CREATE TABLE IF NOT EXISTS lm_admin_audit (
+ id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+ actor_user_id uuid NOT NULL REFERENCES lm_auth_users(id),
+ action varchar(80) NOT NULL,
+ created_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS lm_admin_audit_recent ON lm_admin_audit(created_at DESC);
