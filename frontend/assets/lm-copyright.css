@@ -1,0 +1,27 @@
+/* Copyright footer only: preserves existing page styling and layout. */
+.lm-copyright-notice {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 18px 16px;
+  margin: 20px auto 0;
+  text-align: center;
+  color: #58664c;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.6;
+  background: transparent;
+}
+.lm-copyright-line {
+  display: block;
+  margin-top: 10px;
+  padding: 10px 12px 0;
+  border-top: 1px solid rgba(83, 105, 55, 0.14);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.6;
+  text-align: center;
+}
+@media(max-width:600px) {
+  .lm-copyright-notice { padding: 14px 16px; font-size: 11px; }
+  .lm-copyright-line { font-size: 11px; }
+}
