@@ -13,6 +13,7 @@ const {installReportRoutes}=require('./report-routes');
 const alerts=require('./alerts');
 const {installAdmin}=require('./admin');
 const {installSupport}=require('./support');
+const {installAiAssistant}=require('./ai-assistant');
 
 function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImpl=globalThis.fetch,validIps}) {
   if(!pool||!origin||!sendMail) throw new Error('Missing auth server dependencies.');
@@ -50,6 +51,7 @@ function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImp
   app.use('/api/v5',express.json({limit:'3mb'}));
   app.use('/api/billing',express.json({limit:'4kb'}));
   app.use('/api/alerts',express.json({limit:'2kb'}));
+  app.use('/api/ai',express.json({limit:'12kb'}));
   app.use('/api/admin',express.json({limit:'2kb'}));
   app.use('/api/support',express.json({limit:'8kb'}));
   app.use('/api/billing/itn',express.urlencoded({extended:false,limit:'16kb'}));
@@ -308,6 +310,7 @@ function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImp
   installReportRoutes(app,{pool,requireAuth,asyncRoute,limit,billingCfg,seedMain});
   alerts.install(app,{pool,requireAuth,asyncRoute,fail,limit});
   installSupport(app,{pool,requireAuth,asyncRoute,limit});
+  installAiAssistant(app,{pool,requireAuth,asyncRoute,limit,env,fetchImpl,logger});
   installAdmin(app,{pool,requireAuth,asyncRoute,limit,env,origin,logger});
   billing.install(app,{pool,requireAuth,asyncRoute,fail,limit,cfg:billingCfg,origin,logger,fetchImpl,sendMail,...(validIps?{validIps}:{})});
   app.use('/api',(req,res)=>fail(res,404,'API route not found.'));
