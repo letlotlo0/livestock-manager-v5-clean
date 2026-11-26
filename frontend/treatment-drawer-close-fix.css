@@ -1,0 +1,7 @@
+/* Livestock Manager treatment drawer close fix.
+   Must load AFTER v53-care.css. Its higher specificity overrides
+   the drawer's display:block!important when [hidden] is set. */
+body.v53-health-page .v53-health-drawer[hidden],
+body.v53-health-page .v53-care-backdrop[hidden] {
+  display: none !important;
+}
