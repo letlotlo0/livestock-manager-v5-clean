@@ -79,3 +79,7 @@ body.v53-health-drawer-open{overflow:hidden!important}
  .v53-vax-quickfilters .v53-results-caption{width:100%;margin:0}
 }
 @media print{.v53-health-actions,.v53-history-controls,.v53-health-page .v53-health-drawer,.v53-care-backdrop,.v53-vax-quickfilters{display:none!important}}
+
+/* V5.5.1 FIX: hidden treatment drawer/backdrop wins over display:block!important */
+body.v53-health-page .v53-health-drawer[hidden],
+body.v53-health-page .v53-care-backdrop[hidden] { display:none !important; }
