@@ -25,6 +25,7 @@
 <script src="auth-guard.js"></script>
     <link rel="stylesheet" href="v51-design.css?v=5.1.1">
 <link rel="stylesheet" href="profile-center.css?v=5.2.0">
+<link rel="stylesheet" href="lm-legal-footer.css?v=5.4.1">
 </head>
 
 <body>
@@ -105,7 +106,6 @@
         <aside class="lm-fc-sidebar">
           <section class="lm-fc-panel lm-fc-sidebar-panel"><span class="lm-fc-eyebrow">FARM AT A GLANCE</span><h2 id="sidebarFarm">My Farm</h2><p class="lm-fc-sidebar-caption" id="sidebarFarmMeta">Current workspace</p><div class="lm-fc-side-stat"><span>Animals</span><strong id="sidebarAnimals">—</strong></div><div class="lm-fc-side-stat"><span>Recorded sales</span><strong id="sidebarSales">—</strong></div><div class="lm-fc-side-stat"><span>Last cloud sync</span><strong id="sidebarSync">Checking…</strong></div><a href="animals.html" class="lm-fc-link">Open herd ↗</a></section>
           <section class="lm-fc-panel lm-fc-sidebar-panel"><span class="lm-fc-eyebrow">ACCOUNT &amp; SECURITY</span><h2>My account</h2><p class="lm-fc-sidebar-caption" id="profilePlan">Checking membership…</p><button class="lm-fc-link lm-fc-link-button" id="editAccountSecondary" type="button">Update personal information ↗</button><a class="lm-fc-link" href="subscription.html">Manage membership ↗</a><a class="lm-fc-link" href="forgot-password.html">Reset password ↗</a><button class="lm-fc-link lm-fc-link-button" id="logoutButton" type="button">Sign out ↗</button></section>
-          <section class="lm-fc-panel lm-fc-sidebar-panel"><span class="lm-fc-eyebrow">DATA SECURITY</span><h2>Technical backups</h2><p class="lm-fc-sidebar-caption">A PDF is a readable report, not a file that can restore your records. Keep separate backups for disaster recovery.</p><button type="button" class="lm-fc-btn lm-fc-full" id="deviceBackup">Save device data (.json)</button><button type="button" class="lm-fc-btn lm-fc-full" id="serverBackup">Save cloud data (.json)</button></section>
         </aside>
       </div>
     </main>
@@ -125,5 +125,7 @@
 <script src="navigation.js?v=4.0.8"></script>
 <script src="final-intelligence.js"></script>
     <script src="v51-design.js?v=5.1.0"></script>
+<div class="lm-legal-footer" role="contentinfo">© <span class="lm-legal-year">2026</span> Livestock Manager. All Rights Reserved. <span class="lm-legal-founder">Developed &amp; Founded by Letlotlo Lesege.</span></div>
+<script>document.querySelectorAll(".lm-legal-year").forEach(e=>e.textContent=new Date().getFullYear());</script>
 </body>
 </html>

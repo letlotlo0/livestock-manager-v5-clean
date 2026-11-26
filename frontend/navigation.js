@@ -88,24 +88,44 @@
 
   function assistantNavigation(){
     var nav=document.getElementById('navLinks');
-    if(!nav || !window.fetch || nav.querySelector('[data-ai-farm-link]'))return;
-    fetch('/api/ai/status',{credentials:'same-origin',cache:'no-store'})
-     .then(function(r){return r.ok?r.json():null;})
-     .then(function(s){if(!s)return;
-        var a=document.createElement('a');a.setAttribute('data-ai-farm-link','');
-        a.href=s.eligible?'ai-assistant.html':'subscription.html';
-        a.textContent=s.eligible?'AI Farm Assistant':'AI Farm Assistant 🔒';
-        if(s.eligible) a.title='Available with Pro+';
-        nav.appendChild(a);
-      }).catch(function(){});
+    if(!nav || nav.querySelector('[data-ai-farm-link]'))return;
+    var a=document.createElement('a');
+    a.setAttribute('data-ai-farm-link','');
+    a.href='ai-assistant.html';
+    a.textContent='AI Farm Assistant · Coming Soon';
+    a.title='Planned Pro+ feature — not yet available';
+    nav.appendChild(a);
+  }
+  // Reusable legal footer for all authenticated application pages.
+  // Existing footer is reused instead of duplicated.
+  function ensureLegalFooter(){
+    if(!document.body)return;
+    var footer=document.querySelector('.lm-legal-footer');
+    if(!footer){
+      footer=document.createElement('footer');
+      footer.className='lm-legal-footer';
+      footer.setAttribute('role','contentinfo');
+      document.body.appendChild(footer);
+    }
+    footer.innerHTML='© <span class="lm-legal-year"></span> Livestock Manager. All Rights Reserved. <span class="lm-legal-founder">Developed &amp; Founded by Letlotlo Lesege.</span>';
+    footer.querySelector('.lm-legal-year').textContent=String(new Date().getFullYear());
+    // Keep the footer after all application content, rather than inside a card.
+    if(footer.parentNode!==document.body || footer!==document.body.lastElementChild)document.body.appendChild(footer);
+    if(!document.querySelector('link[data-lm-footer-style]')){
+      var style=document.createElement('link');
+      style.rel='stylesheet';style.href='lm-legal-footer.css?v=5.6.0';style.setAttribute('data-lm-footer-style','');
+      document.head.appendChild(style);
+    }
   }
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init, { once: true });
     document.addEventListener("DOMContentLoaded", planNav, { once: true });
     document.addEventListener("DOMContentLoaded", assistantNavigation, { once: true });
+    document.addEventListener("DOMContentLoaded", ensureLegalFooter, { once: true });
   } else {
     init();
     planNav();
     assistantNavigation();
+    ensureLegalFooter();
   }
 })();

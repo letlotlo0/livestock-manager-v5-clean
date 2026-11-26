@@ -135,7 +135,8 @@ document.addEventListener('livestock:ready',function(){
   finally{b.disabled=false;}
  }
  $('pdfFarm').onclick=()=>exportPdf('farm');$('pdfPortfolio').onclick=()=>exportPdf('portfolio');
- $('deviceBackup').onclick=()=>LivestockCloud.downloadBackup();$('serverBackup').onclick=()=>LivestockCloud.downloadCloudBackup();
+ // Technical backup buttons are intentionally absent from the customer Profile UI.
+ // Cloud conflict protection and backend data remain intact.
  $('logoutButton').onclick=async()=>{if(!confirm('Sign out of Livestock Manager?'))return;try{await LMAuth.logout();}catch(e){LMAuth.forget();}location.href='index.html';};
  window.addEventListener('livestock:sync',e=>{const state=e.detail?.state||'checking';setText('sidebarSync',state==='synced'?'Confirmed':state==='conflict'?'Conflict':state==='error'?'Offline':'Syncing…');});
  const st=LivestockCloud.getStatus();setText('sidebarSync',st?.state==='synced'?'Confirmed':st?.state==='error'?'Offline':'Checking…');

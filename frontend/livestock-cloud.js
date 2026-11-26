@@ -55,8 +55,10 @@
  }
  function conflict(problem){meta.conflicts={sync:{path:problem.path||'unknown',reason:problem.reason||'Cannot safely merge'}};meta.pending=true;persist();
   report('conflict','V5 sync conflict at '+meta.conflicts.sync.path+'. Changes remain on this device.');
-  banner('lmV5Conflict','Two edits changed the same field at '+meta.conflicts.sync.path+'. Nothing was overwritten. Download both copies for review.',
-  [['Device backup',backup],['Server backup',cloudBackup]]);
+  // Retain the conflict in local sync metadata and refuse unsafe overwrites.
+  // Do not cover customer pages with a technical backup dialog.
+  document.getElementById('lmV5Conflict')?.remove();
+  console.warn('[Livestock Manager] Record merge needs review; conflicting edits were not overwritten.');
  }
  function refreshBanner(){if(!pageReady)return;banner('lmV5NewData','Newer cloud records are available. Reload after saving or closing any open form to see the changes.',
   [['Reload page',()=>{if(formDirty&&!confirm('An open form may have unsaved entries. Reload anyway?'))return;location.reload();}],['Dismiss',()=>document.getElementById('lmV5NewData')?.remove()]]);}

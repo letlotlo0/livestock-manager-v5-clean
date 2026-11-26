@@ -3,3 +3,6 @@
 .lm-legal-founder{display:inline;margin-left:4px}
 @media(max-width:620px){.lm-legal-footer{padding:16px 12px 24px;font-size:11px}.lm-legal-founder{display:block;margin:2px 0 0}}
 @media print{.lm-legal-footer{color:#555}}
+
+/* Production footer: visible at the end of content, not overlaid by mobile nav. */
+body > .lm-legal-footer{display:block!important;visibility:visible!important;opacity:1!important;clear:both!important;float:none!important;position:relative!important;z-index:2!important;padding-bottom:max(28px,env(safe-area-inset-bottom))!important}
