@@ -138,3 +138,18 @@ CREATE TABLE IF NOT EXISTS lm_support_tickets (
 );
 CREATE INDEX IF NOT EXISTS lm_support_tickets_by_user ON lm_support_tickets(user_id,created_at DESC);
 CREATE INDEX IF NOT EXISTS lm_support_tickets_queue ON lm_support_tickets(status,created_at DESC);
+
+
+-- Visitor enquiries from public Help Centre
+CREATE TABLE IF NOT EXISTS lm_public_support_tickets (
+ id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+ name varchar(120) NOT NULL,
+ email varchar(254) NOT NULL,
+ category varchar(32) NOT NULL CHECK (category IN ('account','verification','payment','cloud_sync','animal_records','other')),
+ subject varchar(140) NOT NULL,
+ description text NOT NULL,
+ status varchar(20) NOT NULL DEFAULT 'open' CHECK (status IN ('open','in_progress','resolved','closed')),
+ created_at timestamptz NOT NULL DEFAULT now(),
+ updated_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS lm_public_support_tickets_queue ON lm_public_support_tickets(status,created_at DESC);
