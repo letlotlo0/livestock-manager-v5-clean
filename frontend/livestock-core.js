@@ -422,7 +422,7 @@
         logout: async function () {
             try { if (window.LMAuth) await window.LMAuth.logout(); }
             catch (e) { if (window.LMAuth) window.LMAuth.forget(); }
-            window.location.href = "login.html";
+            window.location.href = "index.html";
         }
     };
 
