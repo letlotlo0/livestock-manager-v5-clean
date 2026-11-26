@@ -19,7 +19,7 @@
      const outer=document.createElement('main');
      outer.style.cssText='max-width:540px;margin:12vh auto;padding:28px;font:16px/1.6 system-ui;color:#173b31;background:#f5f1e8;border-radius:16px';
      const head=document.createElement('h1');head.textContent='Cannot verify your cloud session';outer.appendChild(head);
-     const detail=document.createElement('p');detail.textContent='Your connection or the test backend is unavailable. Your local animal records have not been cleared. Please reconnect and retry.';outer.appendChild(detail);
+     const detail=document.createElement('p');detail.textContent='Your connection to Livestock Manager is temporarily unavailable. Your local records have not been cleared. Please reconnect and try again.';outer.appendChild(detail);
      const button=document.createElement('button');button.textContent='Retry connection';button.style.cssText='padding:10px 20px;border:0;border-radius:8px;background:#173b31;color:white;cursor:pointer';button.onclick=()=>location.reload();outer.appendChild(button);
      document.body.appendChild(outer);document.documentElement.style.visibility='';
     }

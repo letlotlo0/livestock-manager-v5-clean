@@ -5,12 +5,21 @@ document.addEventListener('DOMContentLoaded',function(){
  if(!form)return;
  // Production servers report testMode:false; then show real sign-up and password-reset links.
  fetch('/api/health',{cache:'no-store',credentials:'same-origin'}).then(r=>r.json()).then(h=>{
+  const banner=document.getElementById('modeBanner'),sub=document.getElementById('loginSubtitle'),foot=document.getElementById('loginFooter');
   if(h&&h.testMode===false){
-   const banner=document.getElementById('modeBanner'),sub=document.getElementById('loginSubtitle'),foot=document.getElementById('loginFooter');
-   if(banner)banner.remove();if(sub)sub.textContent='Sign in to manage your livestock.';
-   if(foot){foot.textContent='';const f=document.createElement('a');f.href='forgot-password.html';f.textContent='Forgot your password?';const sep=document.createTextNode(' · ');const r=document.createElement('a');r.href='register.html';r.textContent='Create an account';foot.append(f,sep,r);}
+   if(banner)banner.remove();
+   if(sub)sub.textContent='Sign in to manage your livestock.';
+   if(foot){foot.textContent='';const f=document.createElement('a');f.href='forgot-password.html';f.textContent='Forgot your password?';const sep=document.createTextNode(' · ');const r=document.createElement('a');r.href='register.html';r.textContent='Create an account';const sep2=document.createTextNode(' · ');const s=document.createElement('a');s.href='support.html';s.textContent='Support';foot.append(f,sep,r,sep2,s);}
+  }else if(h && h.testMode===true){
+   if(banner)banner.textContent='New registrations are temporarily unavailable.';
+   if(foot)foot.innerHTML='<a href="support.html">Need help? Contact Support</a>';
+  }else{
+   if(banner)banner.textContent='Account availability could not be confirmed.';
   }
- }).catch(()=>{});
+ }).catch(()=>{
+  const banner=document.getElementById('modeBanner');
+  if(banner)banner.textContent='Unable to check account availability. Please try again.';
+ });
  form.addEventListener('submit',async function(e){
   e.preventDefault();button.disabled=true;button.textContent='Signing in…';message.textContent='';message.className='login-message';
   try{
