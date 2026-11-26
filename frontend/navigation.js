@@ -65,19 +65,6 @@
     closeMenu();
   }
 
-  /* V5.3 Phase 5: discoverable workspaces. No changes to Dashboard or Profile markup. */
-  function addBreedingWorkspaces() {
-    var menu = document.querySelector("#navLinks .lm-more-popover");
-    if (!menu) return;
-    var links = [{href:"birth-records.html", label:"Birth records"}, {href:"stud-management.html", label:"Stud management"}];
-    links.forEach(function (item) {
-      if (menu.querySelector('a[href="' + item.href + '"]')) return;
-      var link = document.createElement("a"); link.href = item.href; link.textContent = item.label;
-      var anchor = menu.querySelector('a[href="farm-alerts.html"]');
-      if (anchor) menu.insertBefore(link, anchor); else menu.appendChild(link);
-    });
-  }
-
   /* Plans link + lock icons. The server enforces access; this only makes the menu honest. */
   function planNav() {
     var nav = document.getElementById("navLinks");
@@ -99,13 +86,26 @@
       }).catch(function () {});
   }
 
+  function assistantNavigation(){
+    var nav=document.getElementById('navLinks');
+    if(!nav || !window.fetch || nav.querySelector('[data-ai-farm-link]'))return;
+    fetch('/api/ai/status',{credentials:'same-origin',cache:'no-store'})
+     .then(function(r){return r.ok?r.json():null;})
+     .then(function(s){if(!s)return;
+        var a=document.createElement('a');a.setAttribute('data-ai-farm-link','');
+        a.href=s.eligible?'ai-assistant.html':'subscription.html';
+        a.textContent=s.eligible?'AI Farm Assistant':'AI Farm Assistant 🔒';
+        if(s.eligible) a.title='Available with Pro+';
+        nav.appendChild(a);
+      }).catch(function(){});
+  }
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init, { once: true });
-    document.addEventListener("DOMContentLoaded", addBreedingWorkspaces, { once: true });
     document.addEventListener("DOMContentLoaded", planNav, { once: true });
+    document.addEventListener("DOMContentLoaded", assistantNavigation, { once: true });
   } else {
     init();
-    addBreedingWorkspaces();
     planNav();
+    assistantNavigation();
   }
 })();

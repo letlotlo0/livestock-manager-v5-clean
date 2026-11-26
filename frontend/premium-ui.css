@@ -304,8 +304,5 @@ tr:hover td{background:#f2f8f3!important}
 .feed-amount { white-space: nowrap; }
 .feed-card .feed-amount { color: #24563a; }
 
-
-/* Production polish (visual only): hide development sync indicators.
-   Actual synchronization, authentication, errors, and backups are untouched.
-   IMPORTANT: Do not hide conflict banners or operational errors. */
-#lmSyncIndicator, .lm-sync-indicator, .lm-sync-badge { display: none !important; }
+/* Production cleanup — all decorative sync indicators. Real errors remain in UI. */
+#lmSyncIndicator, .lm-sync-indicator, .lm-sync-badge {display:none!important;visibility:hidden!important;}

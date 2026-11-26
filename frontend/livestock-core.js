@@ -44,9 +44,7 @@
 
     function scopedKey(key) {
         var id = currentUserId();
-        var farm = window.LMFarms && window.LMFarms.getActiveId() || "main";
-        var accountKey = key === "livestockProfiles" || key === "livestockUsers" || key === "farmerProfile";
-        return id && scopedKeys[key] ? "lm_v2_" + id + (farm === "main" || accountKey ? "" : "_farm_" + farm) + "_" + key : key;
+        return id && scopedKeys[key] ? "lm_v2_" + id + "_" + key : key;
     }
 
     function parse(raw, fallback) {
@@ -57,7 +55,6 @@
     function migrateLegacy(key) {
         var id = currentUserId();
         if (!id || !scopedKeys[key] || window.LM_V5_ISOLATED) return;
-        if (window.LMFarms && window.LMFarms.getActiveId() !== "main" && key !== "livestockProfiles" && key !== "livestockUsers" && key !== "farmerProfile") return;
         var target = "lm_v2_" + id + "_" + key;
         if (nativeGet.call(localStorage, target) !== null) return;
 
@@ -422,7 +419,7 @@
         logout: async function () {
             try { if (window.LMAuth) await window.LMAuth.logout(); }
             catch (e) { if (window.LMAuth) window.LMAuth.forget(); }
-            window.location.href = "index.html";
+            window.location.href = "login.html";
         }
     };
 
@@ -450,6 +447,6 @@
             navigator.serviceWorker.register("sw.js").then(function (registration) { if (registration && registration.update) registration.update(); }).catch(function () {});
         }
         LivestockCore.checkReminders();
-        installSyncIndicator();
+        // Decorative sync toast intentionally removed; background sync remains active.
     });
 })();
