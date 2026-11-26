@@ -42,9 +42,19 @@
         } catch (e) { return ""; }
     }
 
+    // Data belonging to a farm must use the same physical localStorage keys as
+    // livestock-cloud.js. The previous per-user-only keys showed main-farm
+    // animals and financial records while another farm was selected.
+    var accountKeys = { livestockProfiles: true, farmerProfile: true, livestockUsers: true };
     function scopedKey(key) {
         var id = currentUserId();
-        return id && scopedKeys[key] ? "lm_v2_" + id + "_" + key : key;
+        if (!id || !scopedKeys[key]) return key;
+        var prefix = "lm_v2_" + id;
+        if (!accountKeys[key]) {
+            var farmId = window.LMFarms && window.LMFarms.getActiveId && window.LMFarms.getActiveId();
+            if (farmId && farmId !== "main") prefix += "_farm_" + farmId;
+        }
+        return prefix + "_" + key;
     }
 
     function parse(raw, fallback) {
@@ -55,7 +65,9 @@
     function migrateLegacy(key) {
         var id = currentUserId();
         if (!id || !scopedKeys[key] || window.LM_V5_ISOLATED) return;
-        var target = "lm_v2_" + id + "_" + key;
+        var target = scopedKey(key);
+        if (window.LMFarms && window.LMFarms.getActiveId &&
+            window.LMFarms.getActiveId() !== "main" && !accountKeys[key]) return;
         if (nativeGet.call(localStorage, target) !== null) return;
 
         var legacyRaw = nativeGet.call(localStorage, key);
