@@ -20,20 +20,59 @@ function makeEmail({ kind, name, link, items = [], more = 0, plan }) {
   const html = `<div style="font-family:Arial,sans-serif;color:#163b2b;max-width:540px;margin:auto"><h2>Livestock Manager</h2><p>${escapeHTML(greeting)}</p><p>${escapeHTML(line)}</p>${rows ? `<ul style="padding-left:18px">${rows}</ul>${more ? `<p>...and ${Number(more)} more.</p>` : ''}` : ''}${link ? `<p><a href="${escapeHTML(link)}" style="display:inline-block;background:#1f6c43;color:#fff;padding:12px 18px;text-decoration:none;border-radius:8px">${escapeHTML(k.button)}</a></p>${kind === 'verify' || kind === 'reset' ? `<p style="word-break:break-all">${escapeHTML(link)}</p>` : ''}` : ''}${footer ? `<p style="color:#5c7064">${escapeHTML(footer)}</p>` : ''}</div>`;
   return { subject, text, html };
 }
-function createSender(env=process.env, logger=console) {
+/*
+ * Resend accepts a message for delivery; acceptance does not guarantee inbox delivery.
+ * Do not log API keys, payloads, verification links or recipient addresses.
+ */
+class EmailDeliveryError extends Error {
+  constructor(code, status) {
+    const messages = {
+      EMAIL_NOT_CONFIGURED: 'Email service is not configured: check RESEND_API_KEY and MAIL_FROM on Render.',
+      EMAIL_PROVIDER_FORBIDDEN: 'Resend rejected the sender or recipient (HTTP 403). Check verified sending domain and recipient restrictions.',
+      EMAIL_PROVIDER_UNAUTHORIZED: 'Resend rejected the API key (HTTP 401). Verify RESEND_API_KEY on Render.',
+      EMAIL_PROVIDER_LIMIT: 'Resend rate limit reached. Check account limits and retry later.',
+      EMAIL_PROVIDER_BAD_REQUEST: 'Resend rejected the email request. Check MAIL_FROM and the verified domain in Resend logs.',
+      EMAIL_PROVIDER_FAILED: 'Resend was unable to accept the email. Check Resend API logs.',
+      EMAIL_NETWORK_FAILED: 'Could not connect to Resend. Check network access and try again.'
+    };
+    super(messages[code] || messages.EMAIL_PROVIDER_FAILED);
+    this.name='EmailDeliveryError'; this.code=code; this.status=status||null;
+  }
+}
+function createSender(env=process.env, logger=console, fetchImpl=globalThis.fetch) {
   return async function send({to,kind,name,link,items,more,plan}) {
     const payload = makeEmail({kind,name,link,items,more,plan});
     if (env.EMAIL_MODE === 'console' && env.NODE_ENV === 'development' && /^http:\/\/localhost(?::\d+)?$/.test(env.APP_ORIGIN || '')) {
       logger.info(`[DEV EMAIL] ${payload.subject} -> ${to}: ${link || '(welcome email)'}`);
-      return;
+      return {testMode:true};
     }
-    if (!env.RESEND_API_KEY || !env.MAIL_FROM) throw new Error('Email delivery is not configured on the server.');
-    const response = await fetch('https://api.resend.com/emails', {
-      method:'POST', headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},
-      body:JSON.stringify({from:env.MAIL_FROM,to:[to],subject:payload.subject,text:payload.text,html:payload.html}),
-      signal:AbortSignal.timeout(10000)
-    });
-    if (!response.ok) throw new Error(`Email provider returned status ${response.status}`);
+    if (!env.RESEND_API_KEY || !env.MAIL_FROM) throw new EmailDeliveryError('EMAIL_NOT_CONFIGURED');
+    let response;
+    try {
+      response=await fetchImpl('https://api.resend.com/emails', {
+        method:'POST',
+        headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},
+        body:JSON.stringify({from:env.MAIL_FROM,to:[to],subject:payload.subject,text:payload.text,html:payload.html}),
+        signal:AbortSignal.timeout(10000)
+      });
+    } catch (e) {
+      throw new EmailDeliveryError('EMAIL_NETWORK_FAILED');
+    }
+    if (!response.ok) {
+      let details={};
+      try { details=await response.json(); } catch(_) {}
+      const errCode=details?.code || details?.name || 'unknown';
+      const classification=response.status===403?'EMAIL_PROVIDER_FORBIDDEN':
+        response.status===401?'EMAIL_PROVIDER_UNAUTHORIZED':
+        response.status===429?'EMAIL_PROVIDER_LIMIT':
+        response.status===400||response.status===422?'EMAIL_PROVIDER_BAD_REQUEST':'EMAIL_PROVIDER_FAILED';
+      // Provider code is useful for debugging; avoid leaking the raw provider response.
+      logger.warn('Livestock Manager email delivery rejected', {kind, httpStatus:response.status, providerCode:String(errCode).slice(0,80), category:classification});
+      throw new EmailDeliveryError(classification,response.status);
+    }
+    let result={};
+    try { result=await response.json(); } catch(_) {}
+    return {id:typeof result?.id==='string'?result.id:null,accepted:true};
   };
 }
-module.exports={makeEmail,createSender};
+module.exports={makeEmail,createSender,EmailDeliveryError};
