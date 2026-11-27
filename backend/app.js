@@ -13,6 +13,7 @@ const {installReportRoutes}=require('./report-routes');
 const alerts=require('./alerts');
 const {installAdmin}=require('./admin');
 const {installSupport}=require('./support');
+const {installPrivacy}=require('./privacy');
 const {installAiAssistant}=require('./ai-assistant');
 
 function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImpl=globalThis.fetch,validIps}) {
@@ -54,6 +55,7 @@ function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImp
   app.use('/api/ai',express.json({limit:'12kb'}));
   app.use('/api/admin',express.json({limit:'2kb'}));
   app.use('/api/support',express.json({limit:'8kb'}));
+  app.use('/api/privacy',express.json({limit:'8kb'}));
   app.use('/api/billing/itn',express.urlencoded({extended:false,limit:'16kb'}));
   app.use('/api',(req,res,next)=>{
     // PayFast's server-to-server notification has no Origin header; it is authenticated by signature instead.
@@ -309,7 +311,8 @@ function createApp({pool,origin,sendMail,logger=console,env=process.env,fetchImp
   installV5Routes(app,{pool,requireAuth,asyncRoute,fail,limit,billingCfg});
   installReportRoutes(app,{pool,requireAuth,asyncRoute,limit,billingCfg,seedMain});
   alerts.install(app,{pool,requireAuth,asyncRoute,fail,limit});
-  installSupport(app,{pool,requireAuth,asyncRoute,limit});
+  installSupport(app,{pool,requireAuth,asyncRoute,limit,env});
+  installPrivacy(app,{pool,requireAuth,asyncRoute,limit,sendMail,origin,logger});
   installAiAssistant(app,{pool,requireAuth,asyncRoute,limit,env,fetchImpl,logger});
   installAdmin(app,{pool,requireAuth,asyncRoute,limit,env,origin,logger});
   billing.install(app,{pool,requireAuth,asyncRoute,fail,limit,cfg:billingCfg,origin,logger,fetchImpl,sendMail,...(validIps?{validIps}:{})});
